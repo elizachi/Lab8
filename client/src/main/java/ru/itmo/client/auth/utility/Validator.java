@@ -1,6 +1,8 @@
 package ru.itmo.client.auth.utility;
 
 import ru.itmo.client.auth.exceptions.ForbiddenException;
+import ru.itmo.client.general.Client;
+import ru.itmo.client.general.Loader;
 import ru.itmo.common.Request;
 import ru.itmo.common.User;
 import ru.itmo.common.http.Headers;
@@ -8,7 +10,10 @@ import ru.itmo.common.http.MethodType;
 
 public class Validator {
 
+    private final Client client = new Client(Loader.getServerHost(), Loader.getServerPort());
+
     public User checkAuth(String login, String password) throws ForbiddenException {
+        client.start();
         User user = null;
         if(
                 isCorrectString(login, false) && isCorrectString(password, false)
@@ -19,6 +24,8 @@ public class Validator {
                     MethodType.GET,
                     new Headers().setAuthorization(login+":"+password),
                     null);
+
+            client.send(request);
 
             // TODO поменять сюда на челика который приходит с сервера
             user = new User(login, password);
@@ -35,7 +42,4 @@ public class Validator {
         if(str.contains(":")) throw new ForbiddenException();
     }
 
-    private boolean sendToServer(Request request) {
-        return true;
-    }
 }

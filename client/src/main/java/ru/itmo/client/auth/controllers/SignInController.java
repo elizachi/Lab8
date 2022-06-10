@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.auth.exceptions.ForbiddenException;
+import ru.itmo.client.auth.utility.Validator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,23 +41,29 @@ public class SignInController {
     private Button signInButton;
     @FXML
     private void initialize() {
+        Validator checkValue = new Validator();
 
         // при нажатии на кнопку "Войти"
         signInButton.setOnAction(event -> {
 
             ClientAppLauncher.log.info("Попытка войти в приложение...");
 
-            signInButton.getScene().getWindow().hide();
-
             String login = authLoginField.getText().trim();
             String password = authPasswordField.getText().trim();
 
-            switchToApp();
+            try {
+                checkValue.checkAuth(login, password);
+                switchToApp();
+            } catch (ForbiddenException e) {
+                ClientAppLauncher.log.info("Попытка провалена");
+            }
 
         });
     }
 
     private void switchToApp() {
+        signInButton.getScene().getWindow().hide();
+
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load(), 640, 480);

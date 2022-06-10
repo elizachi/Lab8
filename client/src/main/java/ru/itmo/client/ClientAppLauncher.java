@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.itmo.client.general.Loader;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -29,11 +30,7 @@ public class ClientAppLauncher extends Application {
 
     public static void main(String[] args) {
 
-        // подключение к серверу идёт в отдельном потоке
-        Runnable task = () -> {
-            new Loader(args);
-        };
-        executorService.submit(task);
+        Loader.setArgs(args);
 
         launch();
         log.info("Завершение работы приложения...");
