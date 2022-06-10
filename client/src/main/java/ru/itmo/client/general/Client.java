@@ -4,8 +4,10 @@ import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.server.ServerAPI;
 import ru.itmo.client.server.ServerAPImpl;
 import ru.itmo.common.Request;
+import ru.itmo.common.Response;
 
 import java.io.IOException;
+import java.security.DrbgParameters;
 
 public class Client {
     private final String serverHost;
@@ -38,11 +40,13 @@ public class Client {
         }
     }
 
-    public void send(Request request) {
+    public Response send(Request request)  {
         try {
-            serverAPI.sendToServer(request);
-        } catch (IOException e){
+            return serverAPI.sendToServer(request);
+        } catch (IOException e) {
             start();
+            send(request);
         }
+        return null;
     }
 }
