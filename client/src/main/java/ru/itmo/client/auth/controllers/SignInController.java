@@ -38,26 +38,33 @@ public class SignInController {
     @FXML
     private Button signInButton;
     @FXML
-    void initialize() {
+    private void initialize() {
 
         // при нажатии на кнопку "Войти"
         signInButton.setOnAction(event -> {
+
             ClientAppLauncher.log.info("Попытка войти в приложение...");
+
             signInButton.getScene().getWindow().hide();
 
             String login = authLoginField.getText().trim();
             String password = authPasswordField.getText().trim();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
-            try {
-                Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            switchToApp();
+
         });
+    }
+
+    private void switchToApp() {
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

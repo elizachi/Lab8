@@ -32,4 +32,8 @@ public class Validator {
     private void checkSymbols(String str) throws ForbiddenException {
         if(str.contains(":")) throw new ForbiddenException();
     }
+
+    private boolean sendToServer(Request request) {
+        return true;
+    }
 }
