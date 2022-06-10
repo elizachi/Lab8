@@ -42,7 +42,7 @@ public class SignInController {
 
         // при нажатии на кнопку "Войти"
         signInButton.setOnAction(event -> {
-            ClientAppLauncher.log.info("Attempt to log in to the app");
+            ClientAppLauncher.log.info("Попытка войти в приложение...");
             signInButton.getScene().getWindow().hide();
 
             String login = authLoginField.getText().trim();

@@ -11,6 +11,9 @@ import java.io.IOException;
 
 public class ClientAppLauncher extends Application {
 
+    private static String ServerHost;
+    private static int ServerPort;
+
     public static final Logger log = LogManager.getLogger(ClientAppLauncher.class.getName());
 
     @Override
@@ -20,10 +23,23 @@ public class ClientAppLauncher extends Application {
         stage.setTitle("Auth");
         stage.setScene(scene);
         stage.show();
-        log.info("Launching the application");
+        log.info("Запуск приложения...");
     }
 
     public static void main(String[] args) {
+
+        try {
+            ServerHost = args[0].trim();
+            ServerPort = Integer.parseInt(args[1].trim());
+            log.info("Получены хост: " + ServerHost + " и порт: " + ServerPort);
+        } catch (NumberFormatException exception){
+            log.fatal("Порт должен быть числом");
+            return;
+        } catch (ArrayIndexOutOfBoundsException exception){
+            log.fatal("Недостаточно аргументов командной строки в настройках конфигурации");
+            return;
+        }
+
         launch();
     }
 }
