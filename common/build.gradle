@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group 'ru.itmo'
+version '1.0-SNAPSHOT'
+
+ext.moduleName = 'common'

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.itmo.client.controllers.TableFormController">
+   <children>
+      <TreeTableView layoutX="161.0" layoutY="255.0" prefHeight="362.0" prefWidth="502.0" AnchorPane.topAnchor="255.0">
+        <columns>
+          <TreeTableColumn prefWidth="32.80001449584961" text="id" />
+          <TreeTableColumn prefWidth="16.0" text="name" />
+            <TreeTableColumn prefWidth="132.8000030517578" text="soundtrackName" />
+            <TreeTableColumn prefWidth="75.0" text="realHero" />
+            <TreeTableColumn prefWidth="91.20001220703125" text="hasToothpick" />
+            <TreeTableColumn prefWidth="127.99993896484375" text="coordinates">
+               <columns>
+                  <TreeTableColumn prefWidth="44.0" text="x" />
+                  <TreeTableColumn prefWidth="44.0" text="y" />
+               </columns>
+            </TreeTableColumn>
+            <TreeTableColumn prefWidth="97.60003662109375" text="mood" />
+            <TreeTableColumn prefWidth="75.0" text="car">
+               <columns>
+                  <TreeTableColumn prefWidth="42.40008544921875" text="name" />
+                  <TreeTableColumn prefWidth="52.79998779296875" text="isCool" />
+               </columns>
+            </TreeTableColumn>
+            <TreeTableColumn prefWidth="69.59993896484377" text="user" />
+        </columns>
+         <columnResizePolicy>
+            <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TreeTableView>
+   </children>
+</AnchorPane>
