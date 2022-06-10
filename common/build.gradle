@@ -10,3 +10,7 @@ group 'ru.itmo'
 version '1.0-SNAPSHOT'
 
 ext.moduleName = 'common'
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.9.0'
+}

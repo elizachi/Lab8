@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 
@@ -18,6 +19,18 @@ import java.util.ResourceBundle;
 public class SignInController {
 
     @FXML
+    private TextField authLoginField;
+
+    @FXML
+    private TextField authPasswordField;
+
+    @FXML
+    private TextField regLoginField;
+
+    @FXML
+    private TextField regPasswordField;
+
+    @FXML
     private ResourceBundle resources;
 
     @FXML
@@ -25,23 +38,16 @@ public class SignInController {
 
     @FXML
     private Button signInButton;
-
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    private Label welcomeText1;
-
     @FXML
     void initialize() {
-        assert signInButton != null : "fx:id=\"SignInButton\" was not injected: check your FXML file 'authorization-form.fxml'.";
-        assert welcomeText != null : "fx:id=\"welcomeText\" was not injected: check your FXML file 'authorization-form.fxml'.";
-        assert welcomeText1 != null : "fx:id=\"welcomeText1\" was not injected: check your FXML file 'authorization-form.fxml'.";
 
         // при нажатии на кнопку "Войти"
         signInButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Attempt to log in to the app");
             signInButton.getScene().getWindow().hide();
+
+            String login = authLoginField.getText().trim();
+            String password = authPasswordField.getText().trim();
 
             FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
             try {
