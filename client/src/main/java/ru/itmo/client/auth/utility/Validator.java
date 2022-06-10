@@ -27,8 +27,7 @@ public class Validator {
                     null);
 
             Response response = client.send(request);
-
-            // TODO поменять сюда на челика который приходит с сервера
+            
             user = new User(login, password);
         }
         return user;

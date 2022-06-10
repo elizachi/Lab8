@@ -1,4 +1,6 @@
-package ru.itmo.server;
+package ru.itmo.server.general;
+
+import ru.itmo.server.ServerLauncher;
 
 import java.io.IOException;
 import java.io.InputStream;
