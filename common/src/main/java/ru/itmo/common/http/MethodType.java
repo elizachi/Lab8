@@ -1,4 +1,4 @@
-package ru.itmo.common;
+package ru.itmo.common.http;
 
 public enum MethodType {
     GET,

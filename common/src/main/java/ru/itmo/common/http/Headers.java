@@ -1,4 +1,4 @@
-package ru.itmo.common;
+package ru.itmo.common.http;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
