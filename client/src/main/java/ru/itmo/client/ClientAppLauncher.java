@@ -8,13 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientAppLauncher extends Application {
 
-    private static String ServerHost;
-    private static int ServerPort;
-
     public static final Logger log = LogManager.getLogger(ClientAppLauncher.class.getName());
+
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -28,18 +29,13 @@ public class ClientAppLauncher extends Application {
 
     public static void main(String[] args) {
 
-        try {
-            ServerHost = args[0].trim();
-            ServerPort = Integer.parseInt(args[1].trim());
-            log.info("Получены хост: " + ServerHost + " и порт: " + ServerPort);
-        } catch (NumberFormatException exception){
-            log.fatal("Порт должен быть числом");
-            return;
-        } catch (ArrayIndexOutOfBoundsException exception){
-            log.fatal("Недостаточно аргументов командной строки в настройках конфигурации");
-            return;
-        }
+        // подключение к серверу идёт в отдельном потоке
+        Runnable task = () -> {
+            new Loader(args);
+        };
+        executorService.submit(task);
 
         launch();
+        log.info("Завершение работы приложения...");
     }
 }
