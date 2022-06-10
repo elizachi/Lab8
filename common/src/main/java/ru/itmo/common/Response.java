@@ -1,12 +1,13 @@
 package ru.itmo.common;
 
 import com.google.gson.Gson;
-
+import com.google.gson.reflect.TypeToken;
 import ru.itmo.common.http.Body;
 import ru.itmo.common.http.Headers;
 import ru.itmo.common.http.MethodType;
 
-public class Request {
+public class Response {
+
     public final MethodType method;
 
     private final String standard = " / HTTP/1.1";
@@ -14,19 +15,21 @@ public class Request {
 
     private final Body body;
 
-    public Request(MethodType method, Headers headers, Body body) {
+    public Response(MethodType method, Headers headers, Body body) {
         this.method = method;
         this.headers = headers;
         this.body = body;
     }
-    public static Request fromJson(String json) {
-        return new Gson().fromJson(json, Request.class);
+
+    public static Response fromJson(String json)  {
+        return new Gson().fromJson(json, Response.class);
     }
+
 
 //    public <T> T getArgumentAs(Class<T> clazz) {
 //        return new Gson().fromJson((String) argument, clazz);
 //    }
-
+//
 //    public <T> Object getArgumentAs(TypeToken<T> typeToken) {
 //        return new Gson().fromJson((String) argument, typeToken.getType());
 //    }
@@ -34,4 +37,5 @@ public class Request {
     public String toJson() {
         return new Gson().toJson(this);
     }
+
 }
