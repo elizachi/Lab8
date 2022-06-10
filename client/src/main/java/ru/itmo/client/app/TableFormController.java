@@ -1,4 +1,4 @@
-package ru.itmo.client.controllers;
+package ru.itmo.client.app;
 
 public class TableFormController {
 }

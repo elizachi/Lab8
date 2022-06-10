@@ -6,6 +6,8 @@ module ru.itmo.client {
 
     opens ru.itmo.client to javafx.fxml;
     exports ru.itmo.client;
-    exports ru.itmo.client.controllers;
-    opens ru.itmo.client.controllers to javafx.fxml;
+    exports ru.itmo.client.auth.controllers;
+    opens ru.itmo.client.auth.controllers to javafx.fxml;
+    exports ru.itmo.client.app;
+    opens ru.itmo.client.app to javafx.fxml;
 }

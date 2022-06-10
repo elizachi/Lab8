@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <TabPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="ru.itmo.client.controllers.SignInController">
+         fx:controller="ru.itmo.client.auth.controllers.SignInController">
    <tabs>
       <Tab closable="false" text="Авторизация">
          <content>

@@ -6,7 +6,7 @@
 
 
 <AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.itmo.client.controllers.TableFormController">
+            fx:controller="ru.itmo.client.app.TableFormController">
    <children>
       <TreeTableView layoutX="161.0" layoutY="255.0" prefHeight="362.0" prefWidth="502.0" AnchorPane.topAnchor="255.0">
         <columns>

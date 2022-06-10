@@ -1,10 +1,7 @@
-package ru.itmo.client.utility;
+package ru.itmo.client.auth.utility;
 
-import ru.itmo.client.exceptions.ForbiddenException;
-import ru.itmo.common.http.Body;
-import ru.itmo.common.http.Headers;
-import ru.itmo.common.http.MethodType;
-import ru.itmo.common.http.Request;
+import ru.itmo.client.auth.exceptions.ForbiddenException;
+import ru.itmo.common.Request;
 import ru.itmo.common.User;
 
 public class Validator {
@@ -17,8 +14,8 @@ public class Validator {
             checkSymbols(password+login);
 
             Request request = new Request(
-                    MethodType.GET,
-                    new Headers().setAuthorization(login+":"+password),
+                    Request.MethodType.GET,
+                    new Request.Headers().setAuthorization(login+":"+password),
                     null);
 
             // TODO поменять сюда на челика который приходит с сервера
