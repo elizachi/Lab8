@@ -13,7 +13,6 @@ public class Validator {
     private final Client client = new Client(Loader.getServerHost(), Loader.getServerPort());
 
     public User checkAuth(String login, String password) throws ForbiddenException {
-        client.start();
         User user = null;
         if(
                 isCorrectString(login, false) && isCorrectString(password, false)

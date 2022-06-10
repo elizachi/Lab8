@@ -20,7 +20,7 @@ public class Client {
         this.serverPort = serverPort;
         this.serverAPI = new ServerAPImpl(serverHost, serverPort);
 
-//        start();
+        start();
     }
 
     public void start() {

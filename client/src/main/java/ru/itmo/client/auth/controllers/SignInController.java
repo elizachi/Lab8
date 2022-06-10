@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.auth.exceptions.ForbiddenException;
@@ -39,8 +40,12 @@ public class SignInController {
 
     @FXML
     private Button signInButton;
+
+    @FXML
+    private VBox authScene;
     @FXML
     private void initialize() {
+
         Validator checkValue = new Validator();
 
         // при нажатии на кнопку "Войти"
