@@ -7,6 +7,6 @@ import ru.itmo.server.collection.commands.Command;
 public class Authorization implements Command {
     @Override
     public Response execute(Object arguments) {
-        return null;
+        return new Response(Response.Status.OK, "Всё заебись", new User("", ""));
     }
 }

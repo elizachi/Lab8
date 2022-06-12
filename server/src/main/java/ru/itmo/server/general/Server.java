@@ -84,26 +84,20 @@ public class Server {
                     builder.setPrettyPrinting();
                     Gson gson = builder.create();
 
-                    Object request =  gson.fromJson(json, Request.class);
+                    Request request =  gson.fromJson(json, Request.class);
 
                     System.out.println(request.toString());
 
-
-//                        ServerLauncher.log.info("Запрос на выполнение команды "
-//                                + request.getCommand().name().toLowerCase());
+                        ServerLauncher.log.info("Запрос на выполнение команды "
+                                + request.getCommand().name().toLowerCase());
 
                     // Обработка реквеста
-//                    lock.lock();
-//                    Runnable handle = () -> {
-//                        Boolean result = handler(key, request);
-//                        if(result == null) {
-//                            key.cancel();
-//                        } else if(!result) {
-//                            work = false;
-//                        }
-//                    };
-//                    executorService.submit(handle);
-//                    lock.unlock();
+                    Boolean result = handler(key, request);
+                    if(result == null) {
+                        key.cancel();
+                    } else if(!result) {
+                        work = false;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,8 +110,6 @@ public class Server {
         } else {
 
             Response response = new HandleCommands().handleRequest(request);
-
-            Runnable write = () -> {
 
                 ServerLauncher.log.info("Начата отправка результата выполнения запроса клиенту");
                 SocketChannel channel = (SocketChannel) key.channel();
@@ -149,9 +141,6 @@ public class Server {
                 } catch (IOException e) {
                     ServerLauncher.log.error("Отправка не удалась");
                 }
-            };
-            Thread myThread = new Thread(write);
-            myThread.start();
             return true;
         }
     }
