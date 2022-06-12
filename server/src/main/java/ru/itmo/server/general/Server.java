@@ -33,10 +33,10 @@ public class Server {
     public Server(String host, int port) {
         this.address = new InetSocketAddress(host, port);
         this.session = new HashSet<SocketChannel>();
+        runSocketChannel();
     }
 
     public void start() {
-        if(!runSocketChannel()) return;
         while(work) {
             try {
                 selector.select();
@@ -141,7 +141,7 @@ public class Server {
             return true;
         }
     }
-    private boolean runSocketChannel() {
+    private void runSocketChannel() {
         try {
             ServerLauncher.log.info("Запуск сервера...");
             selector = Selector.open();
@@ -151,20 +151,19 @@ public class Server {
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             ServerLauncher.log.info("Сервер успешно запущен");
 
-            Loader.connectToDataBase();
+            Loader.setConnection();
 //            ArrayDequeDAO.getInstance().setCollection(
 //                    new PostgreSqlDao().getAll()
 //            );
-            return true;
         } catch (ClosedChannelException e) {
             ServerLauncher.log.fatal("Сервер был принудительно закрыт");
-            return false;
+            return;
         } catch(BindException e) {
             ServerLauncher.log.fatal("На исходных хосте и порту уже запущен сервер");
-            return false;
+            return;
         } catch (IOException e) {
             ServerLauncher.log.fatal("Ошибка запуска сервера");
-            return false;
+            return;
         }
     }
     private void stopSocketChannel() {
