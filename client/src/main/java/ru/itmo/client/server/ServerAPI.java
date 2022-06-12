@@ -1,7 +1,7 @@
 package ru.itmo.client.server;
 
-import ru.itmo.common.Request;
-import ru.itmo.common.Response;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
 
 import java.io.IOException;
 

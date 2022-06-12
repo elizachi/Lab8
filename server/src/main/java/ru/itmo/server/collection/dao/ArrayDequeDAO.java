@@ -1,6 +1,6 @@
 package ru.itmo.server.collection.dao;
 
-import ru.itmo.common.User;
+import ru.itmo.common.general.User;
 import ru.itmo.common.model.HumanBeing;
 
 import java.util.Deque;

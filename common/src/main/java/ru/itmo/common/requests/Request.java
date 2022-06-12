@@ -1,6 +1,8 @@
-package ru.itmo.common;
+package ru.itmo.common.requests;
 
 import com.google.gson.Gson;
+import ru.itmo.common.general.CommandType;
+import ru.itmo.common.general.User;
 
 public class Request {
     public CommandType command;

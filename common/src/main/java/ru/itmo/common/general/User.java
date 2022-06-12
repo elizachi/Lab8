@@ -1,4 +1,4 @@
-package ru.itmo.common;
+package ru.itmo.common.general;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

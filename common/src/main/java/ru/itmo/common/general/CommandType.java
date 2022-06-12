@@ -1,4 +1,4 @@
-package ru.itmo.common;
+package ru.itmo.common.general;
 
 public enum CommandType {
     AUTHORIZATION,

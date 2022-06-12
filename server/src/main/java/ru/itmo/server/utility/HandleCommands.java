@@ -1,8 +1,9 @@
-package ru.itmo.server;
+package ru.itmo.server.utility;
 
-import ru.itmo.common.CommandType;
-import ru.itmo.common.Request;
-import ru.itmo.common.Response;
+import ru.itmo.common.general.CommandType;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
+import ru.itmo.server.ServerLauncher;
 import ru.itmo.server.collection.commands.Command;
 import ru.itmo.server.collection.commands.auth.Authorization;
 import ru.itmo.server.collection.commands.auth.Registration;

@@ -4,10 +4,10 @@ import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.general.Client;
 import ru.itmo.client.general.Loader;
-import ru.itmo.common.CommandType;
-import ru.itmo.common.Request;
-import ru.itmo.common.Response;
-import ru.itmo.common.User;
+import ru.itmo.common.general.CommandType;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
+import ru.itmo.common.general.User;
 
 public class AuthValidator {
 

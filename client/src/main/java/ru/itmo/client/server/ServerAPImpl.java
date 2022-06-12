@@ -1,14 +1,12 @@
 package ru.itmo.client.server;
 
 import ru.itmo.client.ClientAppLauncher;
-import ru.itmo.common.Request;
-import ru.itmo.common.Response;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
 public class ServerAPImpl implements ServerAPI {

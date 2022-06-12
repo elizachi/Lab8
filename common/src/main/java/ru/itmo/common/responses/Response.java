@@ -1,6 +1,7 @@
-package ru.itmo.common;
+package ru.itmo.common.responses;
 
 import com.google.gson.Gson;
+import ru.itmo.common.general.User;
 
 public class Response {
 

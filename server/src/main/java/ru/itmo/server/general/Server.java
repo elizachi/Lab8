@@ -2,10 +2,10 @@ package ru.itmo.server.general;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ru.itmo.common.Request;
-import ru.itmo.common.RequestAdapter;
-import ru.itmo.common.Response;
-import ru.itmo.server.HandleCommands;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.requests.RequestAdapter;
+import ru.itmo.common.responses.Response;
+import ru.itmo.server.utility.HandleCommands;
 import ru.itmo.server.ServerLauncher;
 
 import java.io.IOException;

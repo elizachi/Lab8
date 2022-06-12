@@ -3,11 +3,10 @@ package ru.itmo.client.general;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.server.ServerAPI;
 import ru.itmo.client.server.ServerAPImpl;
-import ru.itmo.common.Request;
-import ru.itmo.common.Response;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
 
 import java.io.IOException;
-import java.security.DrbgParameters;
 
 public class Client {
     private final String serverHost;
