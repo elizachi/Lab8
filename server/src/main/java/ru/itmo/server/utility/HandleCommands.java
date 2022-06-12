@@ -1,6 +1,7 @@
 package ru.itmo.server.utility;
 
 import ru.itmo.common.general.CommandType;
+import ru.itmo.common.general.User;
 import ru.itmo.common.requests.Request;
 import ru.itmo.common.responses.Response;
 import ru.itmo.server.ServerLauncher;
@@ -13,13 +14,14 @@ public class HandleCommands {
     public Response handleRequest(Request request) {
         return executeCommand(
                 request.getCommand(),
-                request.getArguments()
+                request.getArguments(),
+                request.getUser()
         );
     }
 
-    private Response executeCommand(CommandType command, Object arguments){
+    private Response executeCommand(CommandType command, Object arguments, User user){
         int commandIndex = command.ordinal();
-        Response response = commands[commandIndex].execute(arguments);
+        Response response = commands[commandIndex].execute(arguments, user);
         ServerLauncher.log.info("Запрос успешно обработан");
         return response;
     }

@@ -31,15 +31,15 @@ public class ArrayDequeDAO implements DAO{
      */
 
     @Override
-    public int add(HumanBeing human, User user) {
+    public int add(HumanBeing human) {
         humanCollection.add(human);
         return human.getId();
     }
 
     @Override
-    public boolean update(HumanBeing humanBeing, User user) {
+    public boolean update(HumanBeing humanBeing) {
         HumanBeing existedHuman = get(humanBeing.getId());
-        if(existedHuman != null && Objects.equals(humanBeing.getUserLogin(), user.getUsername())) {
+        if(existedHuman != null) {
             existedHuman.setName(humanBeing.getName());
             existedHuman.setSoundtrackName(humanBeing.getSoundtrackName());
             existedHuman.setMinutesOfWaiting(humanBeing.getMinutesOfWaiting());
@@ -58,9 +58,9 @@ public class ArrayDequeDAO implements DAO{
         return humanCollection.stream().filter(humanBeing -> humanBeing.getId() == id).findFirst().orElse(null);
     }
     @Override
-    public boolean delete(int index, User user) {
+    public boolean delete(int index) {
         HumanBeing existedHuman = get(index);
-        if(existedHuman != null && (Objects.equals(existedHuman.getUserLogin(), user.getUsername()))) {
+        if(existedHuman != null) {
             humanCollection.remove(existedHuman);
             return true;
         }
@@ -84,7 +84,7 @@ public class ArrayDequeDAO implements DAO{
     public void clear(User user) {
         if(humanCollection == null) return;
         for (HumanBeing humanBeing : humanCollection) {
-                delete(humanBeing.getId(), user);
+                delete(humanBeing.getId());
         }
     }
 
