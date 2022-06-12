@@ -4,6 +4,9 @@ import ru.itmo.server.ServerLauncher;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Loader {
@@ -12,12 +15,15 @@ public class Loader {
 
     private static String serverHost;
     private static int serverPort;
-    private static Properties properties = new Properties();
-
+    private static final Properties properties = new Properties();
+    private static Connection connect;
     public static void setArgs(String[] newArgs) {
         args = newArgs;
         loadArgs();
         loadProperties();
+    }
+    public static void setConnection() {
+        connect = connectToDataBase();
     }
     private static void loadArgs() {
         try {
@@ -49,18 +55,38 @@ public class Loader {
             ServerLauncher.log.fatal("Произошла ошибка поиска файла настроек. Пожалуйста, проверьте наличие файла.");
         }
     }
-    public String getURL() {
+    public static String getURL() {
         return properties.getProperty("url");
     }
-    public String getUserName() {
+    public static String getUserName() {
         return properties.getProperty("userName");
     }
-    public String getPassword() {
+    public static String getPassword() {
         return properties.getProperty("password");
     }
-    public String getDriver() {
+    public static String getDriver() {
         return properties.getProperty("driver");
     }
 
+    public static Connection connectToDataBase() {
+        ServerLauncher.log.info("Соединение с базой данных...");
+        try {
+            Class.forName(getDriver());
+            connect = DriverManager
+                    .getConnection(
+                            getURL(),
+                            getUserName(),
+                            getPassword()
+                    );
+            ServerLauncher.log.info("Соединение с базой данных успешно установлено");
+        } catch (ClassNotFoundException | SQLException e) {
+            ServerLauncher.log.fatal("Файл с драйвером не обнаружен");
+            System.exit(0);
+        } catch (Exception e) {
+            ServerLauncher.log.fatal("Непредвиденная ошибка");
+            System.exit(0);
+        }
+        return connect;
+    }
 
 }

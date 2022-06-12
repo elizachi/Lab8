@@ -14,10 +14,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -154,7 +151,7 @@ public class Server {
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             ServerLauncher.log.info("Сервер успешно запущен");
 
-//            PostgreSqlDao.setConnection();
+            Loader.connectToDataBase();
 //            ArrayDequeDAO.getInstance().setCollection(
 //                    new PostgreSqlDao().getAll()
 //            );
