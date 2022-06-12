@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
 public class ServerAPImpl implements ServerAPI {
@@ -43,7 +44,9 @@ public class ServerAPImpl implements ServerAPI {
 
     public Response sendToServer(Request request) throws IOException {
 
-        socket.getOutputStream().write(request.toJson().getBytes(StandardCharsets.UTF_8));
+        String req = request.toJson();
+
+        socket.getOutputStream().write(req.getBytes(StandardCharsets.UTF_8));
 
         byte[] buffer = new byte[4096];
         int amount = socket.getInputStream().read(buffer);

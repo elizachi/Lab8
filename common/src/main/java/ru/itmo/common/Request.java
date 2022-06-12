@@ -2,25 +2,20 @@ package ru.itmo.common;
 
 import com.google.gson.Gson;
 
-import ru.itmo.common.http.Body;
-import ru.itmo.common.http.Headers;
-import ru.itmo.common.http.MethodType;
-
 public class Request {
-    public final MethodType method;
+    public CommandType command;
+    public Object arguments;
 
-    private final String standard = " / HTTP/1.1";
-    private final Headers headers;
+    public User user;
 
-    private final Body body;
-
-    public Request(MethodType method, Headers headers, Body body) {
-        this.method = method;
-        this.headers = headers;
-        this.body = body;
+    public Request(CommandType command, Object arguments, User user) {
+        this.command = command;
+        this.arguments = new Gson().toJson(arguments);
+        this.user = user;
     }
-    public static Request fromJson(String json) {
-        return new Gson().fromJson(json, Request.class);
+    public static Object fromJson(String json) {
+        return new Gson().fromJson(json, Object.class);
+
     }
 
 //    public <T> T getArgumentAs(Class<T> clazz) {
@@ -35,7 +30,36 @@ public class Request {
         return new Gson().toJson(this);
     }
 
-    public Body getBody() {
-        return this.body;
+    public CommandType getCommand() {
+        return this.command;
+    }
+
+    public Object getArguments() {
+        return this.arguments;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setCommand(CommandType command) {
+        this.command = command;
+    }
+
+    public void setArguments(Object arguments) {
+        this.arguments = arguments;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "command=" + command +
+                ", arguments=" + arguments +
+                ", user=" + user.toString() +
+                '}';
     }
 }

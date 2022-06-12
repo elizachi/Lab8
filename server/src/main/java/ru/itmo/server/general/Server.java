@@ -1,6 +1,9 @@
 package ru.itmo.server.general;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ru.itmo.common.Request;
+import ru.itmo.common.RequestAdapter;
 import ru.itmo.common.Response;
 import ru.itmo.server.HandleCommands;
 import ru.itmo.server.ServerLauncher;
@@ -63,39 +66,47 @@ public class Server {
             } if(key.isAcceptable()) {
                 accept(key);
             } else if(key.isReadable()) {
-                Runnable read = () -> {
-                    try {
-                        // чтение реквеста от клиента
-                        SocketChannel channel = (SocketChannel) key.channel();
-                        ByteBuffer byteBuffer = ByteBuffer.allocate(4096);
+                try {
+                    // чтение реквеста от клиента
+                    SocketChannel channel = (SocketChannel) key.channel();
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(4096);
 
-                        int amount = channel.read(byteBuffer);
-                        byte[] data = new byte[amount];
-                        System.arraycopy(byteBuffer.array(), 0, data, 0, amount);
+                    int amount = channel.read(byteBuffer);
+                    byte[] data = new byte[amount];
+                    System.arraycopy(byteBuffer.array(), 0, data, 0, amount);
 
-                        String json = new String(data, StandardCharsets.UTF_8);
-                        Request request = Request.fromJson(json);
+                    String json = new String(data, StandardCharsets.UTF_8);
+
+                    System.out.println(json);
+
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.registerTypeAdapter(Request.class, new RequestAdapter());
+                    builder.setPrettyPrinting();
+                    Gson gson = builder.create();
+
+                    Object request =  gson.fromJson(json, Request.class);
+
+                    System.out.println(request.toString());
+
+
 //                        ServerLauncher.log.info("Запрос на выполнение команды "
 //                                + request.getCommand().name().toLowerCase());
 
-                        // Обработка реквеста
-                        lock.lock();
-                        Runnable handle = () -> {
-                            Boolean result = handler(key, request);
-                            if(result == null) {
-                                key.cancel();
-                            } else if(!result) {
-                                work = false;
-                            }
-                        };
-                        executorService.submit(handle);
-                        lock.unlock();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                };
-                executorService.submit(read);
+                    // Обработка реквеста
+//                    lock.lock();
+//                    Runnable handle = () -> {
+//                        Boolean result = handler(key, request);
+//                        if(result == null) {
+//                            key.cancel();
+//                        } else if(!result) {
+//                            work = false;
+//                        }
+//                    };
+//                    executorService.submit(handle);
+//                    lock.unlock();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

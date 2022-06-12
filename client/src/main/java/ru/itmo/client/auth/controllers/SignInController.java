@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
-import ru.itmo.client.auth.exceptions.ForbiddenException;
-import ru.itmo.client.auth.utility.Validator;
+import ru.itmo.client.auth.exceptions.AuthException;
+import ru.itmo.client.auth.exceptions.CheckUserException;
+import ru.itmo.client.auth.utility.AuthValidator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class SignInController {
     @FXML
     private void initialize() {
 
-        Validator checkValue = new Validator();
+        AuthValidator checkValue = new AuthValidator();
 
         // при нажатии на кнопку "Войти"
         signInButton.setOnAction(event -> {
@@ -59,8 +60,11 @@ public class SignInController {
             try {
                 checkValue.checkAuth(login, password);
                 switchToApp();
-            } catch (ForbiddenException e) {
+                ClientAppLauncher.log.info("Попытка успешна");
+            } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена");
+            } catch (AuthException e) {
+                ClientAppLauncher.log.error("Ошибка авторизации");
             }
 
         });

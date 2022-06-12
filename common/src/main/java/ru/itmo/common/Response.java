@@ -1,24 +1,17 @@
 package ru.itmo.common;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import ru.itmo.common.http.Body;
-import ru.itmo.common.http.Headers;
-import ru.itmo.common.http.MethodType;
 
 public class Response {
 
-    public final MethodType method;
+    public final Status status;
+    public final String answer;
+    public final User user;
 
-    private final String standard = " / HTTP/1.1";
-    private final Headers headers;
-
-    private final Body body;
-
-    public Response(MethodType method, Headers headers, Body body) {
-        this.method = method;
-        this.headers = headers;
-        this.body = body;
+    public Response(Status status, String answer, User user) {
+        this.status = status;
+        this.answer = answer;
+        this.user = user;
     }
 
     public static Response fromJson(String json)  {
@@ -38,4 +31,18 @@ public class Response {
         return new Gson().toJson(this);
     }
 
+    public enum Status {
+        OK, // все прошло успешно
+        ERROR, // произошла ошибка на стороне сервера
+        UNKNOWN, // неизвестный логин
+        WRONG // неверный пароль при условии верного логина
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
 }
