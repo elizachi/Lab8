@@ -5,6 +5,7 @@ import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.general.Client;
 import ru.itmo.client.general.Loader;
 import ru.itmo.common.general.CommandType;
+import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.requests.Request;
 import ru.itmo.common.responses.Response;
 import ru.itmo.common.general.User;
@@ -45,7 +46,7 @@ public class AuthValidator {
     private Response checkUser(User user) {
         Request request = new Request(
                 CommandType.AUTHORIZATION,
-                null,
+                new HumanBeing(),
                 user
         );
 

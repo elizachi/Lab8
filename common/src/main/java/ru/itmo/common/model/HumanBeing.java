@@ -1,24 +1,20 @@
 package ru.itmo.common.model;
 
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class HumanBeing implements Comparable {
-    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
+    public int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
     // Значение этого поля должно генерироваться автоматически
-    private LocalDate creationDate; //Поле не может быть null, Значение этого поля должно
-    // генерироваться автоматически
-    private String name; //Поле не может быть null, Строка не может быть пустой
-    private String soundtrackName; //Поле не может быть null
-    private Long minutesOfWaiting; //Поле не может быть null
-    private int impactSpeed;
-    private boolean realHero;
-    private Boolean hasToothpick; //Поле может быть null
-    private Coordinates coordinates; //Поле не может быть null
-    private Mood mood; //Поле может быть null
-    private Car car; //Поле не может быть null
-    private String userLogin;
+    public String name; //Поле не может быть null, Строка не может быть пустой
+    public String soundtrackName; //Поле не может быть null
+    public Long minutesOfWaiting; //Поле не может быть null
+    public int impactSpeed;
+    public boolean realHero;
+    public Boolean hasToothpick; //Поле может быть null
+    public Coordinates coordinates; //Поле не может быть null
+    public Mood mood; //Поле может быть null
+    public Car car; //Поле не может быть null
 
     public HumanBeing(){}
 
@@ -58,14 +54,6 @@ public class HumanBeing implements Comparable {
 
     public Coordinates getCoordinates(){
         return coordinates;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
     }
 
     public void setRealHero(boolean realHero) {
@@ -124,14 +112,6 @@ public class HumanBeing implements Comparable {
         return car;
     }
 
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
-
     /**
      * переобределение метода compareTo для сортировки
      * первое поле, по которому происходит сортировка - coordinates
@@ -164,15 +144,12 @@ public class HumanBeing implements Comparable {
             }
             if (result == 0) {
                 if (mood == null || humanBeing.mood == null) {
-                    result=0;
+                    result = 0;
                 } else {
                     int ordinalThis = Mood.valueOf(this.mood.toString()).ordinal();
                     int ordinalHumanBeing = Mood.valueOf(humanBeing.mood.toString()).ordinal();
                     result = Integer.compare(ordinalThis, ordinalHumanBeing);
                 }
-            }
-            if (result == 0) {
-                result = this.car.compareTo(humanBeing.car);
             }
         }
         return result;
@@ -181,8 +158,6 @@ public class HumanBeing implements Comparable {
     @Override
     public String toString() {
         return "id = " + id +
-                ",\ncreationDate = " + creationDate +
-                ",\nuser = " + userLogin +
                 ",\nname = " + name +
                 ",\nsoundtrackName = " + soundtrackName +
                 ",\nminutesOfWaiting = " + minutesOfWaiting +

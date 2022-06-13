@@ -90,21 +90,12 @@ public class ArrayDequeDAO implements DAO{
 
     public HumanBeing removeHead(User user) {
         HumanBeing firstHuman = getHead();
-        if (firstHuman != null && firstHuman.getUserLogin().equals(user.getUsername())) {
-            humanCollection.removeFirst();
-            return firstHuman;
-        } else {
-            return null;
-        }
+        return firstHuman;
     }
 
     public HumanBeing removeLast(User user) {
         HumanBeing lastHuman = getLast();
-        if(lastHuman != null && lastHuman.getUserLogin() == user.getUsername()) {
-            humanCollection.removeLast();
-            return lastHuman;
-        }
-        return null;
+        return lastHuman;
     }
 
     public List<?> filterGreaterThanSpeed(int speed){

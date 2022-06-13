@@ -81,9 +81,7 @@ public class Server {
                     builder.setPrettyPrinting();
                     Gson gson = builder.create();
 
-                    Request request =  gson.fromJson(json, Request.class);
-
-                    System.out.println(request.toString());
+                    Request request = gson.fromJson(json, Request.class);
 
                         ServerLauncher.log.info("Запрос на выполнение команды "
                                 + request.getCommand().name().toLowerCase());

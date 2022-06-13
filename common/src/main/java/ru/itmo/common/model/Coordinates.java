@@ -1,8 +1,8 @@
 package ru.itmo.common.model;
 
 public class Coordinates {
-    private int x;
-    private Float y; //Значение поля должно быть больше -188, Поле не может быть null
+    public int x;
+    public Float y; //Значение поля должно быть больше -188, Поле не может быть null
 
     public Coordinates(){}
 
@@ -17,6 +17,14 @@ public class Coordinates {
 
     public Float getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(Float y) {
+        this.y = y;
     }
 
     // это некрасиво но пока пусть будет

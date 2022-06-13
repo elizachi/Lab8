@@ -1,12 +1,9 @@
 package ru.itmo.common.model;
 
-//import com.fasterxml.jackson.annotation.JsonInclude;
+public class Car {
 
-public class Car implements Comparable {
-//    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String name; //Поле может быть null
-    private boolean cool;
-    private int result;
+    public String name; //Поле может быть null
+    public boolean cool;
 
     public Car(){}
 
@@ -29,20 +26,6 @@ public class Car implements Comparable {
 
     public Boolean getCarCool(){
         return cool;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Car car = (Car) o;
-        if (name == null) {
-            result = Boolean.compare(this.cool, car.cool);
-        } else {
-            result = this.name.compareTo(car.name);
-            if (result == 0) {
-                result = Boolean.compare(this.cool, car.cool);
-            }
-        }
-        return result;
     }
 
     @Override

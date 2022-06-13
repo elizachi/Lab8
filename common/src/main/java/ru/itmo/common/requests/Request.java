@@ -3,20 +3,21 @@ package ru.itmo.common.requests;
 import com.google.gson.Gson;
 import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.User;
+import ru.itmo.common.model.HumanBeing;
 
 public class Request {
     public CommandType command;
-    public Object arguments;
+    public HumanBeing arguments;
 
     public User user;
 
-    public Request(CommandType command, Object arguments, User user) {
+    public Request(CommandType command, HumanBeing arguments, User user) {
         this.command = command;
-        this.arguments = new Gson().toJson(arguments);
+        this.arguments = arguments;
         this.user = user;
     }
-    public static Object fromJson(String json) {
-        return new Gson().fromJson(json, Object.class);
+    public static Request fromJson(String json) {
+        return new Gson().fromJson(json, Request.class);
 
     }
 
@@ -36,7 +37,7 @@ public class Request {
         return this.command;
     }
 
-    public Object getArguments() {
+    public HumanBeing getArguments() {
         return this.arguments;
     }
 
@@ -48,7 +49,7 @@ public class Request {
         this.command = command;
     }
 
-    public void setArguments(Object arguments) {
+    public void setArguments(HumanBeing arguments) {
         this.arguments = arguments;
     }
 
@@ -58,10 +59,10 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
+        return "Request{\n" +
                 "command=" + command +
-                ", arguments=" + arguments +
-                ", user=" + user.toString() +
-                '}';
+                "\n, arguments=" + arguments +
+                "\n, user=" + user.toString() +
+                "\n}";
     }
 }
