@@ -1,5 +1,6 @@
 package ru.itmo.common.requests;
 
+import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -12,13 +13,69 @@ import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class RequestAdapter extends TypeAdapter<Request> {
     @Override
-    public void write(JsonWriter out, Request value) throws IOException {
+    public void write(JsonWriter out, Request request) throws IOException {
+        out.beginObject();
+        out.name("command");
+        out.value(valueEnum(request.getCommand()));
+        out.name("arguments");
+        writeHuman(out, request.getArguments());
+        out.name("user");
+        out.value(new Gson().toJson(request.getUser()));
+        out.endObject();
+    }
 
+    private void writeHuman(JsonWriter out, HumanBeing human) throws IOException {
+        out.beginObject();
+        out.name("id").value(human.getId());
+        out.name("name").value(human.getName());
+        out.name("soundtrackName").value(human.getSoundtrackName());
+        out.name("minutesOfWaiting").value(human.getMinutesOfWaiting());
+        out.name("impactSpeed").value(human.getImpactSpeed());
+        out.name("realHero").value(human.isRealHero());
+        out.name("hasToothpick").value(human.isHasToothpick());
+        out.name("coordinates");
+        writeCoordinates(out, human.getCoordinates());
+        out.name("mood").value(valueEnum(human.getMood()));
+        out.name("car");
+        writeCar(out, human.getCar());
+        out.endObject();
+    }
+
+    private void writeCoordinates(JsonWriter out, Coordinates coo) throws IOException {
+        if(coo != null) {
+            out.beginObject();
+            out.name("x");
+            out.value(coo.x);
+            out.name("y");
+            out.value(coo.y);
+            out.endObject();
+        } else {
+            out.value((String) null);
+        }
+    }
+
+    private void writeCar(JsonWriter out, Car car) throws IOException {
+        if(car != null) {
+            out.beginObject();
+            out.name("name").value(car.getCarName());
+            out.name("cool").value(car.getCarCool());
+            out.endObject();
+        } else {
+            out.value((String) null);
+        }
+    }
+
+    private String valueEnum(CommandType type) {
+        if(type == null) return null;
+        else return type.name();
+    }
+
+    private String valueEnum(Mood type) {
+        if(type == null) return null;
+        else return type.name();
     }
 
     @Override
@@ -27,7 +84,6 @@ public class RequestAdapter extends TypeAdapter<Request> {
         String fieldName = null;
         CommandType command = null;
         Object arg = null;
-        String colour;
         User user = null;
 
         while(in.hasNext()) {
@@ -51,21 +107,17 @@ public class RequestAdapter extends TypeAdapter<Request> {
                 token = in.peek();
                 user = readUser(in);
             }
-
-            if("colour".equals(fieldName)) {
-                token = in.peek();
-                arg = in.nextString();
-            }
         }
         in.endObject();
         return new Request(command, null, user);
     }
 
-    public User readUser(JsonReader in) throws IOException {
+    private User readUser(JsonReader in) throws IOException {
         in.beginObject();
         String fieldName = null;
         String username = null;
         String password = null;
+        String colour = null;
 
         while(in.hasNext()) {
             JsonToken token = in.peek();
@@ -83,12 +135,17 @@ public class RequestAdapter extends TypeAdapter<Request> {
                 token = in.peek();
                 password = in.nextString();
             }
+
+            if("colour".equals(fieldName)) {
+                token = in.peek();
+                colour = in.nextString();
+            }
         }
         in.endObject();
-        return new User(username, password);
+        return new User(username, password, colour);
     }
 
-    public HumanBeing readHuman(JsonReader in) throws IOException {
+    private HumanBeing readHuman(JsonReader in) throws IOException {
         in.beginObject();
         String fieldName = null;
         HumanBeing human = new HumanBeing();
@@ -154,7 +211,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
         return human;
     }
 
-    public Car readCar(JsonReader in) throws IOException {
+    private Car readCar(JsonReader in) throws IOException {
         in.beginObject();
         String fieldName = null;
         Car car = new Car();
@@ -180,7 +237,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
         return car;
     }
 
-    public Coordinates readCoordinates(JsonReader in) throws IOException {
+    private Coordinates readCoordinates(JsonReader in) throws IOException {
         in.beginObject();
         String fieldName = null;
         Coordinates coo = new Coordinates();

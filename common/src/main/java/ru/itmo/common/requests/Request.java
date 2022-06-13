@@ -1,6 +1,7 @@
 package ru.itmo.common.requests;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.HumanBeing;
@@ -17,7 +18,12 @@ public class Request {
         this.user = user;
     }
     public static Request fromJson(String json) {
-        return new Gson().fromJson(json, Request.class);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Request.class, new RequestAdapter());
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        return gson.fromJson(json, Request.class);
 
     }
 
@@ -30,7 +36,13 @@ public class Request {
 //    }
 
     public String toJson() {
-        return new Gson().toJson(this);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Request.class, new RequestAdapter());
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+
+        return gson.toJson(this);
     }
 
     public CommandType getCommand() {

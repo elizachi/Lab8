@@ -44,6 +44,7 @@ public class Client {
             return serverAPI.sendToServer(request);
         } catch (IOException e) {
             start();
+
             send(request);
         }
         return null;

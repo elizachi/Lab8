@@ -20,7 +20,7 @@ public class AuthValidator {
 
         checkPassword(password);
 
-        Response response = checkUser(new User(login, password));
+        Response response = checkUser(new User(login, password, null));
 
         return scanStatus(response);
     }
