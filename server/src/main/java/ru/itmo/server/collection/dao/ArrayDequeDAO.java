@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ArrayDequeDAO implements DAO{
+public class ArrayDequeDAO <T extends HumanBeing> implements DAO{
     private static volatile ArrayDequeDAO instance;
     private Deque<HumanBeing> humanCollection;
 
@@ -31,13 +31,15 @@ public class ArrayDequeDAO implements DAO{
      */
 
     @Override
-    public int add(HumanBeing human) {
+    public int add(Object obj) {
+        HumanBeing human = (HumanBeing) obj;
         humanCollection.add(human);
         return human.getId();
     }
 
     @Override
-    public boolean update(HumanBeing humanBeing) {
+    public boolean update(Object obj) {
+        HumanBeing humanBeing = (HumanBeing) obj;
         HumanBeing existedHuman = get(humanBeing.getId());
         if(existedHuman != null) {
             existedHuman.setName(humanBeing.getName());
@@ -54,7 +56,8 @@ public class ArrayDequeDAO implements DAO{
         return false;
     }
 
-    public HumanBeing get(int id) {
+    public HumanBeing get(Object obj) {
+        int id = (Integer) obj;
         return humanCollection.stream().filter(humanBeing -> humanBeing.getId() == id).findFirst().orElse(null);
     }
     @Override

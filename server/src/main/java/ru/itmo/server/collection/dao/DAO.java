@@ -1,11 +1,8 @@
 package ru.itmo.server.collection.dao;
 
-import ru.itmo.common.general.User;
-import ru.itmo.common.model.HumanBeing;
-
-public interface DAO {
-    int add(HumanBeing humanBeing);
-    boolean update(HumanBeing humanBeing);
-    boolean delete(int index);
-    HumanBeing get(int id);
+public interface DAO <T> {
+    int add(T obj);
+    boolean update(T obj);
+    boolean delete(int obj);
+    T get(T obj);
 }

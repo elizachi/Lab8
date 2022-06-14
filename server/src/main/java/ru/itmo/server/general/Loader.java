@@ -23,6 +23,9 @@ public class Loader {
     public static void setConnection() {
         connect = connectToDataBase();
     }
+    public static Connection getConnection() {
+        return connect;
+    }
 
 
     private static void loadArgs() {

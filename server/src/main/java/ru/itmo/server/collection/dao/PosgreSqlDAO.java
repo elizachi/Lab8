@@ -8,12 +8,12 @@ public class PosgreSqlDAO implements DAO{
     private User user;
 
     @Override
-    public int add(HumanBeing humanBeing) {
+    public int add(Object obj) {
         return 0;
     }
 
     @Override
-    public boolean update(HumanBeing humanBeing) {
+    public boolean update(Object obj) {
         return false;
     }
 
@@ -23,7 +23,7 @@ public class PosgreSqlDAO implements DAO{
     }
 
     @Override
-    public HumanBeing get(int id) {
+    public HumanBeing get(Object obj) {
         return null;
     }
 }
