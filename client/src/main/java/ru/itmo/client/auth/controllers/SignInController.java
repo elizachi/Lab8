@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,14 +25,15 @@ public class SignInController {
     @FXML
     private TextField authLoginField;
 
+    //TODO сейчас с PasswordField ниче не работает хз почему
     @FXML
-    private TextField authPasswordField;
+    private PasswordField authPasswordField;
 
     @FXML
     private TextField regLoginField;
 
     @FXML
-    private TextField regPasswordField;
+    private PasswordField regPasswordField;
 
     @FXML
     private ResourceBundle resources;
