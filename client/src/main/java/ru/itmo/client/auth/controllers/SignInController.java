@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.app.TableFormController;
 import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.auth.utility.AuthValidator;
@@ -112,15 +113,7 @@ public class SignInController {
     private void switchToApp() {
         logInButton.getScene().getWindow().hide();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        TableFormController.openForm();
     }
 
     private void loadColour() {
