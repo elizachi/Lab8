@@ -25,7 +25,6 @@ public class SignInController {
     @FXML
     private TextField authLoginField;
 
-    //TODO сейчас с PasswordField ниче не работает хз почему
     @FXML
     private PasswordField authPasswordField;
 
@@ -77,9 +76,10 @@ public class SignInController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
-            Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+            Scene scene = new Scene(fxmlLoader.load(), 1920, 1200);
             Stage stage = new Stage();
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
