@@ -4,17 +4,17 @@ package ru.itmo.common.model;
 import java.util.Objects;
 
 public class HumanBeing implements Comparable {
-    public int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
+    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
     // Значение этого поля должно генерироваться автоматически
-    public String name; //Поле не может быть null, Строка не может быть пустой
-    public String soundtrackName; //Поле не может быть null
-    public Long minutesOfWaiting; //Поле не может быть null
-    public int impactSpeed;
-    public boolean realHero;
-    public Boolean hasToothpick; //Поле может быть null
-    public Coordinates coordinates; //Поле не может быть null
-    public Mood mood; //Поле может быть null
-    public Car car; //Поле не может быть null
+    private String name; //Поле не может быть null, Строка не может быть пустой
+    private String soundtrackName; //Поле не может быть null
+    private Long minutesOfWaiting; //Поле не может быть null
+    private int impactSpeed;
+    private boolean realHero;
+    private Boolean hasToothpick; //Поле может быть null
+    private Coordinates coordinates; //Поле не может быть null
+    private Mood mood; //Поле может быть null
+    private Car car; //Поле не может быть null
 
     public HumanBeing(){}
 

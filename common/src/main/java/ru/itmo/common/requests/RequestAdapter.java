@@ -48,9 +48,9 @@ public class RequestAdapter extends TypeAdapter<Request> {
         if(coo != null) {
             out.beginObject();
             out.name("x");
-            out.value(coo.x);
+            out.value(coo.getX());
             out.name("y");
-            out.value(coo.y);
+            out.value(coo.getY());
             out.endObject();
         } else {
             out.value((String) null);

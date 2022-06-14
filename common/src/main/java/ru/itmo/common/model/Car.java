@@ -2,8 +2,8 @@ package ru.itmo.common.model;
 
 public class Car {
 
-    public String name; //Поле может быть null
-    public boolean cool;
+    private String name; //Поле может быть null
+    private boolean cool;
 
     public Car(){}
 

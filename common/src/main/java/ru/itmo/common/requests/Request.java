@@ -7,10 +7,10 @@ import ru.itmo.common.general.User;
 import ru.itmo.common.model.HumanBeing;
 
 public class Request {
-    public CommandType command;
-    public HumanBeing arguments;
+    private CommandType command;
+    private HumanBeing arguments;
 
-    public User user;
+    private User user;
 
     public Request(CommandType command, HumanBeing arguments, User user) {
         this.command = command;
@@ -25,16 +25,7 @@ public class Request {
         Gson gson = builder.create();
 
         return gson.fromJson(json, Request.class);
-
     }
-
-//    public <T> T getArgumentAs(Class<T> clazz) {
-//        return new Gson().fromJson((String) argument, clazz);
-//    }
-
-//    public <T> Object getArgumentAs(TypeToken<T> typeToken) {
-//        return new Gson().fromJson((String) argument, typeToken.getType());
-//    }
 
     public String toJson() {
 

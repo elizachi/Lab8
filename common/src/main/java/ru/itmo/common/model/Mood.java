@@ -5,8 +5,4 @@ public enum Mood {
     LONGING,
     GLOOM,
     RAGE;
-
-    public String toString() {
-        return this.name();
-    }
 }
