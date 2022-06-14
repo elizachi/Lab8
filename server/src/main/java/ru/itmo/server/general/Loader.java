@@ -126,7 +126,7 @@ public class Loader {
             ServerLauncher.log.info("Проверка таблицы пользователей...");
             PreparedStatement stmt = connect.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS USERS (" +
-                            "login TEXT NOT NULL," +
+                            "login TEXT PRIMARY KEY NOT NULL," +
                             "password TEXT NOT NULL);"
             );
             stmt.execute();

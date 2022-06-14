@@ -6,6 +6,7 @@ import ru.itmo.server.general.Loader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class UserDAO implements DAO {
     @Override
@@ -15,7 +16,7 @@ public class UserDAO implements DAO {
         try {
             PreparedStatement stmt = Loader.getConnection().prepareStatement(sql);
             stmt.setString(1, user.getUsername());
-            stmt.setString(2, User.getHash(user.getPassword()));
+            stmt.setString(2, user.getPassword());
             stmt.execute();
             return 1;
         } catch(SQLException e) {
@@ -36,15 +37,18 @@ public class UserDAO implements DAO {
     @Override
     public User get(Object obj) {
         User user = (User) obj;
-        String sql = "SELECT login, password FROM users WHERE login = '" +user.getUsername()+ "' AND " +
-                " password = '" +User.getHash(user.getPassword()) + "'";
+        String sql = "SELECT password FROM users WHERE login = '" +user.getUsername()+ "'";
         try {
             PreparedStatement stmt = Loader.getConnection().prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
 
             result.next();
-            String login = result.getString("login");
             String password = result.getString("password");
+
+            if(!Objects.equals(password, user.getPassword())) {
+                user.setPassword(null);
+                return user;
+            }
             return user;
         } catch (SQLException e) {
             return null;
