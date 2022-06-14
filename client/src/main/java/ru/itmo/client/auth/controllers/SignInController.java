@@ -4,8 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.auth.exceptions.AuthException;
@@ -25,13 +27,18 @@ public class SignInController {
     private TextField authLoginField;
 
     @FXML
-    private TextField authPasswordField;
+    private PasswordField authPasswordField;
+
+    @FXML
+    private Text errorAuthTextField;
+
+    @FXML
+    private Text errorRegTextField;
 
     @FXML
     private TextField regLoginField;
-
     @FXML
-    private TextField regPasswordField;
+    private PasswordField regPasswordField;
 
     @FXML
     private ResourceBundle resources;
@@ -62,9 +69,11 @@ public class SignInController {
                 switchToApp();
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
-                ClientAppLauncher.log.info("Попытка провалена");
+                ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
+                errorAuthTextField.setText(e.getErrorType().getTitle());
             } catch (AuthException e) {
-                ClientAppLauncher.log.error("Ошибка авторизации");
+                ClientAppLauncher.log.error("Ошибка авторизации:\n" + e.getErrorType().getTitle());
+                errorAuthTextField.setText(e.getErrorType().getTitle());
             }
 
         });

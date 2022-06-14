@@ -12,13 +12,10 @@ public class Authorization implements Command {
     public Response execute(Object arguments, User user) {
         User foundedUser = searchUser.get(user);
         if(foundedUser == null) {
-            System.out.println("Не нашлось пользователя с таким логином");
-            return new Response(Response.Status.UNKNOWN, "Не нашлось пользователя с таким логином", null);
+            return new Response(Response.Status.UNKNOWN, null, null);
         } else if(foundedUser.getPassword() == null) {
-            System.out.println("Неверный пароль");
-            return new Response(Response.Status.WRONG, "Неверный пароль", null);
+            return new Response(Response.Status.WRONG, null, null);
         }
-        System.out.println("Пользователь успешно найден");
-        return new Response(Response.Status.OK, "Пользователь успешно найден", foundedUser);
+        return new Response(Response.Status.OK, null, foundedUser);
     }
 }

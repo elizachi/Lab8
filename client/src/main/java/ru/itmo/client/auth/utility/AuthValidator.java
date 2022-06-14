@@ -27,19 +27,39 @@ public class AuthValidator {
 
     private void checkLogin(String login) throws CheckUserException {
         if(login.isEmpty()) {
-            throw new CheckUserException(CheckUserException.ErrorType.EMPTY.setTitle("логин"));
+            throw new CheckUserException(
+                    CheckUserException.ErrorType.EMPTY.setTitle(
+                            "Поле логин пусто."
+                    )
+            );
         } else if(login.contains(":")) {
-            throw new CheckUserException(CheckUserException.ErrorType.FORBIDDEN.setTitle("логин"));
+            throw new CheckUserException(
+                    CheckUserException.ErrorType.FORBIDDEN.setTitle(
+                            "В поле логин были введены запрещённые символы."
+                    )
+            );
         }
     }
 
     private void checkPassword(String password) throws CheckUserException {
         if(password.isEmpty()) {
-            throw new CheckUserException(CheckUserException.ErrorType.EMPTY.setTitle("пароль"));
+            throw new CheckUserException(
+                    CheckUserException.ErrorType.EMPTY.setTitle(
+                            "Поле пароль пусто."
+                    )
+            );
         } else if(password.contains(":")) {
-            throw new CheckUserException(CheckUserException.ErrorType.FORBIDDEN.setTitle("пароль"));
+            throw new CheckUserException(
+                    CheckUserException.ErrorType.FORBIDDEN.setTitle(
+                            "В поле пароль были введены запрещённые символы."
+                    )
+            );
         } else if(password.length() < 8) {
-            throw new CheckUserException(CheckUserException.ErrorType.UNSAFE.setTitle("пароль"));
+            throw new CheckUserException(
+                    CheckUserException.ErrorType.UNSAFE.setTitle(
+                            "Поле пароль должно содержать минимум 8 символов."
+                    )
+            );
         }
     }
 
@@ -57,11 +77,24 @@ public class AuthValidator {
         if(Response.Status.OK == response.getStatus()) {
             return response.getUser();
         } else if(Response.Status.UNKNOWN == response.getStatus()) {
-            throw new AuthException(AuthException.ErrorType.UNKNOWN.setTitle("логин"));
+            throw new AuthException(
+                    AuthException.ErrorType.UNKNOWN.setTitle(
+                            "Пользователя с таким логином не существует.\n" +
+                                    "Вы можете создать новый аккаунт перейдя во вкладку Регистрация"
+                    )
+            );
         } else if(Response.Status.WRONG == response.getStatus()) {
-            throw new AuthException(AuthException.ErrorType.WRONG.setTitle("логин"));
+            throw new AuthException(
+                    AuthException.ErrorType.WRONG.setTitle(
+                            "Пароль введён неверно."
+                    )
+            );
         } else {
-            throw new AuthException(AuthException.ErrorType.ERROR.setTitle("логин"));
+            throw new AuthException(
+                    AuthException.ErrorType.ERROR.setTitle(
+                            "В процессе авторияции произошла ошибка, пожалуйста, повторите попытку чуть позже."
+                    )
+            );
         }
     }
 }
