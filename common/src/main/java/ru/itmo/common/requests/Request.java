@@ -23,6 +23,7 @@ public class Request {
         builder.registerTypeAdapter(Request.class, new RequestAdapter());
         builder.setPrettyPrinting();
         Gson gson = builder.create();
+
         return gson.fromJson(json, Request.class);
 
     }

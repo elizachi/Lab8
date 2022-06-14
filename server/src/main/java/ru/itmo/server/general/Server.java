@@ -76,12 +76,7 @@ public class Server {
 
                     System.out.println(json);
 
-                    GsonBuilder builder = new GsonBuilder();
-                    builder.registerTypeAdapter(Request.class, new RequestAdapter());
-                    builder.setPrettyPrinting();
-                    Gson gson = builder.create();
-
-                    Request request = gson.fromJson(json, Request.class);
+                    Request request = Request.fromJson(json);
 
                         ServerLauncher.log.info("Запрос на выполнение команды "
                                 + request.getCommand().name().toLowerCase());

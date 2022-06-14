@@ -23,7 +23,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
         out.name("arguments");
         writeHuman(out, request.getArguments());
         out.name("user");
-        out.value(new Gson().toJson(request.getUser()));
+        writeUser(out, request.getUser());
         out.endObject();
     }
 
@@ -62,6 +62,18 @@ public class RequestAdapter extends TypeAdapter<Request> {
             out.beginObject();
             out.name("name").value(car.getCarName());
             out.name("cool").value(car.getCarCool());
+            out.endObject();
+        } else {
+            out.value((String) null);
+        }
+    }
+
+    private void writeUser(JsonWriter out, User user) throws IOException {
+        if(user != null) {
+            out.beginObject();
+            out.name("username").value(user.getUsername());
+            out.name("password").value(user.getPassword());
+            out.name("colour").value(user.getColour());
             out.endObject();
         } else {
             out.value((String) null);
