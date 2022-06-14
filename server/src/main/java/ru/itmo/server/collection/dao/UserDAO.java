@@ -1,24 +1,28 @@
 package ru.itmo.server.collection.dao;
 
 import ru.itmo.common.general.User;
-import ru.itmo.server.general.Loader;
+import ru.itmo.server.general.ServerLoader;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import org.postgresql.util.PSQLException;
 
 public class UserDAO implements DAO {
     @Override
     public int add(Object obj) {
         User user = (User) obj;
-        String sql = "INSERT INTO USERS (login, password) VALUES (?, ?)";
+        String sql = "INSERT INTO users (login, password, colour) VALUES (?, ?, ?)";
         try {
-            PreparedStatement stmt = Loader.getConnection().prepareStatement(sql);
+            PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getColour());
             stmt.execute();
             return 1;
+        }catch (PSQLException e) {
+            return 0;
         } catch(SQLException e) {
             return -1;
         }
@@ -39,13 +43,13 @@ public class UserDAO implements DAO {
         User user = (User) obj;
         String sql = "SELECT password FROM users WHERE login = '" +user.getUsername()+ "'";
         try {
-            PreparedStatement stmt = Loader.getConnection().prepareStatement(sql);
+            PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
 
             result.next();
             String password = result.getString("password");
 
-            if(!Objects.equals(password, user.getPassword())) {
+            if(!Objects.equals(password, User.getHash(user.getPassword()))) {
                 user.setPassword(null);
                 return user;
             }

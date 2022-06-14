@@ -1,9 +1,6 @@
 package ru.itmo.server.general;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import ru.itmo.common.requests.Request;
-import ru.itmo.common.requests.RequestAdapter;
 import ru.itmo.common.responses.Response;
 import ru.itmo.server.utility.HandleCommands;
 import ru.itmo.server.ServerLauncher;
@@ -144,7 +141,7 @@ public class Server {
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             ServerLauncher.log.info("Сервер успешно запущен");
 
-            Loader.setConnection();
+            ServerLoader.setConnection();
 //            ArrayDequeDAO.getInstance().setCollection(
 //                    new PostgreSqlDao().getAll()
 //            );

@@ -3,4 +3,5 @@ module ru.itmo.server {
     requires org.apache.logging.log4j;
     requires ru.itmo.common;
     requires java.sql;
+    requires org.postgresql.jdbc;
 }

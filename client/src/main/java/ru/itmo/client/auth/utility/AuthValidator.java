@@ -1,9 +1,10 @@
 package ru.itmo.client.auth.utility;
 
+import javafx.scene.paint.Paint;
 import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.general.Client;
-import ru.itmo.client.general.Loader;
+import ru.itmo.client.general.ClientLoader;
 import ru.itmo.common.general.CommandType;
 import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.requests.Request;
@@ -12,7 +13,7 @@ import ru.itmo.common.general.User;
 
 public class AuthValidator {
 
-    private final Client client = new Client(Loader.getServerHost(), Loader.getServerPort());
+    private final Client client = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort());
 
     public User checkAuth(String login, String password) throws CheckUserException, AuthException {
 
@@ -20,7 +21,22 @@ public class AuthValidator {
 
         checkPassword(password);
 
-        Response response = checkUser(new User(login, password, null));
+        Response response = checkUser(
+                new User(login, password, null).getEncodeUser()
+        );
+
+        return scanStatus(response);
+    }
+
+    public User checkReg(String login, String password, Paint color) throws CheckUserException, AuthException {
+
+        checkLogin(login);
+
+        checkPassword(password);
+
+        Response response = addUser(
+                new User(login, password, color.toString()).getEncodeUser()
+        );
 
         return scanStatus(response);
     }
@@ -66,7 +82,17 @@ public class AuthValidator {
     private Response checkUser(User user) {
         Request request = new Request(
                 CommandType.AUTHORIZATION,
-                new HumanBeing(),
+                null,
+                user
+        );
+
+        return client.send(request);
+    }
+
+    private Response addUser(User user) {
+        Request request = new Request(
+                CommandType.REGISTRATION,
+                null,
                 user
         );
 
@@ -89,7 +115,14 @@ public class AuthValidator {
                             "Пароль введён неверно."
                     )
             );
-        } else {
+        } else if(Response.Status.EXIST == response.getStatus()) {
+            throw new AuthException(
+                    AuthException.ErrorType.EXIST.setTitle(
+                            "Пользователь с таким логином или цветом уже существует.\n" +
+                                    "Пожалуйста, повторите попытку регистрации."
+                    )
+            );
+        }else {
             throw new AuthException(
                     AuthException.ErrorType.ERROR.setTitle(
                             "В процессе авторияции произошла ошибка, пожалуйста, повторите попытку чуть позже."

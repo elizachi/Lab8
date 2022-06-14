@@ -17,6 +17,22 @@ public class User {
     public User(String username, String password, String colour) {
         this.username = username;
         this.password = password;
+        this.colour = colour;
+    }
+
+    public User getEncodeUser() {
+        this.username = encode(username);
+        this.password = encode(password);
+        this.colour = encode(colour);
+        return this;
+    }
+
+    public User getDecodeUser() {
+        this.username = decode(username);
+        this.password = decode(password);
+        this.colour = decode(colour);
+
+        return this;
     }
 
     public String getUsername() {
@@ -59,7 +75,25 @@ public class User {
     }
 
     private String encode(String data) {
-        return Base64.getEncoder().encodeToString(data.getBytes(StandardCharsets.UTF_8));
+        if(data != null) {
+            return Base64.getEncoder().encodeToString(data.getBytes(StandardCharsets.UTF_8));
+        } else {
+            return null;
+        }
+
+    }
+
+    private String decode(String data) {
+        if(data != null) {
+            return new String(Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8)));
+        } else {
+            return null;
+        }
+    }
+
+    public User hash() {
+        this.password = getHash(password);
+        return this;
     }
 
     @Override

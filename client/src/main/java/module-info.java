@@ -3,6 +3,7 @@ module ru.itmo.client {
     requires javafx.fxml;
     requires org.apache.logging.log4j;
     requires ru.itmo.common;
+    requires java.sql;
 
     opens ru.itmo.client to javafx.fxml;
     exports ru.itmo.client;
@@ -12,4 +13,6 @@ module ru.itmo.client {
     opens ru.itmo.client.app to javafx.fxml;
     exports ru.itmo.client.general;
     opens ru.itmo.client.general to javafx.fxml;
+    exports ru.itmo.client.auth.utility;
+    opens ru.itmo.client.auth.utility to javafx.fxml;
 }

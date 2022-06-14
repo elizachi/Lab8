@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.itmo.client.general.Loader;
+import ru.itmo.client.general.ClientLoader;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -30,7 +30,7 @@ public class ClientAppLauncher extends Application {
 
     public static void main(String[] args) {
 
-        Loader.setArgs(args);
+        ClientLoader.setArgs(args);
 
         launch();
         log.info("Завершение работы приложения...");

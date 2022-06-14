@@ -15,7 +15,8 @@ public class AuthException extends Exception{
     public enum ErrorType {
         UNKNOWN(),
         WRONG(),
-        ERROR();
+        ERROR(),
+        EXIST();
         private String title;
 
         public ErrorType setTitle(String title) {

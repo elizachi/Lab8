@@ -17,31 +17,39 @@ import java.io.IOException;
 public class RequestAdapter extends TypeAdapter<Request> {
     @Override
     public void write(JsonWriter out, Request request) throws IOException {
-        out.beginObject();
-        out.name("command");
-        out.value(valueEnum(request.getCommand()));
-        out.name("arguments");
-        writeHuman(out, request.getArguments());
-        out.name("user");
-        writeUser(out, request.getUser());
-        out.endObject();
+        if(request != null) {
+            out.beginObject();
+            out.name("command");
+            out.value(valueEnum(request.getCommand()));
+            out.name("arguments");
+            writeHuman(out, request.getArguments());
+            out.name("user");
+            writeUser(out, request.getUser());
+            out.endObject();
+        } else {
+            out.value((String) null);
+        }
     }
 
     private void writeHuman(JsonWriter out, HumanBeing human) throws IOException {
-        out.beginObject();
-        out.name("id").value(human.getId());
-        out.name("name").value(human.getName());
-        out.name("soundtrackName").value(human.getSoundtrackName());
-        out.name("minutesOfWaiting").value(human.getMinutesOfWaiting());
-        out.name("impactSpeed").value(human.getImpactSpeed());
-        out.name("realHero").value(human.isRealHero());
-        out.name("hasToothpick").value(human.isHasToothpick());
-        out.name("coordinates");
-        writeCoordinates(out, human.getCoordinates());
-        out.name("mood").value(valueEnum(human.getMood()));
-        out.name("car");
-        writeCar(out, human.getCar());
-        out.endObject();
+        if(human != null) {
+            out.beginObject();
+            out.name("id").value(human.getId());
+            out.name("name").value(human.getName());
+            out.name("soundtrackName").value(human.getSoundtrackName());
+            out.name("minutesOfWaiting").value(human.getMinutesOfWaiting());
+            out.name("impactSpeed").value(human.getImpactSpeed());
+            out.name("realHero").value(human.isRealHero());
+            out.name("hasToothpick").value(human.isHasToothpick());
+            out.name("coordinates");
+            writeCoordinates(out, human.getCoordinates());
+            out.name("mood").value(valueEnum(human.getMood()));
+            out.name("car");
+            writeCar(out, human.getCar());
+            out.endObject();
+        } else {
+            out.value((String) null);
+        }
     }
 
     private void writeCoordinates(JsonWriter out, Coordinates coo) throws IOException {
