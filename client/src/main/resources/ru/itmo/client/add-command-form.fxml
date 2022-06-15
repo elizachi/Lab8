@@ -13,12 +13,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="679.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.AddCommandForm">
+
+<AnchorPane fx:id="addAnchorPane" maxHeight="680.0" maxWidth="370.0" minHeight="680.0" minWidth="370.0" prefHeight="680.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.AddCommandForm">
    <children>
-      <TextField fx:id="name" layoutX="38.0" layoutY="37.0" prefHeight="27.0" prefWidth="257.0" promptText="Имя" />
-      <TextField fx:id="soundtrackName" layoutX="38.0" layoutY="78.0" prefHeight="27.0" prefWidth="258.0" promptText="Саундтрек" />
-      <TextField fx:id="minutesOfWaiting" layoutX="38.0" layoutY="125.0" prefHeight="27.0" prefWidth="258.0" promptText="Минуты ожидания" />
-      <TextField fx:id="impactSpeed" layoutX="38.0" layoutY="172.0" prefHeight="27.0" prefWidth="258.0" promptText="Скорость" />
+      <TextField fx:id="name" layoutX="38.0" layoutY="37.0" prefHeight="27.0" prefWidth="257.0" promptText="Имя*" />
+      <TextField fx:id="soundtrackName" layoutX="38.0" layoutY="78.0" prefHeight="27.0" prefWidth="258.0" promptText="Саундтрек*" />
+      <TextField fx:id="minutesOfWaiting" layoutX="38.0" layoutY="125.0" prefHeight="27.0" prefWidth="258.0" promptText="Минуты ожидания*" />
+      <TextField fx:id="impactSpeed" layoutX="38.0" layoutY="172.0" prefHeight="27.0" prefWidth="258.0" promptText="Скорость*" />
       <Label layoutX="312.0" layoutY="37.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
             <Tooltip text="Строка не должна быть пустой" />
@@ -51,10 +52,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="67.0" layoutY="37.0" text="*" />
-      <Label layoutX="105.0" layoutY="78.0" text="*" />
-      <Label layoutX="155.0" layoutY="125.0" text="*" />
-      <Label layoutX="98.0" layoutY="172.0" text="*" />
       <Label layoutX="312.0" layoutY="219.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
             <Tooltip text="Статус геройства должен быть выбран из представленных вариантов" />
@@ -74,7 +71,7 @@
       </Label>
       <RadioButton fx:id="falseHero" layoutX="41.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="обычный" />
       <RadioButton fx:id="trueHero" layoutX="202.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="герой" />
-      <Text fill="#848181" layoutX="37.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Статус геройства">
+      <Text fill="#848181" layoutX="37.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Статус геройства*">
          <font>
             <Font size="14.0" />
          </font>
@@ -86,15 +83,13 @@
       </Text>
       <RadioButton fx:id="falseHasToothpick" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="имеется" />
       <RadioButton fx:id="trueHasToothpick" layoutX="202.0" layoutY="340.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="нет" />
-      <Label layoutX="150.0" layoutY="224.0" prefHeight="18.0" prefWidth="6.0" text=" *" />
-      <Text fill="#848181" layoutX="41.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Координаты">
+      <Text fill="#848181" layoutX="41.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Координаты*">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <TextField fx:id="coordX" layoutX="41.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="X" />
       <TextField fx:id="coordY" layoutX="191.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="Y" />
-      <Label layoutX="115.0" layoutY="376.0" prefHeight="18.0" prefWidth="6.0" text=" *" />
       <Label layoutX="312.0" layoutY="381.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
             <Tooltip text="Поле X целое числа, поле Y дробное число. Поля обязательны к заполнению" />
@@ -111,13 +106,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Text fill="#848181" layoutX="41.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Машина">
+      <Text fill="#848181" layoutX="41.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Машина*">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <TextField fx:id="carName" layoutX="40.0" layoutY="566.0" prefHeight="27.0" prefWidth="154.0" promptText="Имя" />
-      <Label layoutX="93.0" layoutY="520.0" prefHeight="18.0" prefWidth="6.0" text=" *" />
       <CheckBox fx:id="carIsCool" layoutX="218.0" layoutY="567.0" mnemonicParsing="false" text="Крутая" />
       <Label layoutX="312.0" layoutY="524.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>

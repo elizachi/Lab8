@@ -28,7 +28,7 @@ public class TableFormController {
     private void initialize() {
 
         addElementButton.setOnAction(event -> {
-            AddCommandForm.openAddForm();
+            new AddCommandForm().openAddForm();
         });
     }
 

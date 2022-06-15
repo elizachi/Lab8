@@ -1,15 +1,23 @@
 package ru.itmo.client.app.controllers;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 
 import java.io.IOException;
 
 public class AddCommandForm {
+
+    @FXML
+    private AnchorPane addAnchorPane;
     @FXML
     private TextField name;
     @FXML
@@ -31,7 +39,7 @@ public class AddCommandForm {
     @FXML
     private TextField coordY;
     @FXML
-    private ComboBox<?> mood;
+    private ComboBox<String> mood = new ComboBox<String>();
     @FXML
     private TextField carName;
     @FXML
@@ -44,6 +52,8 @@ public class AddCommandForm {
 
     @FXML
     private void initialize() {
+
+        mood.getItems().addAll("unknown", "sadness", "longing", "gloom", "rage");
 
         clearButton.setOnAction(event -> {
             toDefaultSettings();
@@ -69,12 +79,14 @@ public class AddCommandForm {
 
     }
 
-    public static void openAddForm() {
+    public void openAddForm() {
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("add-command-form.fxml"));
         try {
-            Scene scene = new Scene(fxmlLoader.load(), 679, 368);
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
+
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -92,7 +104,7 @@ public class AddCommandForm {
         trueHasToothpick.setSelected(false);
         coordX.clear();
         coordY.clear();
-        //mood
+        mood.getSelectionModel().select(0);
         carName.clear();
         carIsCool.disarm();
     }
