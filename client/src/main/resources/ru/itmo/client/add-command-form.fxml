@@ -5,7 +5,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
@@ -13,21 +15,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="addAnchorPane" maxHeight="680.0" maxWidth="370.0" minHeight="680.0" minWidth="370.0"
-            prefHeight="680.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.AddCommandForm">
+<AnchorPane fx:id="addAnchorPane" maxHeight="680.0" maxWidth="370.0" minHeight="680.0" minWidth="370.0" prefHeight="680.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.AddCommandForm">
    <children>
       <TextField fx:id="nameField" layoutX="38.0" layoutY="37.0" prefHeight="27.0" prefWidth="257.0" promptText="Имя*" />
       <TextField fx:id="soundtrackNameField" layoutX="38.0" layoutY="78.0" prefHeight="27.0" prefWidth="258.0" promptText="Саундтрек*" />
       <TextField fx:id="minutesOfWaitingField" layoutX="38.0" layoutY="125.0" prefHeight="27.0" prefWidth="258.0" promptText="Минуты ожидания*" />
       <TextField fx:id="impactSpeedField" layoutX="38.0" layoutY="172.0" prefHeight="27.0" prefWidth="258.0" promptText="Скорость*" />
-      <Label layoutX="312.0" layoutY="37.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
-         <tooltip>
-            <Tooltip text="Строка не должна быть пустой" />
-         </tooltip>
+      <Label fx:id="mainLabel" layoutX="312.0" layoutY="37.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <font>
             <Font size="18.0" />
          </font>
+         <contextMenu>
+            <ContextMenu fx:id="nameContextMenu">
+              <items>
+                <MenuItem fx:id="mainItem" mnemonicParsing="false" text="Привет" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </Label>
       <Label layoutX="312.0" layoutY="78.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
@@ -89,7 +93,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="xCooField" layoutX="41.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="X" />
+      <TextField layoutX="41.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="X" fx:id="xCooField" />
       <TextField fx:id="yCooField" layoutX="191.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="Y" />
       <Label layoutX="312.0" layoutY="381.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>

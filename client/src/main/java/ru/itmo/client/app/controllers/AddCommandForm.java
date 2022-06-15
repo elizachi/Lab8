@@ -10,16 +10,26 @@ import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.exceptions.CheckHumanException;
 import ru.itmo.client.app.utility.CommandValidator;
+import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.common.general.CommandType;
+import ru.itmo.common.general.User;
+import ru.itmo.common.model.HumanBeing;
 
 import java.io.IOException;
 
 public class AddCommandForm {
-
+    @FXML
+    private MenuItem mainItem;
+    @FXML
+    private Label mainLabel;
+    @FXML
+    private ContextMenu nameContextMenu;
     @FXML
     private AnchorPane addAnchorPane;
     @FXML
     private TextField nameField;
+    @FXML
+    private Tooltip nameTooltip;
     @FXML
     private TextField soundtrackNameField;
     @FXML
@@ -50,6 +60,8 @@ public class AddCommandForm {
     @FXML
     private Button createButton;
 
+    private static User user;
+
     @FXML
     private void initialize() {
 
@@ -57,16 +69,22 @@ public class AddCommandForm {
 
         createButton.setOnAction(event ->{
 
-            try {
-                checkValue.checkFields(
-                        nameField.getText(), soundtrackNameField.getText(), minutesOfWaitingField.getText(),
-                        impactSpeedField.getText(), trueHeroButton.isSelected(), isSelectOrNull(), xCooField.getText(),
-                        yCooField.getText(), moodComboBox.getSelectionModel().getSelectedItem(), carNameField.getText(),
-                        carIsCoolField.isSelected(), CommandType.ADD
-                );
-            } catch (CheckHumanException e) {
-                throw new RuntimeException(e);
-            }
+            check(checkValue);
+//            try {
+//
+//
+//                checkValue.checkNonNullFields()
+//                checkValue.checkFields(CommandType.ADD,
+//                        nameField.getText(), soundtrackNameField.getText(), minutesOfWaitingField.getText(),
+//                        impactSpeedField.getText(), trueHeroButton.isSelected(), isSelectOrNull(), xCooField.getText(),
+//                        yCooField.getText(), moodComboBox.getSelectionModel().getSelectedItem(), carNameField.getText(),
+//                        carIsCoolField.isSelected(), user
+//                );
+//            } catch (CheckHumanException e) {
+//                throw new RuntimeException(e);
+//            } catch (AuthException e) {
+//                throw new RuntimeException(e);
+//            }
         });
 
 
@@ -97,6 +115,9 @@ public class AddCommandForm {
     }
 
     public static void openAddForm() {
+
+        user = TableFormController.getUser();
+
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("add-command-form.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load());
@@ -134,5 +155,11 @@ public class AddCommandForm {
         } else {
             return null;
         }
+    }
+
+    private HumanBeing check(CommandValidator valid) {
+
+
+        return new HumanBeing();
     }
 }

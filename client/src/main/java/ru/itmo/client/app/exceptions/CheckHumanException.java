@@ -1,10 +1,7 @@
 package ru.itmo.client.app.exceptions;
 
-import ru.itmo.client.auth.exceptions.CheckUserException;
-
 public class CheckHumanException extends Exception {
     private final ErrorType errorType;
-
 
     public CheckHumanException(ErrorType errorType) {
         this.errorType = errorType;

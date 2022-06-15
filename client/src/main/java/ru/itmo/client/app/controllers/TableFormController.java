@@ -34,6 +34,10 @@ public class TableFormController {
 
     private static User user;
 
+    public static User getUser() {
+        return user;
+    }
+
     @FXML
     private void initialize() {
 

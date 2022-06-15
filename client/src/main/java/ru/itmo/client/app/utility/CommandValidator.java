@@ -1,6 +1,8 @@
 package ru.itmo.client.app.utility;
 
 import ru.itmo.client.app.exceptions.CheckHumanException;
+import ru.itmo.client.app.exceptions.CommandException;
+import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.general.Client;
 import ru.itmo.client.general.ClientLoader;
 import ru.itmo.common.general.CommandType;
@@ -16,11 +18,10 @@ public class CommandValidator {
 
     private final Client client = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort());
 
-    public HumanBeing checkFields(
+    public HumanBeing checkFields(CommandType type,
             String name, String soundtrackName, String minutesOfWaiting, String impactSpeed,
             boolean realHero, Boolean hasToothpick, String xCoo, String yCoo, String mood,
-            String carName, boolean carCool, CommandType type) throws CheckHumanException
-    {
+            String carName, boolean carCool, User user) throws CheckHumanException, CommandException {
         HumanBeing newHuman = new HumanBeing(
                 checkNonNullFields(name),
                 checkNonNullFields(soundtrackName),
@@ -33,7 +34,9 @@ public class CommandValidator {
                 new Car(carName, carCool)
         );
 
-        return null;
+        Response response = checkHuman(type, newHuman, user);
+
+        return scanStatus(response);
     }
     private Response checkHuman(CommandType type, HumanBeing human, User user) {
         Request request = new Request(
@@ -44,10 +47,10 @@ public class CommandValidator {
         return client.send(request);
     }
 
-    private String checkNonNullFields(String field) throws CheckHumanException {
+    public String checkNonNullFields(String field) throws CheckHumanException {
         if(field.isEmpty()) throw new CheckHumanException(
                 CheckHumanException.ErrorType.EMPTY.setTitle(
-                        "Поле не должно быть пустым"
+                                "не заполнено"
                 )
         );
         return field;
@@ -111,6 +114,15 @@ public class CommandValidator {
         else {
             return Mood.valueOf(mood.toUpperCase());
         }
+    }
+
+    private HumanBeing scanStatus(Response response) throws CommandException {
+        if(Response.Status.OK == response.getStatus()) {
+            return new HumanBeing();
+        } else if(Response.Status.UNKNOWN == response.getStatus()) {
+            throw new CommandException();
+        }
+        return new HumanBeing();
     }
 
 }
