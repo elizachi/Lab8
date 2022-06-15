@@ -67,7 +67,7 @@ public class AuthController {
 
             try {
                 User user = checkValue.checkAuth(login, password);
-                switchToApp();
+                switchToApp(user);
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
@@ -91,7 +91,7 @@ public class AuthController {
 
             try {
                 User user = checkValue.checkReg(login, password, userColour.getFill());
-                switchToApp();
+                switchToApp(user);
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
@@ -105,10 +105,10 @@ public class AuthController {
 
     }
 
-    private void switchToApp() {
+    private void switchToApp(User user) {
         logInButton.getScene().getWindow().hide();
 
-        TableFormController.openMainForm();
+        TableFormController.openMainForm(user);
     }
 
     private void loadColour() {

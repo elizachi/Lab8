@@ -41,13 +41,15 @@ public class UserDAO implements DAO {
     @Override
     public User get(Object obj) {
         User user = (User) obj;
-        String sql = "SELECT password FROM users WHERE login = '" +user.getUsername()+ "'";
+        String sql = "SELECT password, colour FROM users WHERE login = '" +user.getUsername()+ "'";
         try {
             PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
 
             result.next();
             String password = result.getString("password");
+            String color = result.getString("colour");
+            user.setColour(color);
 
             if(!Objects.equals(password, User.getHash(user.getPassword()))) {
                 user.setPassword(null);
