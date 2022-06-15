@@ -13,6 +13,7 @@ import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class RequestAdapter extends TypeAdapter<Request> {
     @Override
@@ -35,6 +36,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
         if(human != null) {
             out.beginObject();
             out.name("id").value(human.getId());
+            writeCreationDate(out, human);
             out.name("name").value(human.getName());
             out.name("soundtrackName").value(human.getSoundtrackName());
             out.name("minutesOfWaiting").value(human.getMinutesOfWaiting());
@@ -49,6 +51,14 @@ public class RequestAdapter extends TypeAdapter<Request> {
             out.endObject();
         } else {
             out.value((String) null);
+        }
+    }
+
+    private void writeCreationDate(JsonWriter out, HumanBeing human) throws IOException {
+        if(human.getCreationDate() != null) {
+            out.name("creationDate").value(human.getCreationDate().toString());
+        } else {
+            out.name("creationDate").value((String) null);
         }
     }
 
@@ -180,6 +190,11 @@ public class RequestAdapter extends TypeAdapter<Request> {
             if("id".equals(fieldName)) {
                 token = in.peek();
                 human.setId(in.nextInt());
+            }
+
+            if("creationDate".equals(fieldName)) {
+                token = in.peek();
+                human.setCreationDate(LocalDate.parse(in.nextString()));
             }
 
             if("name".equals(fieldName)) {

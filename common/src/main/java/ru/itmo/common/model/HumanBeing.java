@@ -1,11 +1,14 @@
 package ru.itmo.common.model;
 
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class HumanBeing implements Comparable {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
     // Значение этого поля должно генерироваться автоматически
+    private LocalDate creationDate; //Поле не может быть null, Значение этого поля должно
+    // генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private String soundtrackName; //Поле не может быть null
     private Long minutesOfWaiting; //Поле не может быть null
@@ -46,6 +49,14 @@ public class HumanBeing implements Comparable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
     public void setCoordinates(Coordinates coordinates) {
