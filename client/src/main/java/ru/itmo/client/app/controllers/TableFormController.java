@@ -1,4 +1,4 @@
-package ru.itmo.client.app;
+package ru.itmo.client.app.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,13 +24,15 @@ public class TableFormController {
     @FXML
     private Label userNameField;
 
-    void initialize() {
+    @FXML
+    private void initialize() {
+
         addElementButton.setOnAction(event -> {
-            //add command
+            AddCommandForm.openAddForm();
         });
     }
 
-    public static void openForm() {
+    public static void openMainForm() {
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load(), 640, 480);

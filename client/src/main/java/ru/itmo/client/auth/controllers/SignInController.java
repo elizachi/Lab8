@@ -1,27 +1,21 @@
 package ru.itmo.client.auth.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
-import ru.itmo.client.app.TableFormController;
+import ru.itmo.client.app.controllers.TableFormController;
 import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.auth.utility.AuthValidator;
 import ru.itmo.client.auth.utility.GenerateColours;
-import ru.itmo.common.general.User;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -113,7 +107,7 @@ public class SignInController {
     private void switchToApp() {
         logInButton.getScene().getWindow().hide();
 
-        TableFormController.openForm();
+        TableFormController.openMainForm();
     }
 
     private void loadColour() {

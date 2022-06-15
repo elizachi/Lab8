@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.TableFormController">
+<AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
     <children>
         <TreeTableView layoutX="57.0" layoutY="241.0" prefHeight="541.0" prefWidth="817.0" AnchorPane.topAnchor="241.0">
             <columns>
@@ -62,7 +62,7 @@
                 <MenuItem mnemonicParsing="false" text="Сменить цвет?" />
             </items>
         </MenuButton>
-        <Button fx:id="addElementButton" layoutX="738.0" layoutY="808.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="136.0" text="Добавить элемент" />
+        <Button fx:id="addElementButton" layoutX="732.0" layoutY="133.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="136.0" text="Добавить элемент" />
         <TextFlow layoutX="929.0" layoutY="836.0" prefHeight="72.0" prefWidth="817.0" style="-fx-background-color: white;">
             <children>
                 <Label fx:id="collectionInfo" prefHeight="73.0" prefWidth="830.0" text="Какая-то информация о коллекции">
