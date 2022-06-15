@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 public class TableFormController {
 
+    @FXML
+    private AnchorPane mainWindow;
     @FXML
     private MenuButton menuButton;
     @FXML
@@ -28,7 +31,10 @@ public class TableFormController {
     private void initialize() {
 
         addElementButton.setOnAction(event -> {
-            new AddCommandForm().openAddForm();
+            ClientAppLauncher.log.info("Запрос на выполнение команды add");
+
+            AddCommandForm.openAddForm();
+
         });
     }
 

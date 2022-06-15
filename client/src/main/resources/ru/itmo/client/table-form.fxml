@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
+<AnchorPane fx:id="mainWindow" minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
     <children>
         <TreeTableView layoutX="57.0" layoutY="241.0" prefHeight="541.0" prefWidth="817.0" AnchorPane.topAnchor="241.0">
             <columns>
