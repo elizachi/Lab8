@@ -103,7 +103,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
         in.beginObject();
         String fieldName = null;
         CommandType command = null;
-        Object arg = null;
+        HumanBeing arg = null;
         User user = null;
 
         while(in.hasNext()) {
@@ -129,7 +129,7 @@ public class RequestAdapter extends TypeAdapter<Request> {
             }
         }
         in.endObject();
-        return new Request(command, null, user);
+        return new Request(command, arg, user);
     }
 
     private User readUser(JsonReader in) throws IOException {

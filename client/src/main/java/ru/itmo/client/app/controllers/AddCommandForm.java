@@ -10,11 +10,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.exceptions.CheckHumanException;
+import ru.itmo.client.app.exceptions.CommandException;
 import ru.itmo.client.app.utility.CommandValidator;
 import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.User;
+import ru.itmo.common.model.Car;
+import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
+import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
 
@@ -68,24 +72,16 @@ public class AddCommandForm {
 
         CommandValidator checkValue = new CommandValidator();
 
-        createButton.setOnAction(event ->{
+        createButton.setOnAction(event -> {
+            try {
+                checkValue.checkFields(CommandType.ADD, check(checkValue), user);
 
-            check(checkValue);
-//            try {
-//
-//
-//                checkValue.checkNonNullFields()
-//                checkValue.checkFields(CommandType.ADD,
-//                        nameField.getText(), soundtrackNameField.getText(), minutesOfWaitingField.getText(),
-//                        impactSpeedField.getText(), trueHeroButton.isSelected(), isSelectOrNull(), xCooField.getText(),
-//                        yCooField.getText(), moodComboBox.getSelectionModel().getSelectedItem(), carNameField.getText(),
-//                        carIsCoolField.isSelected(), user
-//                );
-//            } catch (CheckHumanException e) {
-//                throw new RuntimeException(e);
-//            } catch (AuthException e) {
-//                throw new RuntimeException(e);
-//            }
+                createButton.getScene().getWindow().hide();
+
+                ClientAppLauncher.log.info("Команда add успешно выполнена");
+            } catch (CommandException | CheckHumanException e) {
+                ClientAppLauncher.log.info("Во время выполнения команды add произошла ошибка");
+            }
         });
 
 
@@ -160,14 +156,76 @@ public class AddCommandForm {
         }
     }
 
-    private HumanBeing check(CommandValidator valid) {
+    private HumanBeing check(CommandValidator valid) throws CheckHumanException {
         try {
             valid.checkNonNullFields(nameField.getText());
         } catch (CheckHumanException e) {
             ClientAppLauncher.log.error(e.getErrorType().getTitle());
             nameField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
         }
 
-        return new HumanBeing();
+        try {
+            valid.checkNonNullFields(soundtrackNameField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            soundtrackNameField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
+        }
+
+        try {
+            valid.checkLongFields(minutesOfWaitingField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            minutesOfWaitingField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
+        }
+
+        try {
+            valid.checkIntFields(impactSpeedField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            impactSpeedField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
+        }
+
+        try {
+            valid.checkLimitedInt(xCooField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            xCooField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
+        }
+
+        try {
+            valid.checkLimitedFloat(yCooField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            yCooField.setStyle("-fx-border-color: #fc6666;");
+            throw new CheckHumanException(e.getErrorType());
+        }
+
+        return new HumanBeing(
+                nameField.getText(),
+                soundtrackNameField.getText(),
+                Long.parseLong(minutesOfWaitingField.getText()),
+                Integer.parseInt(impactSpeedField.getText()),
+                trueHeroButton.isSelected(),
+                isSelectOrNull(),
+                new Coordinates(
+                        Integer.parseInt(xCooField.getText()), Float.parseFloat(yCooField.getText())
+                ), convertToMood(),
+                new Car(carNameField.getText(), carIsCoolField.isSelected())
+        );
+    }
+
+    private Mood convertToMood() {
+        if(moodComboBox.getSelectionModel().getSelectedItem() == null) {
+            return null;
+        } else if(moodComboBox.getSelectionModel().getSelectedItem().isEmpty()) {
+            return null;
+        } else {
+            return Mood.valueOf(moodComboBox.getSelectionModel().getSelectedItem().toUpperCase());
+        }
     }
 }

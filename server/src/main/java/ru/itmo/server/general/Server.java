@@ -71,11 +71,9 @@ public class Server {
 
                     String json = new String(data, StandardCharsets.UTF_8);
 
-                    System.out.println(json);
-
                     Request request = Request.fromJson(json);
 
-                        ServerLauncher.log.info("Запрос на выполнение команды "
+                    ServerLauncher.log.info("Запрос на выполнение команды "
                                 + request.getCommand().name().toLowerCase());
 
                     // Обработка реквеста
