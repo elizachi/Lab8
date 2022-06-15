@@ -71,7 +71,7 @@ public class AuthController {
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
-                errorAuthTextField.setText(e.getErrorType().getTitle());
+                errorAuthTextField.setText("Ну охуеть теперь");
             } catch (AuthException e) {
                 ClientAppLauncher.log.error("Ошибка авторизации:\n" + e.getErrorType().getTitle());
                 errorAuthTextField.setText(e.getErrorType().getTitle());
