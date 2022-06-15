@@ -59,13 +59,29 @@ public class Server {
                 continue;
             } if(key.isAcceptable()) {
                 accept(key);
-            } else if(key.isReadable()) {
+            } if(key.isReadable()) {
                 try {
+
                     // чтение реквеста от клиента
                     SocketChannel channel = (SocketChannel) key.channel();
                     ByteBuffer byteBuffer = ByteBuffer.allocate(4096);
 
                     int amount = channel.read(byteBuffer);
+
+                    if(amount == -1) {
+                        session.remove(channel);
+
+                        if(session.size() == 0) {
+                            work = false;
+                        }
+
+                        ServerLauncher.log.info("Клиент " +
+                                channel.socket().getRemoteSocketAddress() +" вышел из приложения");
+                        channel.close();
+                        key.cancel();
+                        return;
+                    }
+
                     byte[] data = new byte[amount];
                     System.arraycopy(byteBuffer.array(), 0, data, 0, amount);
 
@@ -84,7 +100,8 @@ public class Server {
                         work = false;
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ServerLauncher.log.info("Произошла ошибка во время работы селектора");
+                    work = false;
                 }
             }
         }
