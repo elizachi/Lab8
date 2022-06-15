@@ -4,5 +4,8 @@ public enum CommandType {
     AUTHORIZATION,
     REGISTRATION,
 
+    ADD,
+
+
 
 }

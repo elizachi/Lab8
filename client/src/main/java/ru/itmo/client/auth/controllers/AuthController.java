@@ -15,6 +15,7 @@ import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.auth.utility.AuthValidator;
 import ru.itmo.client.auth.utility.GenerateColours;
+import ru.itmo.common.general.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
 /**
  * Класс, отвечающий за окошко входа в приложение
  */
-public class SignInController {
+public class AuthController {
     @FXML
     private Button logInButton;
     @FXML
@@ -65,7 +66,7 @@ public class SignInController {
             String password = authPasswordField.getText().trim();
 
             try {
-                checkValue.checkAuth(login, password);
+                User user = checkValue.checkAuth(login, password);
                 switchToApp();
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
@@ -89,7 +90,7 @@ public class SignInController {
             String password = regPasswordField.getText().trim();
 
             try {
-                checkValue.checkReg(login, password, userColour.getFill());
+                User user = checkValue.checkReg(login, password, userColour.getFill());
                 switchToApp();
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {

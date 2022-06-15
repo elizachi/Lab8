@@ -1,17 +1,16 @@
 package ru.itmo.client.app.controllers;
 
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.app.exceptions.CheckHumanException;
+import ru.itmo.client.app.utility.CommandValidator;
+import ru.itmo.common.general.CommandType;
 
 import java.io.IOException;
 
@@ -20,31 +19,31 @@ public class AddCommandForm {
     @FXML
     private AnchorPane addAnchorPane;
     @FXML
-    private TextField name;
+    private TextField nameField;
     @FXML
-    private TextField soundtrackName;
+    private TextField soundtrackNameField;
     @FXML
-    private TextField minutesOfWaiting;
+    private TextField minutesOfWaitingField;
     @FXML
-    private TextField impactSpeed;
+    private TextField impactSpeedField;
     @FXML
-    private RadioButton falseHero;
+    private RadioButton falseHeroButton;
     @FXML
-    private RadioButton trueHero;
+    private RadioButton trueHeroButton;
     @FXML
-    private RadioButton trueHasToothpick;
+    private RadioButton trueHasToothpickButton;
     @FXML
-    private RadioButton falseHasToothpick;
+    private RadioButton falseHasToothpickButton;
     @FXML
-    private TextField coordX;
+    private TextField xCooField;
     @FXML
-    private TextField coordY;
+    private TextField yCooField;
     @FXML
-    private ComboBox<String> mood = new ComboBox<String>();
+    private ComboBox<String> moodComboBox = new ComboBox<String>();
     @FXML
-    private TextField carName;
+    private TextField carNameField;
     @FXML
-    private CheckBox carIsCool;
+    private CheckBox carIsCoolField;
 
     @FXML
     private Button clearButton;
@@ -54,28 +53,45 @@ public class AddCommandForm {
     @FXML
     private void initialize() {
 
-        mood.getItems().addAll("unknown", "sadness", "longing", "gloom", "rage");
+        CommandValidator checkValue = new CommandValidator();
+
+        createButton.setOnAction(event ->{
+
+            try {
+                checkValue.checkFields(
+                        nameField.getText(), soundtrackNameField.getText(), minutesOfWaitingField.getText(),
+                        impactSpeedField.getText(), trueHeroButton.isSelected(), isSelectOrNull(), xCooField.getText(),
+                        yCooField.getText(), moodComboBox.getSelectionModel().getSelectedItem(), carNameField.getText(),
+                        carIsCoolField.isSelected(), CommandType.ADD
+                );
+            } catch (CheckHumanException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+
+        moodComboBox.getItems().addAll("", "sadness", "longing", "gloom", "rage");
 
         clearButton.setOnAction(event -> {
             toDefaultSettings();
         });
 
-        falseHero.setOnAction(event -> {
-            trueHero.setSelected(false);
-            falseHero.setSelected(true);
+        falseHeroButton.setOnAction(event -> {
+            trueHeroButton.setSelected(false);
+            falseHeroButton.setSelected(true);
         });
 
-        trueHero.setOnAction(event ->{
-            falseHero.setSelected(false);
-            trueHero.setSelected(true);
+        trueHeroButton.setOnAction(event ->{
+            falseHeroButton.setSelected(false);
+            trueHeroButton.setSelected(true);
         });
 
-        falseHasToothpick.setOnAction(event -> {
-            trueHasToothpick.setSelected(false);
+        falseHasToothpickButton.setOnAction(event -> {
+            trueHasToothpickButton.setSelected(false);
         });
 
-        trueHasToothpick.setOnAction(event ->{
-            falseHasToothpick.setSelected(false);
+        trueHasToothpickButton.setOnAction(event ->{
+            falseHasToothpickButton.setSelected(false);
         });
 
     }
@@ -95,18 +111,28 @@ public class AddCommandForm {
     }
 
     private void toDefaultSettings() {
-        name.clear();
-        soundtrackName.clear();
-        minutesOfWaiting.clear();
-        impactSpeed.clear();
-        falseHero.setSelected(true);
-        trueHero.setSelected(false);
-        falseHasToothpick.setSelected(true);
-        trueHasToothpick.setSelected(false);
-        coordX.clear();
-        coordY.clear();
-        mood.getSelectionModel().select(0);
-        carName.clear();
-        carIsCool.disarm();
+        nameField.clear();
+        soundtrackNameField.clear();
+        minutesOfWaitingField.clear();
+        impactSpeedField.clear();
+        falseHeroButton.setSelected(true);
+        trueHeroButton.setSelected(false);
+        falseHasToothpickButton.setSelected(true);
+        trueHasToothpickButton.setSelected(false);
+        xCooField.clear();
+        yCooField.clear();
+        moodComboBox.getSelectionModel().select(0);
+        carNameField.clear();
+        carIsCoolField.disarm();
+    }
+
+    private Boolean isSelectOrNull() {
+        if(trueHasToothpickButton.isSelected()) {
+            return true;
+        } else if(falseHasToothpickButton.isSelected()) {
+            return false;
+        } else {
+            return null;
+        }
     }
 }
