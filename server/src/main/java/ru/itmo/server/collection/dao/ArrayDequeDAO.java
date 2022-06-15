@@ -9,10 +9,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ArrayDequeDAO <T extends HumanBeing> implements DAO{
-    private static volatile ArrayDequeDAO instance;
+    private static volatile DAO instance;
     private Deque<HumanBeing> humanCollection;
 
-    public static ArrayDequeDAO getInstance() {
+    public static DAO getInstance() {
         if(instance == null) {
             synchronized (ArrayDequeDAO.class) {
                 if(instance == null) {

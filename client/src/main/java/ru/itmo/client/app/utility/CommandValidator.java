@@ -11,12 +11,15 @@ import ru.itmo.common.model.Mood;
 import ru.itmo.common.requests.Request;
 import ru.itmo.common.responses.Response;
 
+import java.time.LocalDate;
+
 public class CommandValidator {
 
     private final Client client = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort());
 
     public void checkFields(CommandType type, HumanBeing newHuman, User currentUser) throws CommandException {
 
+        newHuman.setCreationDate(LocalDate.now());
         Response response = checkHuman(type, newHuman, currentUser);
         scanStatus(response);
 
