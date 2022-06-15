@@ -21,8 +21,9 @@ public class ClientAppLauncher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("authorization-form.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Auth");
+        scene.getStylesheets().add("main-theme.css");
         stage.setScene(scene);
         stage.show();
         log.info("Запуск приложения...");

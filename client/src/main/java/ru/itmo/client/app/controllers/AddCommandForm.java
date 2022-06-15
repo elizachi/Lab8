@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -112,6 +113,8 @@ public class AddCommandForm {
             falseHasToothpickButton.setSelected(false);
         });
 
+
+
     }
 
     public static void openAddForm() {
@@ -158,7 +161,12 @@ public class AddCommandForm {
     }
 
     private HumanBeing check(CommandValidator valid) {
-
+        try {
+            valid.checkNonNullFields(nameField.getText());
+        } catch (CheckHumanException e) {
+            ClientAppLauncher.log.error(e.getErrorType().getTitle());
+            nameField.setStyle("-fx-border-color: #fc6666;");
+        }
 
         return new HumanBeing();
     }
