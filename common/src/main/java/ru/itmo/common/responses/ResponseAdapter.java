@@ -126,7 +126,7 @@ public class ResponseAdapter extends TypeAdapter<Response>  {
                 status = Response.Status.valueOf(in.nextString());
             }
 
-            if("arguments".equals(fieldName)) {
+            if("answer".equals(fieldName)) {
                 token = in.peek();
                 ans = readHuman(in);
             }
