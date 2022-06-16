@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -12,7 +11,6 @@ import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.exceptions.CheckHumanException;
 import ru.itmo.client.app.exceptions.CommandException;
 import ru.itmo.client.app.utility.CommandValidator;
-import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.Car;
@@ -121,7 +119,7 @@ public class AddCommandForm {
 
     public static void openAddForm() {
 
-        user = TableFormController.getUser();
+        user = TableFormController.getCurrentUser();
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("add-command-form.fxml"));
         try {

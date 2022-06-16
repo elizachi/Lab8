@@ -1,6 +1,8 @@
 package ru.itmo.client.auth.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -9,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.controllers.TableFormController;
 import ru.itmo.client.auth.exceptions.AuthException;
@@ -17,6 +20,7 @@ import ru.itmo.client.auth.utility.AuthValidator;
 import ru.itmo.client.auth.utility.GenerateColours;
 import ru.itmo.common.general.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,12 +54,13 @@ public class AuthController {
     private URL location;
     @FXML
     private VBox authScene;
+    private User currentUser;
     @FXML
     private void initialize() {
 
         AuthValidator checkValue = new AuthValidator();
 
-        loadColour();
+        setNewColour();
 
         // при нажатии на кнопку "Войти"
         logInButton.setOnAction(event -> {
@@ -79,8 +84,7 @@ public class AuthController {
 
         });
 
-        userColour.setOnMouseClicked((MouseEvent e) ->
-                setNewColour(GenerateColours.generateColor()));
+        userColour.setOnMouseClicked((MouseEvent e) -> setNewColour());
 
         signUpButton.setOnAction(event -> {
 
@@ -106,20 +110,18 @@ public class AuthController {
     }
 
     private void switchToApp(User user) {
+
+        currentUser = user;
+
         logInButton.getScene().getWindow().hide();
 
         TableFormController.openMainForm(user);
     }
 
-    private void loadColour() {
+    private void setNewColour() {
         Color color = GenerateColours.generateColor();
         userColour.setFill(color);
         userColour.setStroke(color);
     }
 
-    private void setNewColour(Color colour) {
-        Color color = GenerateColours.generateColor();
-        userColour.setFill(color);
-        userColour.setStroke(color);
-    }
 }

@@ -1,5 +1,6 @@
 package ru.itmo.client.app.controllers;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,42 +22,44 @@ import ru.itmo.common.model.Mood;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import static ru.itmo.common.model.Mood.GLOOM;
+
 public class TableFormController {
-    private final ObservableList<HumanBeing> humans = FXCollections.observableArrayList();
+    private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
     @FXML
-    private TableView<HumanBeing> humanBeingTable;
+    private TableView<HumanBeing> humanBeingTable = new TableView<>(listOfHumans);
     @FXML
-    private TableColumn<HumanBeing, Integer> idColumn;
+    private TableColumn<HumanBeing, Integer> idColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, LocalDate> creationDateColumn;
+    private TableColumn<HumanBeing, LocalDate> creationDateColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, String> nameColumn;
+    private TableColumn<HumanBeing, String> nameColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, String> soundTrackColumn;
+    private TableColumn<HumanBeing, String> soundTrackColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Long> minutesColumn;
+    private TableColumn<HumanBeing, Long> minutesColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Integer> impactSpeedColumn;
+    private TableColumn<HumanBeing, Integer> impactSpeedColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Boolean> realHeroColumn;
+    private TableColumn<HumanBeing, Boolean> realHeroColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Boolean> toothpickColumn;
+    private TableColumn<HumanBeing, Boolean> toothpickColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Coordinates> coordinatesColumn;
+    private TableColumn<HumanBeing, Coordinates> coordinatesColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Integer> xCooColumn;
+    private TableColumn<HumanBeing, Integer> xCooColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Float> yCooColumn;
+    private TableColumn<HumanBeing, Float> yCooColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Mood> moodColumn;
+    private TableColumn<HumanBeing, String> moodColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Car> carColumn;
+    private TableColumn<HumanBeing, Car> carColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, String> carNameColumn;
+    private TableColumn<HumanBeing, String> carNameColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Boolean> carCoolColumn;
+    private TableColumn<HumanBeing, Boolean> carCoolColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Color> userColorColumn;
+    private TableColumn<HumanBeing, Color> userColorColumn = new TableColumn<>();
 
     @FXML
     private Circle userColour;
@@ -73,33 +76,29 @@ public class TableFormController {
     @FXML
     private Label userNameField;
 
-    private static User user;
+    private static User currentUser;
 
-    public static User getUser() {
-        return user;
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     @FXML
     private void initialize() {
 
-        userNameField.setText(user.getUsername());
-        userColour.setFill(Color.valueOf(user.getColour()));
-        userColour.setStroke(Color.valueOf(user.getColour()));
+        initForm();
+
+        initTable();
 
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
             AddCommandForm.openAddForm();
 
-            humans.add(AddCommandForm.getHuman());
-
-            humanBeingTable.setItems(humans);
-
         });
     }
 
-    public static void openMainForm(User currentUser) {
-        user = currentUser;
+    public static void openMainForm(User user) {
+        currentUser = user;
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
@@ -110,5 +109,65 @@ public class TableFormController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void initTable() {
+
+        // TODO здесь функция выгрузки массива хуманов из бд
+
+        idColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId())
+        );
+        creationDateColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCreationDate())
+        );
+        nameColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getName())
+        );
+        soundTrackColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getSoundtrackName())
+        );
+        minutesColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getMinutesOfWaiting())
+        );
+        impactSpeedColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getImpactSpeed())
+        );
+        realHeroColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().isRealHero())
+        );
+        toothpickColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().isHasToothpick())
+        );
+        xCooColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCoordinates().getX())
+        );
+        yCooColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCoordinates().getY())
+        );
+
+        moodColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(
+                        cellData.getValue().getMood() == null ? null : cellData.getValue().getMood().name()
+                )
+        );
+        carNameColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarName())
+        );
+        carCoolColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarCool())
+        );
+
+        listOfHumans.add(new HumanBeing(
+                "jvjkd", "jfvjkd", 12L, 13,
+                true, true, new Coordinates(2, 3.0F), GLOOM, new Car("vk", true)));
+
+        humanBeingTable.setItems(listOfHumans);
+    }
+
+    private void initForm() {
+        userNameField.setText(currentUser.getUsername());
+        userColour.setFill(Color.valueOf(currentUser.getColour()));
+        userColour.setStroke(Color.valueOf(currentUser.getColour()));
     }
 }
