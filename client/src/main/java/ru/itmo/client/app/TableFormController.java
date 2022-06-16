@@ -133,10 +133,10 @@ public class TableFormController {
         textMap = new HashMap<>();
         localeMap = new HashMap<>();
 
-        localeMap.put("Русский", new Locale("ru", "RU"));
-        localeMap.put("English", new Locale("en", "US"));
-        localeMap.put("Portuguese", new Locale("pt", "PT"));
-        localeMap.put("Italian", Locale.ITALIAN);
+        localeMap.put("RU", new Locale("ru", "RU"));
+        localeMap.put("EN", new Locale("en", "US"));
+        localeMap.put("PT", new Locale("pt", "PT"));
+        localeMap.put("IT", new Locale("it", "IT"));
         languageChoice.setItems(FXCollections.observableArrayList(localeMap.keySet()));
 
         changeLanguage();
@@ -159,6 +159,7 @@ public class TableFormController {
      * Меняет язык приложения
      */
     private void changeLanguage(){
+        resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui"));
         for (String localeName: localeMap.keySet()){
             if (localeMap.get(localeName).equals(resourceController.getResources().getLocale())) {
                 languageChoice.getSelectionModel().select(localeName);
@@ -168,7 +169,7 @@ public class TableFormController {
             languageChoice.getSelectionModel().selectFirst();
 
         languageChoice.setOnAction(event -> {
-            resourceController.setResources(ResourceBundle.getBundle("bundle.gui",
+            resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui",
                     localeMap.get(languageChoice.getValue())));
         });
         setLanguage();
@@ -176,7 +177,7 @@ public class TableFormController {
 
     // Меняет весь текст в зависимости от выбранного языка
     private void setLanguage(){
-        resourceController.setResources(ResourceBundle.getBundle(("bundles.gui"),
+        resourceController.setResources(ResourceBundle.getBundle(("bundles.gui.gui"),
                 localeMap.get(languageChoice.getSelectionModel().getSelectedItem())));
 
         //для таблицы

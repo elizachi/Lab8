@@ -14,12 +14,12 @@
 
 <AnchorPane minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.TableFormController">
    <children>
-      <Text fx:id="collectionLabel" layoutX="55.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HumanBeing Collection" wrappingWidth="167.634765625">
+      <Text fx:id="collectionLabel" layoutX="54.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HumanBeing Collection" wrappingWidth="241.634765625">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="coordinatesLabel" layoutX="928.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="219.634765625">
+      <Text fx:id="coordinatesLabel" layoutX="929.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="388.634765625">
          <font>
             <Font size="14.0" />
          </font>
@@ -48,7 +48,7 @@
          </children>
       </TextFlow>
       <AnchorPane fx:id="canvasPane" layoutX="929.0" layoutY="241.0" prefHeight="548.0" prefWidth="900.0" style="-fx-background-color: white,   linear-gradient(from 0.5px 0.0px to 20px  0.0px, repeat, grey 5%, transparent 5%),      linear-gradient(from 0.0px 0.5px to  0.0px 20px, repeat, grey 5%, transparent 5%);" />
-      <Text fx:id="collectionInfoLabel" layoutX="929.0" layoutY="823.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="219.634765625">
+      <Text fx:id="collectionInfoLabel" layoutX="929.0" layoutY="823.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="305.634765625">
          <font>
             <Font size="14.0" />
          </font>
@@ -61,10 +61,10 @@
       <ChoiceBox fx:id="languageChoice" layoutX="324.0" layoutY="83.0" prefHeight="49.0" prefWidth="51.0" />
       <TableView fx:id="humanBeingTable" layoutX="55.0" layoutY="241.0" prefHeight="548.0" prefWidth="830.0">
         <columns>
-          <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
-          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
-            <TableColumn fx:id="soundTrackColumn" prefWidth="75.0" text="soundTrack" />
-            <TableColumn fx:id="realHeroColumn" prefWidth="75.0" text="realHero" />
+          <TableColumn fx:id="idColumn" prefWidth="48.0" text="id" />
+          <TableColumn fx:id="nameColumn" prefWidth="84.0" text="name" />
+            <TableColumn fx:id="soundTrackColumn" prefWidth="82.0" text="soundTrack" />
+            <TableColumn fx:id="realHeroColumn" prefWidth="86.0" text="realHero" />
             <TableColumn fx:id="toothPickColumn" prefWidth="75.0" text="hasToothPick" />
             <TableColumn fx:id="coordinatesColumn" prefWidth="75.0" text="coordinates">
                <columns>
@@ -72,8 +72,8 @@
                   <TableColumn fx:id="yColumn" prefWidth="75.0" text="y" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="moodColumn" prefWidth="75.0" text="mood" />
-            <TableColumn fx:id="carColumn" prefWidth="75.0" text="car">
+            <TableColumn fx:id="moodColumn" prefWidth="83.0" text="mood" />
+            <TableColumn fx:id="carColumn" prefWidth="142.0" text="car">
                <columns>
                   <TableColumn fx:id="carNameColumn" prefWidth="75.0" text="name" />
                   <TableColumn fx:id="isCoolColumn" prefWidth="75.0" text="isCool" />

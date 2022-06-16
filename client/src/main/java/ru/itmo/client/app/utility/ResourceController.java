@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.util.ResourceBundle;
 
 public class ResourceController {
-    private final ObjectProperty<ResourceBundle> resources = new SimpleObjectProperty<>();
+    private ObjectProperty<ResourceBundle> resources = new SimpleObjectProperty<>();
 
     /**
      * @return Resources
