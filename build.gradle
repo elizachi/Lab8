@@ -27,7 +27,7 @@ subprojects {
         ]
     }
 
-    sourceCompatibility = 1.9
+    sourceCompatibility = 11
 
     repositories {
         mavenCentral()

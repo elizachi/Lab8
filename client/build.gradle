@@ -33,3 +33,4 @@ task copyAllJarsToBuild() {
 //        }
     }
 }
+targetCompatibility = JavaVersion.VERSION_11

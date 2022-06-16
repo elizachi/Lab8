@@ -36,7 +36,7 @@ public class CommandValidator {
     public String checkNonNullFields(String field) throws CheckHumanException {
         if(field.isEmpty()) throw new CheckHumanException(
                 CheckHumanException.ErrorType.EMPTY.setTitle(
-                                "не заполнено"
+                        "не заполнено"
                 )
         );
         return field;
