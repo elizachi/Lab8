@@ -12,4 +12,6 @@ module ru.itmo.client {
     opens ru.itmo.client.app to javafx.fxml;
     exports ru.itmo.client.general;
     opens ru.itmo.client.general to javafx.fxml;
+    exports ru.itmo.client.app.utility;
+    opens ru.itmo.client.app.utility to javafx.fxml;
 }
