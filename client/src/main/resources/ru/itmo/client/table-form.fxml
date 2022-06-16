@@ -4,48 +4,49 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="mainWindow" minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
+<AnchorPane fx:id="mainWindow" minHeight="1080.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/18"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
     <children>
-        <TreeTableView layoutX="57.0" layoutY="241.0" prefHeight="541.0" prefWidth="817.0" AnchorPane.topAnchor="241.0">
+        <TableView fx:id="humanBeingTable" editable="true" layoutX="55.0" layoutY="241.0" prefHeight="704.0" prefWidth="954.0">
             <columns>
-                <TreeTableColumn prefWidth="32.80001449584961" text="id" />
-                <TreeTableColumn prefWidth="16.0" text="name" />
-                <TreeTableColumn prefWidth="132.8000030517578" text="soundtrackName" />
-                <TreeTableColumn prefWidth="75.0" text="realHero" />
-                <TreeTableColumn prefWidth="91.20001220703125" text="hasToothpick" />
-                <TreeTableColumn prefWidth="127.99993896484375" text="coordinates">
+                <TableColumn fx:id="idColumn" editable="false" prefWidth="46.39999008178711" resizable="false" text="id" />
+            <TableColumn fx:id="creationDateColumn" prefWidth="61.600006103515625" text="date" />
+                <TableColumn fx:id="nameColumn" editable="false" prefWidth="55.999969482421875" resizable="false" text="name" />
+                <TableColumn fx:id="soundTrackColumn" editable="false" prefWidth="72.800048828125" resizable="false" text="soundtrack" />
+                <TableColumn fx:id="minutesColumn" editable="false" prefWidth="84.80009460449219" resizable="false" text="minutes" />
+                <TableColumn fx:id="impactSpeedColumn" editable="false" prefWidth="72.79998779296875" resizable="false" text="speed" />
+                <TableColumn fx:id="realHeroColumn" editable="false" prefWidth="57.60003662109375" resizable="false" text="hero" />
+                <TableColumn fx:id="toothpickColumn" editable="false" resizable="false" text="toothpick" />
+                <TableColumn fx:id="coordinatesColumn" editable="false" prefWidth="131.20001220703125" resizable="false" text="coordinates">
                     <columns>
-                        <TreeTableColumn prefWidth="44.0" text="x" />
-                        <TreeTableColumn prefWidth="44.0" text="y" />
+                        <TableColumn editable="false" prefWidth="75.99993896484375" resizable="false" text="X" fx:id="xCooColumn" />
+                        <TableColumn fx:id="yCooColumn" editable="false" prefWidth="59.20001220703125" resizable="false" text="Y" />
                     </columns>
-                </TreeTableColumn>
-                <TreeTableColumn prefWidth="97.60003662109375" text="mood" />
-                <TreeTableColumn prefWidth="75.0" text="car">
-                    <columns>
-                        <TreeTableColumn prefWidth="42.40008544921875" text="name" />
-                        <TreeTableColumn prefWidth="52.79998779296875" text="isCool" />
-                    </columns>
-                </TreeTableColumn>
-                <TreeTableColumn prefWidth="69.59993896484377" text="user" />
+                </TableColumn>
+                <TableColumn fx:id="moodColumn" editable="false" prefWidth="77.5999755859375" resizable="false" text="mood" />
+            <TableColumn fx:id="carColumn" editable="false" prefWidth="128.800048828125" resizable="false" text="car">
+               <columns>
+                  <TableColumn fx:id="carNameColumn" editable="false" prefWidth="72.0" resizable="false" text="name" />
+                  <TableColumn fx:id="carCoolColumn" editable="false" prefWidth="67.199951171875" resizable="false" text="cool" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="userColorColumn" prefWidth="65.5999755859375" resizable="false" text="user" />
             </columns>
-            <columnResizePolicy>
-                <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TreeTableView>
+        </TableView>
         <Text layoutX="55.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HumanBeing Collection" wrappingWidth="167.634765625">
             <font>
                 <Font size="14.0" />
             </font>
         </Text>
-        <Text layoutX="928.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="219.634765625">
+        <Text layoutX="1039.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="219.634765625">
             <font>
                 <Font size="14.0" />
             </font>
@@ -64,17 +65,17 @@
             </items>
         </MenuButton>
         <Button fx:id="addElementButton" layoutX="732.0" layoutY="133.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="136.0" text="Добавить элемент" />
-        <TextFlow layoutX="929.0" layoutY="836.0" prefHeight="72.0" prefWidth="817.0" style="-fx-background-color: white;">
+        <TextFlow layoutX="929.0" layoutY="836.0" prefHeight="75.0" prefWidth="935.0" style="-fx-background-color: white;">
             <children>
-                <Label fx:id="collectionInfo" prefHeight="73.0" prefWidth="830.0" text="Какая-то информация о коллекции">
+                <Label fx:id="collectionInfo" prefHeight="74.0" prefWidth="635.0" text="Какая-то информация о коллекции">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
             </children>
         </TextFlow>
-        <AnchorPane layoutX="929.0" layoutY="241.0" prefHeight="548.0" prefWidth="817.0" style="-fx-background-color: white,   linear-gradient(from 0.5px 0.0px to 20px  0.0px, repeat, grey 5%, transparent 5%),      linear-gradient(from 0.0px 0.5px to  0.0px 20px, repeat, grey 5%, transparent 5%);" />
-        <Text layoutX="929.0" layoutY="823.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="219.634765625">
+        <AnchorPane layoutX="1038.0" layoutY="241.0" prefHeight="548.0" prefWidth="817.0" style="-fx-background-color: white,   linear-gradient(from 0.5px 0.0px to 20px  0.0px, repeat, grey 5%, transparent 5%),      linear-gradient(from 0.0px 0.5px to  0.0px 20px, repeat, grey 5%, transparent 5%);" />
+        <Text layoutX="1039.0" layoutY="823.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="219.634765625">
             <font>
                 <Font size="14.0" />
             </font>

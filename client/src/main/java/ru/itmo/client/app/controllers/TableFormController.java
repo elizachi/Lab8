@@ -1,21 +1,61 @@
 package ru.itmo.client.app.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.common.general.User;
+import ru.itmo.common.model.Car;
+import ru.itmo.common.model.Coordinates;
+import ru.itmo.common.model.HumanBeing;
+import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class TableFormController {
+    private final ObservableList<HumanBeing> humans = FXCollections.observableArrayList();
+    @FXML
+    private TableView<HumanBeing> humanBeingTable;
+    @FXML
+    private TableColumn<HumanBeing, Integer> idColumn;
+    @FXML
+    private TableColumn<HumanBeing, LocalDate> creationDateColumn;
+    @FXML
+    private TableColumn<HumanBeing, String> nameColumn;
+    @FXML
+    private TableColumn<HumanBeing, String> soundTrackColumn;
+    @FXML
+    private TableColumn<HumanBeing, Long> minutesColumn;
+    @FXML
+    private TableColumn<HumanBeing, Integer> impactSpeedColumn;
+    @FXML
+    private TableColumn<HumanBeing, Boolean> realHeroColumn;
+    @FXML
+    private TableColumn<HumanBeing, Boolean> toothpickColumn;
+    @FXML
+    private TableColumn<HumanBeing, Coordinates> coordinatesColumn;
+    @FXML
+    private TableColumn<HumanBeing, Integer> xCooColumn;
+    @FXML
+    private TableColumn<HumanBeing, Float> yCooColumn;
+    @FXML
+    private TableColumn<HumanBeing, Mood> moodColumn;
+    @FXML
+    private TableColumn<HumanBeing, Car> carColumn;
+    @FXML
+    private TableColumn<HumanBeing, String> carNameColumn;
+    @FXML
+    private TableColumn<HumanBeing, Boolean> carCoolColumn;
+    @FXML
+    private TableColumn<HumanBeing, Color> userColorColumn;
 
     @FXML
     private Circle userColour;
