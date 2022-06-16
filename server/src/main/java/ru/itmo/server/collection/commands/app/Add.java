@@ -20,7 +20,7 @@ public class Add implements Command {
         if(id != -1) {
             humanBeing.setId(id);
 
-            return new Response(Response.Status.OK, null, user);
+            return new Response(Response.Status.OK, humanBeing, user);
         }
         return new Response(Response.Status.ERROR, null, null);
     }

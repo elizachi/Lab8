@@ -67,6 +67,12 @@ public class AddCommandForm {
 
     private static User user;
 
+    private static HumanBeing human;
+
+    public static HumanBeing getHuman() {
+        return human;
+    }
+
     @FXML
     private void initialize() {
 
@@ -74,7 +80,7 @@ public class AddCommandForm {
 
         createButton.setOnAction(event -> {
             try {
-                checkValue.checkFields(CommandType.ADD, check(checkValue), user);
+                human = checkValue.checkFields(CommandType.ADD, check(checkValue), user);
 
                 createButton.getScene().getWindow().hide();
 

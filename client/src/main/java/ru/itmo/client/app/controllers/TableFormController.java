@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -89,6 +90,10 @@ public class TableFormController {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
             AddCommandForm.openAddForm();
+
+            humans.add(AddCommandForm.getHuman());
+
+            humanBeingTable.setItems(humans);
 
         });
     }

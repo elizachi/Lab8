@@ -17,12 +17,11 @@ public class CommandValidator {
 
     private final Client client = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort());
 
-    public void checkFields(CommandType type, HumanBeing newHuman, User currentUser) throws CommandException {
+    public HumanBeing checkFields(CommandType type, HumanBeing newHuman, User currentUser) throws CommandException {
 
         newHuman.setCreationDate(LocalDate.now());
         Response response = checkHuman(type, newHuman, currentUser);
-        scanStatus(response);
-
+        return scanStatus(response);
     }
     private Response checkHuman(CommandType type, HumanBeing human, User user) {
         Request request = new Request(
@@ -95,16 +94,9 @@ public class CommandValidator {
         }
     }
 
-    public Mood convertToMood(String mood) {
-        if(mood.isBlank()) return null;
-        else {
-            return Mood.valueOf(mood.toUpperCase());
-        }
-    }
-
-    private void scanStatus(Response response) throws CommandException {
+    private HumanBeing scanStatus(Response response) throws CommandException {
         if(Response.Status.OK == response.getStatus()) {
-            return;
+            return response.getAnswer();
         } else {
             throw new CommandException();
         }
