@@ -76,7 +76,7 @@ public class SignInController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
-            Scene scene = new Scene(fxmlLoader.load(), 1920, 1200);
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setMaximized(true);

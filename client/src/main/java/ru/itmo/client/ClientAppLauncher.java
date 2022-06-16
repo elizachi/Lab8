@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.itmo.client.app.utility.ResourceController;
 import ru.itmo.client.general.ClientLoader;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.util.concurrent.Executors;
 public class ClientAppLauncher extends Application {
 
     public static final Logger log = LogManager.getLogger(ClientAppLauncher.class.getName());
-
+    private final ResourceController resourceController = new ResourceController();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Override
