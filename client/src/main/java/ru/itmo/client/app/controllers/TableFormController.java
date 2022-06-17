@@ -163,6 +163,8 @@ public class TableFormController {
 
         refreshButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Обновление коллекции человеков на координатах");
+            listOfHumans.clear();
+            loadTable(new LoadData().load());
             refreshCanvas();
         });
 

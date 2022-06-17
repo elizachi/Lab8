@@ -136,8 +136,6 @@ public class AddCommandForm {
             falseHasToothpickButton.setSelected(false);
         });
 
-
-
     }
 
     public static void openAddForm(ResourceController resourceController) {
