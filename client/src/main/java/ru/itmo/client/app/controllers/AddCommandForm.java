@@ -103,7 +103,6 @@ public class AddCommandForm {
         createButton.setOnAction(event -> {
             try {
                 human = checkValue.checkFields(CommandType.ADD, check(checkValue), user);
-
                 createButton.getScene().getWindow().hide();
 
                 ClientAppLauncher.log.info("Команда add успешно выполнена");

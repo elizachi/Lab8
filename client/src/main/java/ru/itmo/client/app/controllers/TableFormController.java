@@ -33,8 +33,6 @@ import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
 
-import static java.awt.SystemColor.text;
-
 
 public class TableFormController {
     private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
@@ -141,8 +139,9 @@ public class TableFormController {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
             AddCommandForm.openAddForm(resourceController);
+            listOfHumans.add(AddCommandForm.getHuman());
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
-            humanBeingTable.setItems(FXCollections.observableArrayList(AddCommandForm.getHuman()));
+            humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
             humanBeingTable.getSelectionModel().clearSelection();
             refreshCanvas();
         });
@@ -262,25 +261,6 @@ public class TableFormController {
             Shape leftBoot = animation.setLeftBoot();
             Shape rightBoot = animation.setRightBoot();
 
-            //чтобы на фигурку можно было кликнуть
-            body.setOnMouseClicked(this::shapeOnMouseClicked);
-            shapeMap.put(body, human.getId());
-            shapeMap.put(leftHair, human.getId());
-            shapeMap.put(rightHair, human.getId());
-            shapeMap.put(frontHair, human.getId());
-            shapeMap.put(leftCheek, human.getId());
-            shapeMap.put(rightCheek, human.getId());
-            shapeMap.put(leftEye, human.getId());
-            shapeMap.put(rightEye, human.getId());
-            shapeMap.put(head, human.getId());
-            shapeMap.put(neck, human.getId());
-            shapeMap.put(leftHand, human.getId());
-            shapeMap.put(rightHand, human.getId());
-            shapeMap.put(leftLeg, human.getId());
-            shapeMap.put(rightLeg, human.getId());
-            shapeMap.put(leftBoot, human.getId());
-            shapeMap.put(rightBoot, human.getId());
-
             //создание текста для фигурки
             Text text = new Text("id = " + human.getId());
             text.setOnMouseClicked(body::fireEvent);
@@ -314,6 +294,25 @@ public class TableFormController {
                     neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
             canvasPane.getChildren().add(text);
 
+            //чтобы на фигурку можно было кликнуть
+            body.setOnMouseClicked(this::shapeOnMouseClicked);
+            shapeMap.put(body, human.getId());
+            shapeMap.put(leftHair, human.getId());
+            shapeMap.put(rightHair, human.getId());
+            shapeMap.put(frontHair, human.getId());
+            shapeMap.put(leftCheek, human.getId());
+            shapeMap.put(rightCheek, human.getId());
+            shapeMap.put(leftEye, human.getId());
+            shapeMap.put(rightEye, human.getId());
+            shapeMap.put(head, human.getId());
+            shapeMap.put(neck, human.getId());
+            shapeMap.put(leftHand, human.getId());
+            shapeMap.put(rightHand, human.getId());
+            shapeMap.put(leftLeg, human.getId());
+            shapeMap.put(rightLeg, human.getId());
+            shapeMap.put(leftBoot, human.getId());
+            shapeMap.put(rightBoot, human.getId());
+
             //анимация
             ScaleTransition textAnimation = new ScaleTransition(Duration.seconds(1), text);
             textAnimation.setFromX(0);
@@ -321,7 +320,6 @@ public class TableFormController {
             textAnimation.setToX(1);
             textAnimation.setToY(1);
             textAnimation.play();
-
         }
     }
 

@@ -59,7 +59,7 @@ public class LanguageChanger {
 
         languageChoice2.setOnAction(event -> {
             resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui",
-                    localeMap.get(languageChoice1.getValue())));
+                    localeMap.get(languageChoice2.getValue())));
         });
     }
 
