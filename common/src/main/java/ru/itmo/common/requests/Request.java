@@ -17,6 +17,7 @@ public class Request {
         this.arguments = arguments;
         this.user = user;
     }
+
     public static Request fromJson(String json) {
 
         GsonBuilder builder = new GsonBuilder();

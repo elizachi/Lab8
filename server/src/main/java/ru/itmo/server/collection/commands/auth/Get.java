@@ -13,6 +13,6 @@ public class Get implements Command {
         HumanBeing arg = (HumanBeing) arguments;
         HumanBeing human = psqlDAO.get(arg.getId());
 
-        return new Response(Response.Status.OK, human, null);
+        return new Response(Response.Status.OK, human, user);
     }
 }

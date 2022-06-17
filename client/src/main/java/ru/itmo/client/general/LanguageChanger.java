@@ -15,7 +15,7 @@ public class LanguageChanger {
     }
 
     /**
-     * Меняет язык приложения в зависимости от выбора
+     * Меняет язык приложения в зависимости от выбора на кнопочке
      * Но!! Чтобы изменился текст, нужно применить индивидуальный для каждого окна метод setLanguage()
      */
     public void changeLanguage(Map<String, Locale> localeMap, ChoiceBox<String> languageChoice) {
@@ -32,6 +32,34 @@ public class LanguageChanger {
         languageChoice.setOnAction(event -> {
             resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui",
                     localeMap.get(languageChoice.getValue())));
+        });
+    }
+
+    /**
+     * Метод для двух кнопок
+     */
+    public void changeLanguage(Map<String, Locale> localeMap, ChoiceBox<String> languageChoice1, ChoiceBox<String> languageChoice2) {
+        resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui"));
+
+        for (String localeName : localeMap.keySet()) {
+            if (localeMap.get(localeName).equals(resourceController.getResources().getLocale())) {
+                languageChoice1.getSelectionModel().select(localeName);
+                languageChoice2.getSelectionModel().select(localeName);
+            }
+        }
+        if (languageChoice1.getSelectionModel().getSelectedItem().isEmpty()) {
+            languageChoice1.getSelectionModel().selectFirst();
+            languageChoice2.getSelectionModel().selectFirst();
+        }
+
+        languageChoice1.setOnAction(event -> {
+            resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui",
+                    localeMap.get(languageChoice1.getValue())));
+        });
+
+        languageChoice2.setOnAction(event -> {
+            resourceController.setResources(ResourceBundle.getBundle("bundles.gui.gui",
+                    localeMap.get(languageChoice1.getValue())));
         });
     }
 

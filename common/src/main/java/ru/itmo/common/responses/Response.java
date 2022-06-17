@@ -52,6 +52,7 @@ public class Response {
     public User getUser() {
         return this.user;
     }
+
     public HumanBeing getAnswer() {
         return this.answer;
     }

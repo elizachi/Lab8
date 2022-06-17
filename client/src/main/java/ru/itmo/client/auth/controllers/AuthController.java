@@ -1,11 +1,10 @@
 package ru.itmo.client.auth.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,20 +13,28 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.controllers.TableFormController;
+import ru.itmo.client.app.utility.ResourceController;
 import ru.itmo.client.auth.exceptions.AuthException;
 import ru.itmo.client.auth.exceptions.CheckUserException;
 import ru.itmo.client.auth.utility.AuthValidator;
 import ru.itmo.client.auth.utility.GenerateColours;
+import ru.itmo.client.general.LanguageChanger;
 import ru.itmo.common.general.User;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
  * Класс, отвечающий за окошко входа в приложение
  */
 public class AuthController {
+    @FXML
+    private Tab AuthChoice;
+    @FXML
+    private Tab RegChoice;
     @FXML
     private Button logInButton;
     @FXML
@@ -36,6 +43,14 @@ public class AuthController {
     private PasswordField authPasswordField;
     @FXML
     private Text errorAuthTextField;
+    @FXML
+    private Tooltip authTip;
+    @FXML
+    private Tooltip regTip;
+    @FXML
+    private ChoiceBox<String> languageButtonAuth;
+    @FXML
+    private ChoiceBox<String> languageButtonReg;
 
     @FXML
     private Button signUpButton;
@@ -54,17 +69,27 @@ public class AuthController {
     private URL location;
     @FXML
     private VBox authScene;
+
+    private Map<String, Locale> localeMap;
+    private final ResourceController resourceController = new ResourceController();
+    private final LanguageChanger languageChanger = new LanguageChanger(resourceController);
     private User currentUser;
+
     @FXML
     private void initialize() {
 
         AuthValidator checkValue = new AuthValidator();
-
         setNewColour();
+
+        localeMap = new HashMap<>();
+        languageChanger.setLanguages(localeMap);
+        languageButtonAuth.setItems(FXCollections.observableArrayList(localeMap.keySet()));
+        languageButtonReg.setItems(FXCollections.observableArrayList(localeMap.keySet()));
+
+        changeLanguage();
 
         // при нажатии на кнопку "Войти"
         logInButton.setOnAction(event -> {
-
             ClientAppLauncher.log.info("Попытка войти в приложение...");
 
             String login = authLoginField.getText().trim();
@@ -87,7 +112,6 @@ public class AuthController {
         userColour.setOnMouseClicked((MouseEvent e) -> setNewColour());
 
         signUpButton.setOnAction(event -> {
-
             ClientAppLauncher.log.info("Попытка зарегестрироваться...");
 
             String login = regLoginField.getText().trim();
@@ -110,9 +134,7 @@ public class AuthController {
     }
 
     private void switchToApp(User user) {
-
         currentUser = user;
-
         logInButton.getScene().getWindow().hide();
 
         TableFormController.openMainForm(user);
@@ -124,4 +146,27 @@ public class AuthController {
         userColour.setStroke(color);
     }
 
+    private void changeLanguage(){
+        languageChanger.changeLanguage(localeMap, languageButtonAuth, languageButtonReg);
+        setLanguage();
+    }
+
+    private void setLanguage(){
+        resourceController.setResources(ResourceBundle.getBundle(("bundles.gui.gui"),
+                localeMap.get(languageButtonAuth.getSelectionModel().getSelectedItem())));
+
+        //кнопочки
+        signUpButton.textProperty().bind(resourceController.getStringBinding("SignUpButton"));
+        AuthChoice.textProperty().bind(resourceController.getStringBinding("AuthChoice"));
+        RegChoice.textProperty().bind(resourceController.getStringBinding("RegChoice"));
+        logInButton.textProperty().bind(resourceController.getStringBinding("LogInButton"));
+
+        //поля
+        authTip.textProperty().bind(resourceController.getStringBinding("AuthTip"));
+        authLoginField.promptTextProperty().bind(resourceController.getStringBinding("AuthLoginField"));
+        authPasswordField.promptTextProperty().bind(resourceController.getStringBinding("AuthPasswordField"));
+        regTip.textProperty().bind(resourceController.getStringBinding("RegTip"));
+        regLoginField.promptTextProperty().bind(resourceController.getStringBinding("RegLoginField"));
+        regPasswordField.promptTextProperty().bind(resourceController.getStringBinding("RegPasswordField"));
+    }
 }

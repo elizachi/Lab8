@@ -2,6 +2,7 @@ package ru.itmo.client.app.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -35,11 +36,6 @@ import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Deque;
-
-import static ru.itmo.common.model.Mood.GLOOM;
 
 public class TableFormController {
     private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
@@ -98,7 +94,13 @@ public class TableFormController {
     @FXML
     private TableColumn<HumanBeing, Integer> idColumn;
     @FXML
-    private TableColumn<HumanBeing, Boolean> isCoolColumn;
+    private TableColumn<HumanBeing, LocalDate> creationDateColumn;
+    @FXML
+    private TableColumn<HumanBeing, Long> minutesColumn;
+    @FXML
+    private TableColumn<HumanBeing, Integer> impactSpeedColumn;
+    @FXML
+    private TableColumn<HumanBeing, Boolean> carCoolColumn;
     @FXML
     private TableColumn<HumanBeing, Mood> moodColumn;
     @FXML
@@ -138,8 +140,10 @@ public class TableFormController {
 
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
-            AddCommandForm.openAddForm();
-            humanBeingTable.setItems(FXCollections.observableArrayList(AddCommandForm.getHumanBeing()));
+
+            AddCommandForm.openAddForm(resourceController);
+            ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
+            humanBeingTable.setItems(FXCollections.observableArrayList(AddCommandForm.getHuman()));
             humanBeingTable.getSelectionModel().clearSelection();
             refreshCanvas();
         });
@@ -159,9 +163,16 @@ public class TableFormController {
             HelpController.openForm(resourceController);
         });
 
+        refreshButton.setOnAction(event -> {
+            ClientAppLauncher.log.info("Обновление коллекции человеков на координатах");
+            refreshCanvas();
+        });
+
         shapeMap = new HashMap<>();
         textMap = new HashMap<>();
         localeMap = new HashMap<>();
+
+        refreshCanvas();
 
         language.setLanguages(localeMap);
         languageChoice.setItems(FXCollections.observableArrayList(localeMap.keySet()));
@@ -192,6 +203,12 @@ public class TableFormController {
 
         idColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        creationDateColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getCreationDate()));
+        minutesColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getMinutesOfWaiting()));
+        impactSpeedColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getImpactSpeed()));
         nameColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
         soundTrackColumn.setCellValueFactory(cellData ->
@@ -208,10 +225,11 @@ public class TableFormController {
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getMood()));
         carNameColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarName()));
-        isCoolColumn.setCellValueFactory(cellData ->
+        carCoolColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarCool()));
-        userColumn.setCellValueFactory(cellData ->
-                new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getUsername()));
+        userColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getUsername())
+        );
 
         humanBeingTable.setItems(listOfHumans);
     }
@@ -252,6 +270,7 @@ public class TableFormController {
             shapeMap.put(leftEye, human.getId());
             shapeMap.put(rightEye, human.getId());
             shapeMap.put(head, human.getId());
+            shapeMap.put(neck, human.getId());
             shapeMap.put(leftHand, human.getId());
             shapeMap.put(rightHand, human.getId());
             shapeMap.put(leftLeg, human.getId());
@@ -334,7 +353,10 @@ public class TableFormController {
 
         //для таблицы
         setProperty(idColumn, "IdColumn");
+        setProperty(creationDateColumn, "CreationDateColumn");
         setProperty(nameColumn, "NameColumn");
+        setProperty(minutesColumn, "MinutesColumn");
+        setProperty(impactSpeedColumn, "SpeedColumn");
         setProperty(soundTrackColumn, "SoundTrackColumn");
         setProperty(realHeroColumn, "RealHeroColumn");
         setProperty(toothPickColumn, "ToothPickColumn");
@@ -344,7 +366,7 @@ public class TableFormController {
         setProperty(moodColumn, "MoodColumn");
         setProperty(carColumn, "CarColumn");
         setProperty(carNameColumn, "CarNameColumn");
-        setProperty(isCoolColumn, "IsCoolColumn");
+        setProperty(carCoolColumn, "IsCoolColumn");
         setProperty(userColumn, "UserColumn");
         //для кнопочек
         addElementButton.textProperty().bind(resourceController.getStringBinding("AddButton"));
