@@ -3,10 +3,7 @@ package ru.itmo.client.app.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -35,6 +32,8 @@ import ru.itmo.common.model.Car;
 import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
+
+import static java.awt.SystemColor.text;
 
 
 public class TableFormController {
@@ -199,7 +198,11 @@ public class TableFormController {
      * Initialize table.
      */
     private void initializeTable(){
-        listOfHumans.addAll(new LoadData().load());
+
+        // TODO здесь внимательно
+        loadTable(new LoadData().load());
+
+        humanBeingTable.setItems(listOfHumans);
 
         idColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
@@ -387,5 +390,10 @@ public class TableFormController {
 
     private void setProperty(TableColumn<?,?> column, String text){
         column.textProperty().bind(resourceController.getStringBinding(text));
+    }
+    private void loadTable(Deque<HumanBeing> humans) {
+        if(humans != null) {
+            listOfHumans.addAll(humans);
+        }
     }
 }

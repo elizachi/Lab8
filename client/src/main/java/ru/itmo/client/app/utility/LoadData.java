@@ -19,7 +19,10 @@ public class LoadData {
         Deque<HumanBeing> humanArrayDeque = new ArrayDeque<>();
         HumanBeing result = client.send(new Request(CommandType.LOAD, null, null)).getAnswer();
 
-            String[] array = result.getName().trim().split(" ");
+        if(result == null) {
+            return null;
+        }
+        String[] array = result.getName().trim().split(" ");
 
             for (String numbers : array) {
                 int id = Integer.parseInt(numbers);
