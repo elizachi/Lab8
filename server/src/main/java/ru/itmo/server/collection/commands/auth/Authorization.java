@@ -10,7 +10,7 @@ public class Authorization implements Command {
     private final UserDAO searchUser = new UserDAO();
     @Override
     public Response execute(Object arguments, User user) {
-        User foundedUser = searchUser.get(user.getDecodeUser());
+        User foundedUser = searchUser.get(user);
         if(foundedUser == null) {
             return new Response(Response.Status.UNKNOWN, null, null);
         } else if(foundedUser.getPassword() == null) {

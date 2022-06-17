@@ -60,4 +60,20 @@ public class UserDAO implements DAO {
             return null;
         }
     }
+
+    public User getUser(String login) {
+        String sql = "SELECT colour FROM users WHERE login = '" +login+ "'";
+        User user = new User(login, null, null);
+        try {
+            PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
+            ResultSet result = stmt.executeQuery();
+
+            result.next();
+            String color = result.getString("colour");
+            user.setColour(color);
+            return user;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 }

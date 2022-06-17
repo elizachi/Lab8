@@ -9,7 +9,7 @@ public class Registration implements Command {
 
     @Override
     public Response execute(Object arguments, User user) {
-        int result = new UserDAO().add(user.getDecodeUser().hash());
+        int result = new UserDAO().add(user.hash());
         if(result == 1) {
             return new Response(Response.Status.OK, null, user);
         } else if(result == 0){
