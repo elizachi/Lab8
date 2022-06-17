@@ -1,6 +1,8 @@
 package ru.itmo.common.model;
 
 
+import ru.itmo.common.general.User;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -18,6 +20,7 @@ public class HumanBeing implements Comparable {
     private Coordinates coordinates; //Поле не может быть null
     private Mood mood; //Поле может быть null
     private Car car; //Поле не может быть null
+    private User user;
 
     public HumanBeing(){}
 
@@ -32,6 +35,28 @@ public class HumanBeing implements Comparable {
         this.coordinates = coordinates;
         this.mood = mood;
         this.car = car;
+    }
+
+    public HumanBeing(String name, String soundtrackName, Long minutesOfWaiting, int impactSpeed,
+                      boolean realHero, Boolean hasToothpick, Coordinates coordinates, Mood mood, Car car, User user) {
+        this.name = name;
+        this.soundtrackName = soundtrackName;
+        this.minutesOfWaiting = minutesOfWaiting;
+        this.impactSpeed = impactSpeed;
+        this.realHero = realHero;
+        this.hasToothpick = hasToothpick;
+        this.coordinates = coordinates;
+        this.mood = mood;
+        this.car = car;
+        this.user = user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     // геттеры и сеттеры

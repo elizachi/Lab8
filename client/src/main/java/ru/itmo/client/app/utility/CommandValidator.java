@@ -17,13 +17,13 @@ public class CommandValidator {
 
     private final Client client = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort());
 
-    public void checkFields(CommandType type, HumanBeing newHuman, User currentUser) throws CommandException {
-
+    public HumanBeing checkFields(CommandType type, HumanBeing newHuman, User currentUser) throws CommandException {
         newHuman.setCreationDate(LocalDate.now());
         Response response = checkHuman(type, newHuman, currentUser);
         scanStatus(response);
-
+        return newHuman;
     }
+
     private Response checkHuman(CommandType type, HumanBeing human, User user) {
         Request request = new Request(
                 type,

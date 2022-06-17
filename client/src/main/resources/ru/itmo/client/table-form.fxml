@@ -84,5 +84,6 @@
         </Label>
         <Circle fx:id="userColour" fill="DODGERBLUE" layoutX="81.0" layoutY="79.0" radius="26.0" stroke="DODGERBLUE" strokeType="INSIDE" />
       <ChoiceBox fx:id="languageChoice" layoutX="330.0" layoutY="129.0" prefHeight="49.0" prefWidth="51.0" />
+      <Button fx:id="refreshButton" layoutX="1610.0" layoutY="142.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="136.0" text="Обновить" />
     </children>
 </AnchorPane>

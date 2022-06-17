@@ -7,19 +7,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.animation.ScaleTransition;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ru.itmo.client.ClientAppLauncher;
-import ru.itmo.client.app.controllers.AddCommandForm;
 import ru.itmo.client.app.utility.Animation;
 import ru.itmo.client.app.utility.ResourceController;
 import ru.itmo.client.general.LanguageChanger;
@@ -56,6 +60,8 @@ public class TableFormController {
 
     @FXML
     private Button addElementButton;
+    @FXML
+    private Button refreshButton;
     @FXML
     private MenuItem helpMenuButton;
     @FXML
@@ -104,7 +110,7 @@ public class TableFormController {
 
     private static User user;
     private Map<String, Color> userColorMap;
-    private Map<Shape, Long> shapeMap;
+    private Map<Shape, Integer> shapeMap;
     private Map<Long, Text> textMap;
     private Map<String, Locale> localeMap;
     private final ResourceController resourceController = new ResourceController();
@@ -117,8 +123,7 @@ public class TableFormController {
 
     @FXML
     void initialize() {
-        //...тут будет заполнение таблицы
-        //TODO где-то загружать userColorMap
+        initializeTable();
 
         userNameField.setText(user.getUsername());
         userColour.setFill(Color.valueOf(user.getColour()));
@@ -126,9 +131,15 @@ public class TableFormController {
 
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
-
             AddCommandForm.openAddForm(resourceController);
+            humanBeingTable.setItems(FXCollections.observableArrayList(AddCommandForm.getHumanBeing()));
+            humanBeingTable.getSelectionModel().clearSelection();
+            refreshCanvas();
+        });
 
+        switchColorSettingsButton.setOnAction(event -> {
+            ClientAppLauncher.log.info("Запрос на смену цвета");
+            ChangeColorsForm.openForm(resourceController);
         });
 
         userColorMap = new HashMap<>();
@@ -157,7 +168,33 @@ public class TableFormController {
         }
     }
 
-
+    /**
+     * Initialize table.
+     */
+    private void initializeTable(){
+        idColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        nameColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
+        soundTrackColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getSoundtrackName()));
+        realHeroColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().isRealHero()));
+        toothPickColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().isHasToothpick()));
+        xColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getCoordinates().getX()));
+        yColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getCoordinates().getY()));
+        moodColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getMood()));
+        carNameColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarName()));
+        isCoolColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarCool()));
+        userColumn.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getUsername()));
+    }
 
     private void refreshCanvas(){
         shapeMap.keySet().forEach(s -> canvasPane.getChildren().remove(s));
@@ -166,7 +203,84 @@ public class TableFormController {
         textMap.clear();
 
         for (HumanBeing human: humanBeingTable.getItems()) {
-            //TODO ну собсна... загружать хуманов
+            //создание фигур
+            Shape leftHair = animation.setLeftHair();
+            Shape rightHair = animation.setRightHair();
+            Shape frontHair = animation.setFrontHair();
+                Shape leftCheek = animation.setLeftCheek();
+                Shape rightCheek = animation.setRightCheek();
+                Shape leftEye = animation.setLeftEye();
+                Shape rightEye = animation.setRightEye();
+            Shape head = animation.setHead();
+            Shape neck = animation.setNeck();
+            Shape body = animation.setBody(Color.web(human.getUser().getColour()));
+            Shape leftHand = animation.setLeftHand();
+            Shape rightHand = animation.setRightHand();
+            Shape leftLeg = animation.setLeftLeg();
+            Shape rightLeg = animation.setRightLeg();
+            Shape leftBoot = animation.setLeftBoot();
+            Shape rightBoot = animation.setRightBoot();
+
+            //чтобы на фигурку можно было кликнуть
+            body.setOnMouseClicked(this::shapeOnMouseClicked);
+            shapeMap.put(body, human.getId());
+
+            //создание текста для фигурки
+            Text text = new Text("id = " + human.getId());
+            text.setOnMouseClicked(body::fireEvent);
+            text.setFont(Font.font(10));
+            text.setFill(Color.web(human.getUser().getColour()));
+
+            //задание координат
+            setCoordinatesOnCanvas(head, human);
+            setCoordinatesOnCanvas(leftHair, human);
+            setCoordinatesOnCanvas(rightHair, human);
+            setCoordinatesOnCanvas(frontHair, human);
+                setCoordinatesOnCanvas(leftCheek, human);
+                setCoordinatesOnCanvas(rightCheek, human);
+                setCoordinatesOnCanvas(leftEye, human);
+                setCoordinatesOnCanvas(rightEye, human);
+            setCoordinatesOnCanvas(neck, human);
+            setCoordinatesOnCanvas(body, human);
+            setCoordinatesOnCanvas(leftHand, human);
+            setCoordinatesOnCanvas(rightHand, human);
+            setCoordinatesOnCanvas(leftLeg, human);
+            setCoordinatesOnCanvas(rightLeg, human);
+            setCoordinatesOnCanvas(leftBoot, human);
+            setCoordinatesOnCanvas(rightBoot, human);
+            //координаты для текста
+            text.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
+            text.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
+
+            //добавление к координатной плоскости
+            canvasPane.getChildren().addAll(head, leftHair, rightHair, frontHair, leftCheek, rightCheek, leftEye, rightEye,
+                    neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
+            canvasPane.getChildren().add(text);
+
+            //анимация
+            ScaleTransition textAnimation = new ScaleTransition(Duration.seconds(1), text);
+            textAnimation.setFromX(0);
+            textAnimation.setFromY(0);
+            textAnimation.setToX(1);
+            textAnimation.setToY(1);
+            textAnimation.play();
+
+        }
+    }
+
+    private void setCoordinatesOnCanvas(Shape figure, HumanBeing human){
+        figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
+        figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
+    }
+
+    private void shapeOnMouseClicked(MouseEvent event) {
+        Shape shape = (Shape) event.getSource();
+        int id = shapeMap.get(shape);
+        for (HumanBeing human: humanBeingTable.getItems()) {
+            if (human.getId() == id) {
+                humanBeingTable.getSelectionModel().select(human);
+                break;
+            }
         }
     }
 
@@ -199,6 +313,7 @@ public class TableFormController {
         setProperty(userColumn, "UserColumn");
         //для кнопочек
         addElementButton.textProperty().bind(resourceController.getStringBinding("AddButton"));
+        refreshButton.textProperty().bind(resourceController.getStringBinding("RefreshButton"));
         menuButton.textProperty().bind(resourceController.getStringBinding("MenuButton"));
             profileMenuButton.textProperty().bind(resourceController.getStringBinding("ProfileMenuButton"));
             helpMenuButton.textProperty().bind(resourceController.getStringBinding("HelpMenuButton"));

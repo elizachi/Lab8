@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddCommandForm {
+    private static HumanBeing humanBeing;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -94,7 +95,7 @@ public class AddCommandForm {
 
         createButton.setOnAction(event -> {
             try {
-                checkValue.checkFields(CommandType.ADD, check(checkValue), user);
+                humanBeing = checkValue.checkFields(CommandType.ADD, check(checkValue), user);
                 createButton.getScene().getWindow().hide();
                 ClientAppLauncher.log.info("Команда add успешно выполнена");
             } catch (CommandException | CheckHumanException e) {
@@ -232,7 +233,8 @@ public class AddCommandForm {
                 new Coordinates(
                         Integer.parseInt(xCooField.getText()), Float.parseFloat(yCooField.getText())
                 ), convertToMood(),
-                new Car(carNameField.getText(), carIsCoolField.isSelected())
+                new Car(carNameField.getText(), carIsCoolField.isSelected()),
+                user
         );
     }
 
@@ -247,7 +249,7 @@ public class AddCommandForm {
     }
 
     public void initLanguages(ResourceController resourceController) {
-        this.resourceController = resourceController;
+        AddCommandForm.resourceController = resourceController;
         setLanguage();
     }
 
@@ -294,5 +296,13 @@ public class AddCommandForm {
     //sets Property for RadioButton
     private void setProperty(RadioButton button, String text){
         button.textProperty().bind(resourceController.getStringBinding(text));
+    }
+
+    public static HumanBeing getHumanBeing() {
+        return humanBeing;
+    }
+
+    public static void setHumanBeing(HumanBeing humanBeing) {
+        AddCommandForm.humanBeing = humanBeing;
     }
 }
