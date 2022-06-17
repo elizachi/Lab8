@@ -7,20 +7,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.app.utility.LoadData;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.Car;
 import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
-import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Deque;
 
 import static ru.itmo.common.model.Mood.GLOOM;
 
@@ -114,6 +114,8 @@ public class TableFormController {
     private void initTable() {
 
         // TODO здесь функция выгрузки массива хуманов из бд
+
+        listOfHumans.addAll(new LoadData().load());
 
         idColumn.setCellValueFactory(
                 cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId())

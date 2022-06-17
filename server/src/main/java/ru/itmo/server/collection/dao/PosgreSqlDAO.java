@@ -146,7 +146,52 @@ public class PosgreSqlDAO implements DAO{
 
     @Override
     public HumanBeing get(Object obj) {
-        // TODO возможно эта команда будет подсвечивать челиков на координатной плоскости но это не точно
-        return null;
+        String sql = "SELECT * FROM human_being_collection WHERE id = " + obj;
+
+        HumanBeing human = null;
+        try {
+            PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
+            stmt.execute();
+            ResultSet result = stmt.getResultSet();
+            while (result.next()) {
+                human = new HumanBeing(
+                        result.getString("name"),
+                        result.getString("soundtrackName"),
+                        result.getLong("minutesOfWaiting"),
+                        result.getInt("impactSpeed"),
+                        result.getBoolean("realHero"),
+                        result.getBoolean("hasToothpick"),
+                        new Coordinates(result.getInt("coordinates_x"), result.getFloat("coordinates_y")),
+                        getMood(result.getString("mood")),
+                        new Car(result.getString("car_name"), result.getBoolean("car_cool")));
+                human.setId(result.getInt("id"));
+                human.setCreationDate(result.getDate("creationDate").toLocalDate());
+            }
+        } catch (SQLException e) {
+            System.out.println("Случилась еще одна хуета");
+        }
+        return human;
+    }
+
+    private Mood getMood(String obj) {
+        if(obj == null) return null;
+        return Mood.valueOf(obj);
+    }
+
+    public String getAll() {
+        StringBuilder result = new StringBuilder();
+        try {
+            String sql = "SELECT id FROM human_being_collection";
+            PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
+            stmt.execute();
+            ResultSet resultSet = stmt.getResultSet();
+
+            while(resultSet.next()) {
+                result.append(resultSet.getInt("id")).append(" ");
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+        return result.toString();
     }
 }
