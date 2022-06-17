@@ -29,6 +29,8 @@ public class CustomObjectAdapter {
             out.name("mood").value(valueEnum(human.getMood()));
             out.name("car");
             writeCar(out, human.getCar());
+            out.name("user");
+            writeUser(out, human.getUser());
             out.endObject();
         } else {
             out.value((String) null);
@@ -182,6 +184,11 @@ public class CustomObjectAdapter {
             if("car".equals(fieldName)) {
                 token = in.peek();
                 human.setCar(readCar(in));
+            }
+
+            if("user".equals(fieldName)) {
+                token = in.peek();
+                human.setUser(readUser(in));
             }
         }
         in.endObject();

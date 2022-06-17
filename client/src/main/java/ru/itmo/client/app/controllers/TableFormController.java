@@ -59,7 +59,7 @@ public class TableFormController {
     @FXML
     private TableColumn<HumanBeing, Boolean> carCoolColumn = new TableColumn<>();
     @FXML
-    private TableColumn<HumanBeing, Color> userColorColumn = new TableColumn<>();
+    private TableColumn<HumanBeing, String> userColorColumn = new TableColumn<>();
 
     @FXML
     private Circle userColour;
@@ -94,6 +94,8 @@ public class TableFormController {
 
             AddCommandForm.openAddForm();
 
+            ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
+
         });
     }
 
@@ -112,8 +114,6 @@ public class TableFormController {
     }
 
     private void initTable() {
-
-        // TODO здесь функция выгрузки массива хуманов из бд
 
         listOfHumans.addAll(new LoadData().load());
 
@@ -159,11 +159,9 @@ public class TableFormController {
         carCoolColumn.setCellValueFactory(
                 cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCar().getCarCool())
         );
-
-        listOfHumans.add(new HumanBeing(
-                "jvjkd", "jfvjkd", 12L, 13,
-                true, true, new Coordinates(2, 3.0F), GLOOM, new Car("vk", true)));
-
+        userColorColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getUsername())
+        );
         humanBeingTable.setItems(listOfHumans);
     }
 

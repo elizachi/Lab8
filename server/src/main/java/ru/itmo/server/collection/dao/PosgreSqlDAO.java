@@ -166,6 +166,8 @@ public class PosgreSqlDAO implements DAO{
                         new Car(result.getString("car_name"), result.getBoolean("car_cool")));
                 human.setId(result.getInt("id"));
                 human.setCreationDate(result.getDate("creationDate").toLocalDate());
+                User user = new UserDAO().getUser(result.getString("login"));
+                human.setUser(user);
             }
         } catch (SQLException e) {
             System.out.println("Случилась еще одна хуета");
