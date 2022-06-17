@@ -1,49 +1,43 @@
-package ru.itmo.common.requests;
+package ru.itmo.common.responses;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.CustomObjectAdapter;
 import ru.itmo.common.general.User;
-import ru.itmo.common.model.Car;
-import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
-import ru.itmo.common.model.Mood;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
-public class RequestAdapter extends TypeAdapter<Request> {
+public class ResponseAdapter extends TypeAdapter<Response>  {
     CustomObjectAdapter adapter = new CustomObjectAdapter();
     @Override
-    public void write(JsonWriter out, Request request) throws IOException {
-        if(request != null) {
+    public void write(JsonWriter out, Response response) throws IOException {
+        if(response != null) {
             out.beginObject();
-            out.name("command");
-            out.value(valueEnum(request.getCommand()));
-            out.name("arguments");
-            adapter.writeHuman(out, request.getArguments());
+            out.name("status");
+            out.value(valueEnum(response.getStatus()));
+            out.name("answer");
+            adapter.writeHuman(out, response.getAnswer());
             out.name("user");
-            adapter.writeUser(out, request.getUser());
+            adapter.writeUser(out, response.getUser());
             out.endObject();
         } else {
             out.value((String) null);
         }
     }
-
-    private String valueEnum(CommandType type) {
+    private String valueEnum(Response.Status type) {
         if(type == null) return null;
         else return type.name();
     }
 
     @Override
-    public Request read(JsonReader in) throws IOException {
+    public Response read(JsonReader in) throws IOException {
         in.beginObject();
         String fieldName = null;
-        CommandType command = null;
-        HumanBeing arg = null;
+        Response.Status status = null;
+        HumanBeing ans = null;
         User user = null;
 
         while(in.hasNext()) {
@@ -53,14 +47,14 @@ public class RequestAdapter extends TypeAdapter<Request> {
                 fieldName = in.nextName();
             }
 
-            if("command".equals(fieldName)) {
+            if("status".equals(fieldName)) {
                 token = in.peek();
-                command = CommandType.valueOf(in.nextString());
+                status = Response.Status.valueOf(in.nextString());
             }
 
-            if("arguments".equals(fieldName)) {
+            if("answer".equals(fieldName)) {
                 token = in.peek();
-                arg = adapter.readHuman(in);
+                ans = adapter.readHuman(in);
             }
 
             if("user".equals(fieldName)) {
@@ -69,6 +63,6 @@ public class RequestAdapter extends TypeAdapter<Request> {
             }
         }
         in.endObject();
-        return new Request(command, arg, user);
+        return new Response(status, ans, user);
     }
 }

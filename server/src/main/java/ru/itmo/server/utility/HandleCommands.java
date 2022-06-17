@@ -8,6 +8,8 @@ import ru.itmo.server.ServerLauncher;
 import ru.itmo.server.collection.commands.Command;
 import ru.itmo.server.collection.commands.app.Add;
 import ru.itmo.server.collection.commands.auth.Authorization;
+import ru.itmo.server.collection.commands.auth.Get;
+import ru.itmo.server.collection.commands.auth.Load;
 import ru.itmo.server.collection.commands.auth.Registration;
 
 public class HandleCommands {
@@ -33,6 +35,8 @@ public class HandleCommands {
     private static final Command[] commands = {
             new Authorization(),
             new Registration(),
+            new Load(),
+            new Get(),
 
             new Add(),
 
