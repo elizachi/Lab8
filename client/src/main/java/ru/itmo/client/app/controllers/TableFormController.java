@@ -26,6 +26,7 @@ import javafx.util.Duration;
 import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.utility.Animation;
 import ru.itmo.client.app.utility.ResourceController;
+import ru.itmo.client.auth.controllers.AuthController;
 import ru.itmo.client.general.LanguageChanger;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.Car;
@@ -109,7 +110,6 @@ public class TableFormController {
     private TableColumn<HumanBeing, Float> yColumn;
 
     private static User user;
-    private Map<String, Color> userColorMap;
     private Map<Shape, Integer> shapeMap;
     private Map<Long, Text> textMap;
     private Map<String, Locale> localeMap;
@@ -142,7 +142,16 @@ public class TableFormController {
             ChangeColorsForm.openForm(resourceController);
         });
 
-        userColorMap = new HashMap<>();
+        switchUserSettingsButton.setOnAction(event -> {
+            ClientAppLauncher.log.info("Смена пользователя");
+            //TODO переключение на регистрацию
+        });
+
+        helpMenuButton.setOnAction(event -> {
+            ClientAppLauncher.log.info("Открытие окошка помощи...");
+            HelpController.openForm(resourceController);
+        });
+
         shapeMap = new HashMap<>();
         textMap = new HashMap<>();
         localeMap = new HashMap<>();
@@ -224,11 +233,25 @@ public class TableFormController {
             //чтобы на фигурку можно было кликнуть
             body.setOnMouseClicked(this::shapeOnMouseClicked);
             shapeMap.put(body, human.getId());
+            shapeMap.put(leftHair, human.getId());
+            shapeMap.put(rightHair, human.getId());
+            shapeMap.put(frontHair, human.getId());
+            shapeMap.put(leftCheek, human.getId());
+            shapeMap.put(rightCheek, human.getId());
+            shapeMap.put(leftEye, human.getId());
+            shapeMap.put(rightEye, human.getId());
+            shapeMap.put(head, human.getId());
+            shapeMap.put(leftHand, human.getId());
+            shapeMap.put(rightHand, human.getId());
+            shapeMap.put(leftLeg, human.getId());
+            shapeMap.put(rightLeg, human.getId());
+            shapeMap.put(leftBoot, human.getId());
+            shapeMap.put(rightBoot, human.getId());
 
             //создание текста для фигурки
             Text text = new Text("id = " + human.getId());
             text.setOnMouseClicked(body::fireEvent);
-            text.setFont(Font.font(10));
+            text.setFont(Font.font(12));
             text.setFill(Color.web(human.getUser().getColour()));
 
             //задание координат
@@ -325,6 +348,7 @@ public class TableFormController {
         collectionLabel.textProperty().bind(resourceController.getStringBinding("CollectionLabel"));
         coordinatesLabel.textProperty().bind(resourceController.getStringBinding("CoordinatesLabel"));
         collectionInfoLabel.textProperty().bind(resourceController.getStringBinding("CollectionInfoLabel"));
+        collectionInfo.textProperty().bind(resourceController.getStringBinding("CollectionInfo"));
     }
 
     private void setProperty(TableColumn<?,?> column, String text){

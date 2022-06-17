@@ -56,7 +56,6 @@ public class ChangeColorsForm {
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-
             stage.setResizable(false);
             stage.setTitle("No!");
             stage.showAndWait();
