@@ -76,19 +76,19 @@
       </Label>
       <RadioButton fx:id="falseHeroButton" layoutX="41.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="обычный" />
       <RadioButton fx:id="trueHeroButton" layoutX="202.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="герой" />
-      <Text fill="#848181" layoutX="37.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Статус геройства*">
+      <Text fx:id="textHeroStatus" fill="#848181" layoutX="37.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Статус геройства*">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fill="#848181" layoutX="37.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Наличие зубочистки">
+      <Text fx:id="textHasToothpick" fill="#848181" layoutX="37.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Наличие зубочистки">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <RadioButton fx:id="falseHasToothpickButton" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="имеется" />
       <RadioButton fx:id="trueHasToothpickButton" layoutX="202.0" layoutY="340.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="нет" />
-      <Text fill="#848181" layoutX="41.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Координаты*">
+      <Text fx:id="textCoordinates" fill="#848181" layoutX="41.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Координаты*">
          <font>
             <Font size="14.0" />
          </font>
@@ -111,7 +111,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Text fill="#848181" layoutX="41.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Машина*">
+      <Text fx:id="textCar" fill="#848181" layoutX="41.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Машина*">
          <font>
             <Font size="14.0" />
          </font>

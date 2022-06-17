@@ -127,7 +127,7 @@ public class TableFormController {
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
-            AddCommandForm.openAddForm();
+            AddCommandForm.openAddForm(resourceController);
 
         });
 
