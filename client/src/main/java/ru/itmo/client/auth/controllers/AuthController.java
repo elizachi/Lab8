@@ -99,10 +99,10 @@ public class AuthController {
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
-                errorAuthTextField.setText("Ну охуеть теперь");
+                errorAuthTextField.textProperty().bind(resourceController.getStringBinding("AuthOhuet"));
             } catch (AuthException e) {
                 ClientAppLauncher.log.error("Ошибка авторизации:\n" + e.getErrorType().getTitle());
-                errorAuthTextField.setText(e.getErrorType().getTitle());
+                errorAuthTextField.textProperty().bind(resourceController.getStringBinding("Auth" + e.getErrorType().toString()));
             }
 
         });
@@ -123,10 +123,10 @@ public class AuthController {
                 ClientAppLauncher.log.info("Попытка успешна");
             } catch (CheckUserException e) {
                 ClientAppLauncher.log.info("Попытка провалена:\n" + e.getErrorType().getTitle());
-                errorRegTextField.setText(e.getErrorType().getTitle());
+                errorRegTextField.textProperty().bind(resourceController.getStringBinding("Reg" + e.getErrorType().toString()));
             } catch (AuthException e) {
                 ClientAppLauncher.log.error("Ошибка авторизации:\n" + e.getErrorType().getTitle());
-                errorRegTextField.setText(e.getErrorType().getTitle());
+                errorRegTextField.textProperty().bind(resourceController.getStringBinding("Reg" + e.getErrorType().toString()));
             }
 
         });

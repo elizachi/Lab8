@@ -115,7 +115,7 @@ public class TableFormController {
     private Map<String, Locale> localeMap;
     private final ResourceController resourceController = new ResourceController();
     private final LanguageChanger language = new LanguageChanger(resourceController);
-    Animation animation = new Animation();
+    private final Animation animation = new Animation();
 
     public static User getUser() {
         return user;
