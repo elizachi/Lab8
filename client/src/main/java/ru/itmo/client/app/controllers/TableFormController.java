@@ -111,7 +111,7 @@ public class TableFormController {
 
     private static User user;
     private Map<Shape, Integer> shapeMap;
-    private Map<Long, Text> textMap;
+    private Map<Integer, Text> textMap;
     private Map<String, Locale> localeMap;
     private final ResourceController resourceController = new ResourceController();
     private final LanguageChanger language = new LanguageChanger(resourceController);
@@ -253,6 +253,7 @@ public class TableFormController {
             text.setOnMouseClicked(body::fireEvent);
             text.setFont(Font.font(12));
             text.setFill(Color.web(human.getUser().getColour()));
+            textMap.put(human.getId(), text);
 
             //задание координат
             setCoordinatesOnCanvas(head, human);
