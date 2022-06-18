@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClearController {
-    // TODO здесь нужна локализация
     @FXML
     private Button noButton;
     @FXML
@@ -35,6 +34,7 @@ public class ClearController {
 
     @FXML
     void initialize() {
+        setLanguage();
         yesButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Было выбрано удаление элемента");
 
@@ -76,5 +76,11 @@ public class ClearController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void setLanguage(){
+        areYouSureText.textProperty().bind(resourceController.getStringBinding("ClearAreYouSureText"));
+        yesButton.textProperty().bind(resourceController.getStringBinding("YesButton"));
+        noButton.textProperty().bind(resourceController.getStringBinding("NoButton"));
     }
 }

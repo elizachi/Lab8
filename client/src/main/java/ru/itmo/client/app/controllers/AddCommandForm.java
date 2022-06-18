@@ -168,7 +168,6 @@ public class AddCommandForm {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
-            // TODO ЛОКАЛИЗАЦИЯ туть вставлять название формы в зависимости от языка
             stage.setTitle("add human");
             stage.showAndWait();
         } catch (IOException e) {
@@ -276,11 +275,6 @@ public class AddCommandForm {
         }
     }
 
-    public void initLanguages(ResourceController resourceController) {
-        AddCommandForm.resourceController = resourceController;
-        setLanguage();
-    }
-
     /**
      * Меняет язык приложения
      */
@@ -307,6 +301,16 @@ public class AddCommandForm {
 
         carIsCoolField.textProperty().bind(resourceController.getStringBinding("CarCoolField"));
         moodComboBox.promptTextProperty().bind(resourceController.getStringBinding("MoodComboBox"));
+
+        nameFieldTooltip.textProperty().bind(resourceController.getStringBinding("nameLabel"));
+        carTooltip.textProperty().bind(resourceController.getStringBinding("carLabel"));
+        toothpickTooltip.textProperty().bind(resourceController.getStringBinding("toothLabel"));
+        speedFieldTooltip.textProperty().bind(resourceController.getStringBinding("minutesLabel"));
+        minutesFieldTooltip.textProperty().bind(resourceController.getStringBinding("minutesLabel"));
+        moodTooltip.textProperty().bind(resourceController.getStringBinding("moodLabel"));
+        soundtrackFieldTooltip.textProperty().bind(resourceController.getStringBinding("soundLabel"));
+        heroFieldTooltip.textProperty().bind(resourceController.getStringBinding("heroLabel"));
+        coordinatesTooltip.textProperty().bind(resourceController.getStringBinding("coordLabel"));
     }
 
     //sets Property for TextField

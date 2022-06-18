@@ -8,6 +8,7 @@ import java.util.*;
 
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,9 +40,7 @@ import ru.itmo.common.model.Mood;
 
 
 public class TableFormController {
-    // TODO локализация для кнопки очистить
-    @FXML
-    private Button clearButton;
+
     private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
     @FXML
     private ResourceBundle resources;
@@ -66,6 +65,8 @@ public class TableFormController {
     @FXML
     private Text coordinatesLabel;
 
+    @FXML
+    private Button clearButton;
     @FXML
     private Button addElementButton;
     @FXML
@@ -151,7 +152,9 @@ public class TableFormController {
 
             humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
             humanBeingTable.getSelectionModel().clearSelection();
-            refreshCanvas();
+            if (AddCommandForm.getHuman() != null) {
+                refreshCanvas();
+            }
         });
 
         clearButton.setOnAction(event -> {
@@ -262,6 +265,8 @@ public class TableFormController {
         textMap.clear();
 
         for (HumanBeing human: humanBeingTable.getItems()) {
+            Map<Shape, Integer> tempShapeMap = new HashMap<>();
+
             //создание фигур
             Shape leftHair = animation.setLeftHair();
             Shape rightHair = animation.setRightHair();
@@ -279,6 +284,16 @@ public class TableFormController {
             Shape rightLeg = animation.setRightLeg();
             Shape leftBoot = animation.setLeftBoot();
             Shape rightBoot = animation.setRightBoot();
+
+            //если он настоящий герой
+            if (human.isRealHero()) {
+                Shape heroCloak = animation.setHeroCloak();
+                setCoordinatesOnCanvas(heroCloak, human);
+                canvasPane.getChildren().add(heroCloak);
+                shapeMap.put(heroCloak, human.getId());
+                tempShapeMap.put(heroCloak, human.getId());
+            }
+
 
             //создание текста для фигурки
             Text text = new Text("id = " + human.getId());
@@ -313,8 +328,6 @@ public class TableFormController {
                     neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
             canvasPane.getChildren().add(text);
 
-            //чтобы на фигурку можно было кликнуть
-            body.setOnMouseClicked(this::shapeOnMouseClicked);
             shapeMap.put(body, human.getId());
             shapeMap.put(leftHair, human.getId());
             shapeMap.put(rightHair, human.getId());
@@ -331,6 +344,29 @@ public class TableFormController {
             shapeMap.put(rightLeg, human.getId());
             shapeMap.put(leftBoot, human.getId());
             shapeMap.put(rightBoot, human.getId());
+
+            //добавление ко временной коллекции
+            tempShapeMap.put(body, human.getId());
+            tempShapeMap.put(leftHair, human.getId());
+            tempShapeMap.put(rightHair, human.getId());
+            tempShapeMap.put(frontHair, human.getId());
+            tempShapeMap.put(leftCheek, human.getId());
+            tempShapeMap.put(rightCheek, human.getId());
+            tempShapeMap.put(leftEye, human.getId());
+            tempShapeMap.put(rightEye, human.getId());
+            tempShapeMap.put(head, human.getId());
+            tempShapeMap.put(neck, human.getId());
+            tempShapeMap.put(leftHand, human.getId());
+            tempShapeMap.put(rightHand, human.getId());
+            tempShapeMap.put(leftLeg, human.getId());
+            tempShapeMap.put(rightLeg, human.getId());
+            tempShapeMap.put(leftBoot, human.getId());
+            tempShapeMap.put(rightBoot, human.getId());
+
+            //чтобы на фигурку можно было кликнуть
+            for (Shape shape: tempShapeMap.keySet()) {
+                shape.setOnMouseClicked(this::shapeOnMouseClicked);
+            }
 
             //анимация
             ScaleTransition textAnimation = new ScaleTransition(Duration.seconds(1), text);
@@ -353,6 +389,11 @@ public class TableFormController {
         for (HumanBeing human: humanBeingTable.getItems()) {
             if (human.getId() == id) {
                 humanBeingTable.getSelectionModel().select(human);
+                for (Shape shapes: shapeMap.keySet()) {
+                    if (shapeMap.get(shapes) == id) {
+                        shapes.toFront();
+                    }
+                }
                 break;
             }
         }
@@ -391,6 +432,7 @@ public class TableFormController {
         //для кнопочек
         addElementButton.textProperty().bind(resourceController.getStringBinding("AddButton"));
         refreshButton.textProperty().bind(resourceController.getStringBinding("RefreshButton"));
+        clearButton.textProperty().bind(resourceController.getStringBinding("MainClearButton"));
         menuButton.textProperty().bind(resourceController.getStringBinding("MenuButton"));
             profileMenuButton.textProperty().bind(resourceController.getStringBinding("ProfileMenuButton"));
             helpMenuButton.textProperty().bind(resourceController.getStringBinding("HelpMenuButton"));
@@ -423,8 +465,10 @@ public class TableFormController {
                     System.out.println(rowData.toString());
                     ContextMenu twoCommands = new ContextMenu();
 
-                    MenuItem update = new MenuItem("update");
-                    MenuItem delete = new MenuItem("delete");
+                    MenuItem update = new MenuItem();
+                    update.textProperty().bind(resourceController.getStringBinding("UpdateButton"));
+                    MenuItem delete = new MenuItem();
+                    delete.textProperty().bind(resourceController.getStringBinding("DeleteButton"));
 
                     twoCommands.getItems().addAll(update, delete);
 
@@ -439,13 +483,14 @@ public class TableFormController {
                         if(updatedHuman != null) {
                             row.getItem().getCoordinates().setX(updatedHuman.getCoordinates().getX());
                             row.getItem().getCoordinates().setY(updatedHuman.getCoordinates().getY());
+                            refreshCanvas();
                         }
                     });
 
                     delete.setOnAction(deleteEvent -> {
                         ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
-
                         DeleteController.openDeleteForm(resourceController, rowData.getId());
+                        refreshCanvas();
                     });
                 }
             });

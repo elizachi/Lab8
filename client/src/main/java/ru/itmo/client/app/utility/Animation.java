@@ -8,7 +8,7 @@ import ru.itmo.common.model.HumanBeing;
 
 
 /**
- * Класс для отрисовки челика
+ * Класс для отрисовки человечка
  */
 public class Animation {
 
@@ -24,7 +24,7 @@ public class Animation {
         closedRightEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
         closedRightEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
 
-        //animation.......
+        //анимация....
     }
 
     public Rectangle setFrontHair(){
@@ -153,5 +153,15 @@ public class Animation {
                 55.00, 139.00);
         rightBoot.setFill(Color.rgb(61, 57, 52));
         return  rightBoot;
+    }
+
+    public Polygon setHeroCloak(){
+        Polygon heroCloak = new Polygon();
+        heroCloak.getPoints().addAll(25.0, 62.0,
+                46.0, 62.0,
+                65.0, 127.0,
+                6.0, 127.0);
+        heroCloak.setFill(Color.rgb(238, 59, 6));
+        return heroCloak;
     }
 }

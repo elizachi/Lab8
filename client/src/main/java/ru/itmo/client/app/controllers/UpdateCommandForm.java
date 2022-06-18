@@ -44,6 +44,7 @@ public class UpdateCommandForm {
     private Tooltip soundtrackFieldTooltip;
     @FXML
     private Tooltip nameFieldTooltip;
+
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -176,7 +177,6 @@ public class UpdateCommandForm {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
-            // TODO ЛОКАЛИЗАЦИЯ туть вставлять название формы в зависимости от языка
             stage.setTitle("update human");
             stage.showAndWait();
         } catch (IOException e) {
@@ -317,6 +317,16 @@ public class UpdateCommandForm {
 
         carIsCoolField.textProperty().bind(resourceController.getStringBinding("CarCoolField"));
         moodComboBox.promptTextProperty().bind(resourceController.getStringBinding("MoodComboBox"));
+
+        nameFieldTooltip.textProperty().bind(resourceController.getStringBinding("nameLabel"));
+        carTooltip.textProperty().bind(resourceController.getStringBinding("carLabel"));
+        toothpickTooltip.textProperty().bind(resourceController.getStringBinding("toothLabel"));
+        speedFieldTooltip.textProperty().bind(resourceController.getStringBinding("minutesLabel"));
+        minutesFieldTooltip.textProperty().bind(resourceController.getStringBinding("minutesLabel"));
+        moodTooltip.textProperty().bind(resourceController.getStringBinding("moodLabel"));
+        soundtrackFieldTooltip.textProperty().bind(resourceController.getStringBinding("soundLabel"));
+        heroFieldTooltip.textProperty().bind(resourceController.getStringBinding("heroLabel"));
+        coordinatesTooltip.textProperty().bind(resourceController.getStringBinding("coordLabel"));
     }
 
     //sets Property for TextField

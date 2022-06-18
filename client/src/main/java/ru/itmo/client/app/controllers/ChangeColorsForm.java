@@ -27,12 +27,12 @@ public class ChangeColorsForm {
     private final Image imageEN = new Image("images/noEN.jpg");
     private final Image imageIT = new Image("images/noIT.jpg");
     private final Image imagePT = new Image("images/noPT.jpg");
-    private Image image;
 
     @FXML
     private void initialize() {
         Locale locale = resourceController.getResources().getLocale();
 
+        Image image;
         if (new Locale("en", "US").equals(locale)) {
             image = imageEN;
         } else if (new Locale("it", "IT").equals(locale)){
