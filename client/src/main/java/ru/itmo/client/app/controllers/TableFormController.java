@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -164,9 +165,9 @@ public class TableFormController {
             listOfHumans.add(AddCommandForm.getHuman());
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
 
-            humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
-            humanBeingTable.getSelectionModel().clearSelection();
-            refreshCanvas();
+//            humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
+//            humanBeingTable.getSelectionModel().clearSelection();
+//            refreshCanvas();
         });
 
         clearButton.setOnAction(event -> {
@@ -207,6 +208,23 @@ public class TableFormController {
         languageChoice.setItems(FXCollections.observableArrayList(localeMap.keySet()));
 
         changeLanguage();
+
+        Thread thread = new Thread(() -> {
+
+            Runnable update = this::initializeTable;
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+
+                Platform.runLater(update);
+            }
+        });
+
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public static void openMainForm(User currentUser) {
@@ -232,6 +250,8 @@ public class TableFormController {
      * Initialize table.
      */
     private void initializeTable(){
+
+        listOfHumans.clear();
 
         loadTable(new LoadData().load());
 
@@ -268,6 +288,8 @@ public class TableFormController {
         humanBeingTable.setItems(listOfHumans);
 
         initializeRows();
+
+        filter();
     }
 
     private void refreshCanvas(){
