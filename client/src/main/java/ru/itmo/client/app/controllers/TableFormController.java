@@ -200,7 +200,6 @@ public class TableFormController {
      */
     private void initializeTable(){
 
-        // TODO здесь внимательно
         loadTable(new LoadData().load());
 
         humanBeingTable.setItems(listOfHumans);
@@ -236,6 +235,8 @@ public class TableFormController {
         );
 
         humanBeingTable.setItems(listOfHumans);
+
+        initializeRows();
     }
 
     private void refreshCanvas(){
@@ -395,5 +396,30 @@ public class TableFormController {
         if(humans != null) {
             listOfHumans.addAll(humans);
         }
+    }
+
+    private void initializeRows() {
+        humanBeingTable.setRowFactory(tv -> {
+            TableRow<HumanBeing> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                HumanBeing rowData = row.getItem();
+                if(rowData != null && Objects.equals(rowData.getUser().getUsername(), user.getUsername())) {
+                    System.out.println(rowData.toString());
+                    ContextMenu twoCommands = new ContextMenu();
+
+                    MenuItem update = new MenuItem("update");
+                    MenuItem delete = new MenuItem("delete");
+
+                    twoCommands.getItems().addAll(update, delete);
+
+                    twoCommands.show(row, event.getScreenX(), event.getScreenY());
+
+                    update.setOnAction(updateEvent -> {
+                        UpdateCommandForm.openUpdateForm(resourceController);
+                    });
+                }
+            });
+            return row;
+        });
     }
 }
