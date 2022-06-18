@@ -65,9 +65,9 @@ public class CommandValidator {
 
     public Integer checkLimitedInt(String coo) throws CheckHumanException {
         Integer intCoo = checkIntFields(coo);
-        if(Math.abs(intCoo) > 188) {
+        if(Math.abs(intCoo) > 300) {
             throw new CheckHumanException(CheckHumanException.ErrorType.FORBIDDEN.setTitle(
-                    "Поле может быть заполнено значением в диапазоне [-188; 188]"
+                    "Поле может быть заполнено значением в диапазоне [-300; 300]"
             ));
         }
         return intCoo;
@@ -75,9 +75,9 @@ public class CommandValidator {
 
     public Float checkLimitedFloat(String coo) throws CheckHumanException {
         Float floatCoo = checkFloatFields(coo);
-        if(Math.abs(floatCoo) > 188) {
+        if(Math.abs(floatCoo) > 220) {
             throw new CheckHumanException(CheckHumanException.ErrorType.FORBIDDEN.setTitle(
-                    "Поле может быть заполнено значением в диапазоне [-188.0; 188.0]"
+                    "Поле может быть заполнено значением в диапазоне [-220.0; 220.0]"
             ));
         }
         return floatCoo;

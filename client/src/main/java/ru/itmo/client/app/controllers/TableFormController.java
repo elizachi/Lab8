@@ -44,9 +44,6 @@ import ru.itmo.common.model.Mood;
 
 
 public class TableFormController {
-
-    private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
-
     @FXML
     private ChoiceBox<String> choiceSearch;
     @FXML
@@ -57,6 +54,11 @@ public class TableFormController {
     private MenuItem minutesFilter;
     @FXML
     private TextField filterValue;
+    @FXML
+    private Button clearButton;
+
+    private final ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
+
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -81,17 +83,11 @@ public class TableFormController {
     private Text coordinatesLabel;
 
     @FXML
-    private Button clearButton;
-    @FXML
     private Button addElementButton;
-    @FXML
-    private Button refreshButton;
     @FXML
     private MenuItem helpMenuButton;
     @FXML
     private MenuItem profileMenuButton;
-    @FXML
-    private MenuItem searchMenuButton;
     @FXML
     private MenuItem switchColorSettingsButton;
     @FXML
@@ -163,21 +159,25 @@ public class TableFormController {
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
-            AddCommandForm.openAddForm(resourceController);
-            listOfHumans.add(AddCommandForm.getHuman());
+            try {
+                AddCommandForm.openAddForm(resourceController);
+                listOfHumans.add(AddCommandForm.getHuman());
+            } catch (RuntimeException ignored) {}
+
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
 
             humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
             humanBeingTable.getSelectionModel().clearSelection();
-            if (AddCommandForm.getHuman() != null) {
-                refreshCanvas();
-            }
+            refreshCanvas();
         });
 
         clearButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды clear");
+            try {
+                ClearController.openClearForm(resourceController);
+            } catch (RuntimeException ignored) {}
 
-            ClearController.openClearForm(resourceController);
+            refreshCanvas();
         });
 
         switchColorSettingsButton.setOnAction(event -> {
@@ -193,13 +193,6 @@ public class TableFormController {
         helpMenuButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Открытие окошка помощи...");
             HelpController.openForm(resourceController);
-        });
-
-        refreshButton.setOnAction(event -> {
-            ClientAppLauncher.log.info("Обновление коллекции человеков на координатах");
-            listOfHumans.clear();
-            loadTable(new LoadData().load());
-            refreshCanvas();
         });
 
         shapeMap = new HashMap<>();
@@ -294,147 +287,149 @@ public class TableFormController {
         initializeRows();
 
         filter();
+
+        if (shapeMap != null) {
+            refreshCanvas();
+        }
     }
 
-    private void refreshCanvas(){
+    private void refreshCanvas() {
         shapeMap.keySet().forEach(s -> canvasPane.getChildren().remove(s));
         shapeMap.clear();
         textMap.values().forEach(s -> canvasPane.getChildren().remove(s));
         textMap.clear();
 
-        for (HumanBeing human: humanBeingTable.getItems()) {
-            Map<Shape, Integer> tempShapeMap = new HashMap<>();
+        for (HumanBeing human : humanBeingTable.getItems()) {
+            if (human != null) {
+                Map<Shape, Integer> tempShapeMap = new HashMap<>();
 
-            //создание фигур
-            Shape leftHair = animation.setLeftHair();
-            Shape rightHair = animation.setRightHair();
-            Shape frontHair = animation.setFrontHair();
+                //создание фигур
+                Shape leftHair = animation.setLeftHair();
+                Shape rightHair = animation.setRightHair();
+                Shape frontHair = animation.setFrontHair();
                 Shape leftCheek = animation.setLeftCheek();
                 Shape rightCheek = animation.setRightCheek();
                 Shape leftEye = animation.setLeftEye();
                 Shape rightEye = animation.setRightEye();
-            Shape head = animation.setHead();
-            Shape neck = animation.setNeck();
-            Shape body = animation.setBody(Color.web(human.getUser().getColour()));
-            Shape leftHand = animation.setLeftHand();
-            Shape rightHand = animation.setRightHand();
-            Shape leftLeg = animation.setLeftLeg();
-            Shape rightLeg = animation.setRightLeg();
-            Shape leftBoot = animation.setLeftBoot();
-            Shape rightBoot = animation.setRightBoot();
+                Shape head = animation.setHead();
+                Shape neck = animation.setNeck();
+                Shape body = animation.setBody(Color.web(human.getUser().getColour()));
+                Shape leftHand = animation.setLeftHand();
+                Shape rightHand = animation.setRightHand();
+                Shape leftLeg = animation.setLeftLeg();
+                Shape rightLeg = animation.setRightLeg();
+                Shape leftBoot = animation.setLeftBoot();
+                Shape rightBoot = animation.setRightBoot();
 
-            //если он настоящий герой
-            if (human.isRealHero()) {
-                Shape heroCloak = animation.setHeroCloak();
-                setCoordinatesOnCanvas(heroCloak, human);
-                canvasPane.getChildren().add(heroCloak);
-                shapeMap.put(heroCloak, human.getId());
-                tempShapeMap.put(heroCloak, human.getId());
-            }
+                //если он настоящий герой
+                if (human.isRealHero()) {
+                    Shape heroCloak = animation.setHeroCloak();
+                    setCoordinatesOnCanvas(heroCloak, human);
+                    canvasPane.getChildren().add(heroCloak);
+                    shapeMap.put(heroCloak, human.getId());
+                    tempShapeMap.put(heroCloak, human.getId());
+                }
 
 
-            //создание текста для фигурки
-            Text text = new Text("id = " + human.getId());
-            text.setOnMouseClicked(body::fireEvent);
-            text.setFont(Font.font(12));
-            text.setFill(Color.web(human.getUser().getColour()));
-            textMap.put(human.getId(), text);
+                //создание текста для фигурки
+                Text text = new Text("id = " + human.getId());
+                text.setOnMouseClicked(body::fireEvent);
+                text.setFont(Font.font(12));
+                text.setFill(Color.web(human.getUser().getColour()));
+                textMap.put(human.getId(), text);
 
-            //задание координат
-            setCoordinatesOnCanvas(head, human);
-            setCoordinatesOnCanvas(leftHair, human);
-            setCoordinatesOnCanvas(rightHair, human);
-            setCoordinatesOnCanvas(frontHair, human);
+                //задание координат
+                setCoordinatesOnCanvas(head, human);
+                setCoordinatesOnCanvas(leftHair, human);
+                setCoordinatesOnCanvas(rightHair, human);
+                setCoordinatesOnCanvas(frontHair, human);
                 setCoordinatesOnCanvas(leftCheek, human);
                 setCoordinatesOnCanvas(rightCheek, human);
                 setCoordinatesOnCanvas(leftEye, human);
                 setCoordinatesOnCanvas(rightEye, human);
-            setCoordinatesOnCanvas(neck, human);
-            setCoordinatesOnCanvas(body, human);
-            setCoordinatesOnCanvas(leftHand, human);
-            setCoordinatesOnCanvas(rightHand, human);
-            setCoordinatesOnCanvas(leftLeg, human);
-            setCoordinatesOnCanvas(rightLeg, human);
-            setCoordinatesOnCanvas(leftBoot, human);
-            setCoordinatesOnCanvas(rightBoot, human);
-            //координаты для текста
-            text.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
-            text.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
+                setCoordinatesOnCanvas(neck, human);
+                setCoordinatesOnCanvas(body, human);
+                setCoordinatesOnCanvas(leftHand, human);
+                setCoordinatesOnCanvas(rightHand, human);
+                setCoordinatesOnCanvas(leftLeg, human);
+                setCoordinatesOnCanvas(rightLeg, human);
+                setCoordinatesOnCanvas(leftBoot, human);
+                setCoordinatesOnCanvas(rightBoot, human);
+                //координаты для текста
+                text.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
+                text.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY() - 70));
 
-            //добавление к координатной плоскости
-            canvasPane.getChildren().addAll(head, leftHair, rightHair, frontHair, leftCheek, rightCheek, leftEye, rightEye,
-                    neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
-            canvasPane.getChildren().add(text);
+                //добавление к координатной плоскости
+                canvasPane.getChildren().addAll(head, leftHair, rightHair, frontHair, leftCheek, rightCheek, leftEye, rightEye,
+                        neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
+                canvasPane.getChildren().add(text);
 
-            shapeMap.put(body, human.getId());
-            shapeMap.put(leftHair, human.getId());
-            shapeMap.put(rightHair, human.getId());
-            shapeMap.put(frontHair, human.getId());
-            shapeMap.put(leftCheek, human.getId());
-            shapeMap.put(rightCheek, human.getId());
-            shapeMap.put(leftEye, human.getId());
-            shapeMap.put(rightEye, human.getId());
-            shapeMap.put(head, human.getId());
-            shapeMap.put(neck, human.getId());
-            shapeMap.put(leftHand, human.getId());
-            shapeMap.put(rightHand, human.getId());
-            shapeMap.put(leftLeg, human.getId());
-            shapeMap.put(rightLeg, human.getId());
-            shapeMap.put(leftBoot, human.getId());
-            shapeMap.put(rightBoot, human.getId());
+                shapeMap.put(body, human.getId());
+                shapeMap.put(leftHair, human.getId());
+                shapeMap.put(rightHair, human.getId());
+                shapeMap.put(frontHair, human.getId());
+                shapeMap.put(leftCheek, human.getId());
+                shapeMap.put(rightCheek, human.getId());
+                shapeMap.put(leftEye, human.getId());
+                shapeMap.put(rightEye, human.getId());
+                shapeMap.put(head, human.getId());
+                shapeMap.put(neck, human.getId());
+                shapeMap.put(leftHand, human.getId());
+                shapeMap.put(rightHand, human.getId());
+                shapeMap.put(leftLeg, human.getId());
+                shapeMap.put(rightLeg, human.getId());
+                shapeMap.put(leftBoot, human.getId());
+                shapeMap.put(rightBoot, human.getId());
 
-            //добавление ко временной коллекции
-            tempShapeMap.put(body, human.getId());
-            tempShapeMap.put(leftHair, human.getId());
-            tempShapeMap.put(rightHair, human.getId());
-            tempShapeMap.put(frontHair, human.getId());
-            tempShapeMap.put(leftCheek, human.getId());
-            tempShapeMap.put(rightCheek, human.getId());
-            tempShapeMap.put(leftEye, human.getId());
-            tempShapeMap.put(rightEye, human.getId());
-            tempShapeMap.put(head, human.getId());
-            tempShapeMap.put(neck, human.getId());
-            tempShapeMap.put(leftHand, human.getId());
-            tempShapeMap.put(rightHand, human.getId());
-            tempShapeMap.put(leftLeg, human.getId());
-            tempShapeMap.put(rightLeg, human.getId());
-            tempShapeMap.put(leftBoot, human.getId());
-            tempShapeMap.put(rightBoot, human.getId());
+                //добавление ко временной коллекции
+                tempShapeMap.put(body, 0);
+                tempShapeMap.put(leftHair, 1);
+                tempShapeMap.put(rightHair, 2);
+                tempShapeMap.put(frontHair, 3);
+                tempShapeMap.put(leftCheek, 4);
+                tempShapeMap.put(rightCheek, 5);
+                tempShapeMap.put(leftEye, 6);
+                tempShapeMap.put(rightEye, 7);
+                tempShapeMap.put(head, 8);
+                tempShapeMap.put(neck, 9);
+                tempShapeMap.put(leftHand, 10);
+                tempShapeMap.put(rightHand, 11);
+                tempShapeMap.put(leftLeg, 12);
+                tempShapeMap.put(rightLeg, 13);
+                tempShapeMap.put(leftBoot, 14);
+                tempShapeMap.put(rightBoot, 15);
 
-            //чтобы на фигурку можно было кликнуть
-            for (Shape shape: tempShapeMap.keySet()) {
-                shape.setOnMouseClicked(this::shapeOnMouseClicked);
+                //чтобы на фигурку можно было кликнуть
+                for (Shape shape : tempShapeMap.keySet()) {
+                    shape.setOnMouseClicked(this::shapeOnMouseClicked);
+                }
+
+                //TODO анимация (в процессе)
             }
-
-            //анимация
-            ScaleTransition textAnimation = new ScaleTransition(Duration.seconds(1), text);
-            textAnimation.setFromX(0);
-            textAnimation.setFromY(0);
-            textAnimation.setToX(1);
-            textAnimation.setToY(1);
-            textAnimation.play();
         }
     }
 
     private void setCoordinatesOnCanvas(Shape figure, HumanBeing human){
-        figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
-        figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
+        figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
+        figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY() - 70));
     }
 
     private void shapeOnMouseClicked(MouseEvent event) {
         Shape shape = (Shape) event.getSource();
         int id = shapeMap.get(shape);
+        try {
         for (HumanBeing human: humanBeingTable.getItems()) {
             if (human.getId() == id) {
                 humanBeingTable.getSelectionModel().select(human);
-                for (Shape shapes: shapeMap.keySet()) {
-                    if (shapeMap.get(shapes) == id) {
-                        shapes.toFront();
-                    }
-                }
-                break;
             }
+            break;
         }
+            for (Shape shapes : shapeMap.keySet()) {
+                if (shapeMap.get(shapes) == id) {
+                    shapes.toFront();
+                }
+            }
+        } catch (RuntimeException ignored){}
     }
 
     private void filter() {
@@ -524,25 +519,25 @@ public class TableFormController {
         setProperty(userColumn, "UserColumn");
         //для кнопочек
         addElementButton.textProperty().bind(resourceController.getStringBinding("AddButton"));
-        refreshButton.textProperty().bind(resourceController.getStringBinding("RefreshButton"));
         clearButton.textProperty().bind(resourceController.getStringBinding("MainClearButton"));
         menuButton.textProperty().bind(resourceController.getStringBinding("MenuButton"));
             profileMenuButton.textProperty().bind(resourceController.getStringBinding("ProfileMenuButton"));
             helpMenuButton.textProperty().bind(resourceController.getStringBinding("HelpMenuButton"));
-            searchMenuButton.textProperty().bind(resourceController.getStringBinding("SearchMenuButton"));
         settingsButton.textProperty().bind(resourceController.getStringBinding("SettingsButton"));
             switchUserSettingsButton.textProperty().bind(resourceController.getStringBinding("SwitchUserSettingsButton"));
             switchColorSettingsButton.textProperty().bind(resourceController.getStringBinding("SwitchColorSettingsButton"));
+        choiceSearch.accessibleTextProperty().bind(resourceController.getStringBinding("ChoiceSearch"));
         //для полей
         collectionLabel.textProperty().bind(resourceController.getStringBinding("CollectionLabel"));
         coordinatesLabel.textProperty().bind(resourceController.getStringBinding("CoordinatesLabel"));
         collectionInfoLabel.textProperty().bind(resourceController.getStringBinding("CollectionInfoLabel"));
-        collectionInfo.textProperty().bind(resourceController.getStringBinding("CollectionInfo"));
+        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(listOfHumans.size())));
     }
 
     private void setProperty(TableColumn<?,?> column, String text){
         column.textProperty().bind(resourceController.getStringBinding(text));
     }
+
     private void loadTable(Deque<HumanBeing> humans) {
         if(humans != null) {
             listOfHumans.addAll(humans);
@@ -572,18 +567,23 @@ public class TableFormController {
 
                         UpdateCommandForm.openUpdateForm(resourceController, rowData.getId());
 
-                        HumanBeing updatedHuman = UpdateCommandForm.getHuman();
-                        if(updatedHuman != null) {
-                            row.getItem().getCoordinates().setX(updatedHuman.getCoordinates().getX());
-                            row.getItem().getCoordinates().setY(updatedHuman.getCoordinates().getY());
-                            refreshCanvas();
-                        }
+                        try {
+                            HumanBeing updatedHuman = UpdateCommandForm.getHuman();
+                            if(updatedHuman != null) {
+                                row.getItem().getCoordinates().setX(updatedHuman.getCoordinates().getX());
+                                row.getItem().getCoordinates().setY(updatedHuman.getCoordinates().getY());
+                                refreshCanvas();
+                            }
+                        } catch (RuntimeException ignored){}
+
                     });
 
                     delete.setOnAction(deleteEvent -> {
                         ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
 
-                        DeleteController.openDeleteForm(resourceController, rowData.getId());
+                        try {
+                            DeleteController.openDeleteForm(resourceController, rowData.getId());
+                        } catch (RuntimeException ignored){}
                         refreshCanvas();
                     });
                 }

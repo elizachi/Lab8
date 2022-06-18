@@ -4,6 +4,8 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.text.MessageFormat;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class ResourceController {
@@ -47,5 +49,19 @@ public class ResourceController {
                 return getResources().getString(key);
             }
         };
+    }
+
+    public String tryResource(String str, String arg) {
+        try {
+            if (resources == null) throw new NullPointerException();
+            if (arg == null) return getResources().getString(str);
+            else {
+                MessageFormat messageFormat = new MessageFormat(getResources().getString(str));
+                Object[] args = {arg};
+                return messageFormat.format(args);
+            }
+        } catch (MissingResourceException | NullPointerException exception) {
+            return str;
+        }
     }
 }
