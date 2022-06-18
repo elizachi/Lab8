@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
@@ -80,7 +81,7 @@
                 <Font size="14.0" />
             </font>
         </Text>
-        <Label fx:id="userNameField" layoutX="125.0" layoutY="69.0" prefHeight="54.0" prefWidth="743.0">
+        <Label fx:id="userNameField" layoutX="125.0" layoutY="69.0" prefHeight="54.0" prefWidth="560.0">
             <font>
                 <Font size="36.0" />
             </font>
@@ -89,5 +90,7 @@
       <Button fx:id="refreshButton" layoutX="1718.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Обновить" />
       <ChoiceBox fx:id="languageChoice" layoutX="337.0" layoutY="151.0" prefHeight="49.0" prefWidth="61.0" />
       <Button fx:id="clearButton" layoutX="707.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Очистить" />
+      <TextField fx:id="filterValue" layoutX="870.0" layoutY="70.0" />
+      <ChoiceBox fx:id="choiceSearch" layoutX="707.0" layoutY="70.0" prefHeight="28.0" prefWidth="136.0" />
     </children>
 </AnchorPane>

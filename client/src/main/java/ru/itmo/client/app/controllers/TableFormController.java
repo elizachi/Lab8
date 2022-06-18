@@ -7,10 +7,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -42,6 +46,17 @@ import ru.itmo.common.model.Mood;
 public class TableFormController {
 
     private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
+
+    @FXML
+    private ChoiceBox<String> choiceSearch;
+    @FXML
+    private MenuItem idFilter;
+    @FXML
+    private MenuItem nameFilter;
+    @FXML
+    private MenuItem minutesFilter;
+    @FXML
+    private TextField filterValue;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -139,6 +154,8 @@ public class TableFormController {
     private void initialize() {
         initializeTable();
 
+        filter();
+
         userNameField.setText(user.getUsername());
         userColour.setFill(Color.valueOf(user.getColour()));
         userColour.setStroke(Color.valueOf(user.getColour()));
@@ -195,6 +212,23 @@ public class TableFormController {
         languageChoice.setItems(FXCollections.observableArrayList(localeMap.keySet()));
 
         changeLanguage();
+
+        Thread thread = new Thread(() -> {
+
+            Runnable update = this::initializeTable;
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+
+                Platform.runLater(update);
+            }
+        });
+
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public static void openMainForm(User currentUser) {
@@ -220,6 +254,8 @@ public class TableFormController {
      * Initialize table.
      */
     private void initializeTable(){
+
+        listOfHumans.clear();
 
         loadTable(new LoadData().load());
 
@@ -256,6 +292,8 @@ public class TableFormController {
         humanBeingTable.setItems(listOfHumans);
 
         initializeRows();
+
+        filter();
     }
 
     private void refreshCanvas(){
@@ -399,6 +437,61 @@ public class TableFormController {
         }
     }
 
+    private void filter() {
+
+        choiceSearch = new ChoiceBox<>();
+        // TODO и тут локализацию нада захуярить
+        choiceSearch.getItems().addAll("id", "name", "minutes");
+
+        FilteredList<HumanBeing> filteredData = new FilteredList<>(listOfHumans, b -> true);
+        filterValue.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(humanPropertySearch -> {
+
+                String nowFilter = choiceSearch.getValue();
+                if(nowFilter == null) {
+                    if(newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+
+                    String lower = newValue.toLowerCase();
+
+                    if(String.valueOf(humanPropertySearch.getId()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(humanPropertySearch.getName().indexOf(lower) != -1) {
+                        return true;
+                    } else if(humanPropertySearch.getSoundtrackName().indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getMinutesOfWaiting()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getImpactSpeed()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getCoordinates().getX()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getCoordinates().getY()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getMood()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getCar().getCarName()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(String.valueOf(humanPropertySearch.getCar().getCarCool()).indexOf(lower) != -1) {
+                        return true;
+                    } else if(humanPropertySearch.getUser().getUsername().indexOf(lower) != -1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            });
+        });
+        SortedList<HumanBeing> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(humanBeingTable.comparatorProperty());
+
+        humanBeingTable.setItems(sortedData);
+    }
+
     /**
      * Меняет язык приложения
      */
@@ -489,6 +582,7 @@ public class TableFormController {
 
                     delete.setOnAction(deleteEvent -> {
                         ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
+
                         DeleteController.openDeleteForm(resourceController, rowData.getId());
                         refreshCanvas();
                     });
