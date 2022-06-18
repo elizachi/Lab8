@@ -24,20 +24,16 @@
       <TextField fx:id="minutesOfWaitingField" layoutX="38.0" layoutY="125.0" prefHeight="27.0" prefWidth="258.0" promptText="Минуты ожидания*" />
       <TextField fx:id="impactSpeedField" layoutX="38.0" layoutY="172.0" prefHeight="27.0" prefWidth="258.0" promptText="Скорость*" />
       <Label fx:id="mainLabel" layoutX="312.0" layoutY="37.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
+         <tooltip>
+            <Tooltip fx:id="nameFieldTooltip" text="Строка не должна быть пустой" />
+         </tooltip>
          <font>
             <Font size="18.0" />
          </font>
-         <contextMenu>
-            <ContextMenu fx:id="nameContextMenu">
-              <items>
-                <MenuItem fx:id="mainItem" mnemonicParsing="false" text="Привет" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
       </Label>
       <Label layoutX="312.0" layoutY="78.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Строка не должна быть пустой" />
+            <Tooltip fx:id="soundtrackFieldTooltip" text="Строка не должна быть пустой" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -45,7 +41,7 @@
       </Label>
       <Label layoutX="312.0" layoutY="120.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Целое число, поле не должно быть пустым" />
+            <Tooltip fx:id="minutesFieldTooltip" text="Целое число, поле не должно быть пустым" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -53,7 +49,7 @@
       </Label>
       <Label layoutX="312.0" layoutY="172.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Целое число, поле не должно быть пустым" />
+            <Tooltip fx:id="speedFieldTooltip" text="Целое число, поле не должно быть пустым" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -61,7 +57,7 @@
       </Label>
       <Label layoutX="312.0" layoutY="219.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Статус геройства должен быть выбран из представленных вариантов" />
+            <Tooltip fx:id="heroFieldTooltip" text="Статус геройства должен быть выбран из представленных вариантов" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -70,14 +66,16 @@
       <ComboBox fx:id="moodComboBox" layoutX="37.0" layoutY="472.0" opacity="0.51" prefHeight="30.0" prefWidth="258.0" promptText="Состояние" />
       <Label layoutX="312.0" layoutY="298.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Значение может быть выбрано из представленных вариантов" />
+            <Tooltip fx:id="toothpickTooltip" text="Значение может быть выбрано из представленных вариантов" />
          </tooltip>
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <RadioButton fx:id="falseHeroButton" layoutX="41.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="обычный" />
-      <RadioButton fx:id="trueHeroButton" layoutX="202.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="герой" />
+      <RadioButton fx:id="falseHeroButton" layoutX="41.0" layoutY="257.0"
+                   mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" selected="true" text="обычный" />
+      <RadioButton fx:id="trueHeroButton" layoutX="202.0" layoutY="257.0"
+                   mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="герой" />
       <Text fx:id="textHeroStatus" fill="#848181" layoutX="37.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Статус геройства*">
          <font>
             <Font size="14.0" />
@@ -99,7 +97,7 @@
       <TextField fx:id="yCooField" layoutX="191.0" layoutY="415.0" prefHeight="27.0" prefWidth="103.0" promptText="Y" />
       <Label layoutX="312.0" layoutY="381.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Поле X целое числа, поле Y дробное число. Поля обязательны к заполнению" />
+            <Tooltip fx:id="coordinatesTooltip" text="Поле X целое числа, поле Y дробное число. Поля обязательны к заполнению" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -107,7 +105,7 @@
       </Label>
       <Label layoutX="312.0" layoutY="473.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Состояние может быть выбрано из выпадающего списка" />
+            <Tooltip fx:id="moodTooltip" text="Состояние может быть выбрано из выпадающего списка" />
          </tooltip>
          <font>
             <Font size="18.0" />
@@ -122,13 +120,15 @@
       <CheckBox fx:id="carIsCoolField" layoutX="218.0" layoutY="567.0" mnemonicParsing="false" text="Крутая" />
       <Label layoutX="312.0" layoutY="524.0" prefHeight="27.0" prefWidth="18.0" text="🛈">
          <tooltip>
-            <Tooltip text="Поле имя не обязательно к заполнению" />
+            <Tooltip fx:id="carTooltip" text="Поле имя не обязательно к заполнению" />
          </tooltip>
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="createButton" layoutX="216.0" layoutY="628.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="Создать" />
-      <Button fx:id="clearButton" layoutX="63.0" layoutY="628.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="Очистить" />
+      <Button fx:id="createButton" layoutX="216.0" layoutY="628.0" mnemonicParsing="false"
+              prefHeight="30.0" prefWidth="79.0" text="Обновить" />
+      <Button fx:id="clearButton" layoutX="63.0" layoutY="628.0" mnemonicParsing="false"
+              prefHeight="30.0" prefWidth="79.0" text="Очистить" />
    </children>
 </AnchorPane>

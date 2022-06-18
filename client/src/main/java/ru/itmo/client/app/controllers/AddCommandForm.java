@@ -26,6 +26,24 @@ import java.util.ResourceBundle;
 
 public class AddCommandForm {
     @FXML
+    private Tooltip carTooltip;
+    @FXML
+    private Tooltip coordinatesTooltip;
+    @FXML
+    private Tooltip toothpickTooltip;
+    @FXML
+    private Tooltip moodTooltip;
+    @FXML
+    private Tooltip heroFieldTooltip;
+    @FXML
+    private Tooltip speedFieldTooltip;
+    @FXML
+    private Tooltip minutesFieldTooltip;
+    @FXML
+    private Tooltip soundtrackFieldTooltip;
+    @FXML
+    private Tooltip nameFieldTooltip;
+    @FXML
     private ResourceBundle resources;
     @FXML
     private URL location;
@@ -150,6 +168,8 @@ public class AddCommandForm {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
+            // TODO ЛОКАЛИЗАЦИЯ туть вставлять название формы в зависимости от языка
+            stage.setTitle("add human");
             stage.showAndWait();
         } catch (IOException e) {
             throw new RuntimeException(e);
