@@ -88,5 +88,6 @@
         <Circle fx:id="userColour" fill="DODGERBLUE" layoutX="81.0" layoutY="96.0" radius="26.0" stroke="DODGERBLUE" strokeType="INSIDE" />
       <Button fx:id="refreshButton" layoutX="1718.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Обновить" />
       <ChoiceBox fx:id="languageChoice" layoutX="337.0" layoutY="151.0" prefHeight="49.0" prefWidth="61.0" />
+      <Button fx:id="clearButton" layoutX="707.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Очистить" />
     </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package ru.itmo.client.app.controllers;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -13,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -35,6 +39,9 @@ import ru.itmo.common.model.Mood;
 
 
 public class TableFormController {
+    // TODO локализация для кнопки очистить
+    @FXML
+    private Button clearButton;
     private ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
     @FXML
     private ResourceBundle resources;
@@ -141,9 +148,16 @@ public class TableFormController {
             AddCommandForm.openAddForm(resourceController);
             listOfHumans.add(AddCommandForm.getHuman());
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
+
             humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
             humanBeingTable.getSelectionModel().clearSelection();
             refreshCanvas();
+        });
+
+        clearButton.setOnAction(event -> {
+            ClientAppLauncher.log.info("Запрос на выполнение команды clear");
+
+            ClearController.openClearForm(resourceController);
         });
 
         switchColorSettingsButton.setOnAction(event -> {
@@ -185,10 +199,14 @@ public class TableFormController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
-            Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            int width = gd.getDisplayMode().getWidth();
+            int height = gd.getDisplayMode().getHeight();
+
+            Scene scene = new Scene(fxmlLoader.load(), width, height);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setMaximized(true);
+
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -201,8 +219,6 @@ public class TableFormController {
     private void initializeTable(){
 
         loadTable(new LoadData().load());
-
-        humanBeingTable.setItems(listOfHumans);
 
         idColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
@@ -424,16 +440,12 @@ public class TableFormController {
                             row.getItem().getCoordinates().setX(updatedHuman.getCoordinates().getX());
                             row.getItem().getCoordinates().setY(updatedHuman.getCoordinates().getY());
                         }
-
-                        // TODO здесь сделать рефреш таблицы
                     });
 
                     delete.setOnAction(deleteEvent -> {
                         ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
 
                         DeleteController.openDeleteForm(resourceController, rowData.getId());
-
-                        // TODO и здесь тоже рефреш
                     });
                 }
             });

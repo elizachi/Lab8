@@ -7,6 +7,7 @@ import ru.itmo.common.responses.Response;
 import ru.itmo.server.ServerLauncher;
 import ru.itmo.server.collection.commands.Command;
 import ru.itmo.server.collection.commands.app.Add;
+import ru.itmo.server.collection.commands.app.Clear;
 import ru.itmo.server.collection.commands.app.Delete;
 import ru.itmo.server.collection.commands.app.Update;
 import ru.itmo.server.collection.commands.auth.Authorization;
@@ -43,6 +44,7 @@ public class HandleCommands {
             new Add(),
             new Update(),
             new Delete(),
+            new Clear()
 
     };
 }
