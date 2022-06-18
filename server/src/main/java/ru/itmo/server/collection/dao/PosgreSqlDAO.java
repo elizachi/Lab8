@@ -93,36 +93,30 @@ public class PosgreSqlDAO implements DAO{
         try {
             PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
 
-            stmt.setString(2, humanBeing.getName());
-            stmt.setString(3, humanBeing.getSoundtrackName());
-            stmt.setLong(4, humanBeing.getMinutesOfWaiting());
-            stmt.setInt(5, humanBeing.getImpactSpeed());
-            stmt.setBoolean(6, humanBeing.isRealHero());
+            stmt.setString(1, humanBeing.getName());
+            stmt.setString(2, humanBeing.getSoundtrackName());
+            stmt.setLong(3, humanBeing.getMinutesOfWaiting());
+            stmt.setInt(4, humanBeing.getImpactSpeed());
+            stmt.setBoolean(5, humanBeing.isRealHero());
 
             if(humanBeing.isHasToothpick() == null) {
-                stmt.setNull(7, Types.BOOLEAN);
+                stmt.setNull(6, Types.BOOLEAN);
             } else {
-                stmt.setBoolean(7, humanBeing.isHasToothpick());
+                stmt.setBoolean(6, humanBeing.isHasToothpick());
             }
 
-            stmt.setInt(8, humanBeing.getCoordinates().getX());
-            stmt.setFloat(9, humanBeing.getCoordinates().getY());
+            stmt.setInt(7, humanBeing.getCoordinates().getX());
+            stmt.setFloat(8, humanBeing.getCoordinates().getY());
 
             if(humanBeing.getMood() == null) {
-                stmt.setNull(10, Types.CHAR);
+                stmt.setNull(9, Types.CHAR);
             } else {
-                stmt.setString(10, humanBeing.getMood().name());
+                stmt.setString(9, humanBeing.getMood().name());
             }
 
+            stmt.setString(10, humanBeing.getCar().getCarName());
+            stmt.setBoolean(11, humanBeing.getCar().getCarCool());
 
-            if(humanBeing.getMood() == null) {
-                stmt.setNull(11, Types.CHAR);
-            } else {
-                stmt.setString(11, humanBeing.getCar().getCarName());
-            }
-
-            stmt.setBoolean(12, humanBeing.getCar().getCarCool());
-            stmt.setString(13, user.getUsername());
             stmt.execute();
 
             return true;

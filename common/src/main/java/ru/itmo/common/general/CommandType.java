@@ -7,6 +7,7 @@ public enum CommandType {
     GET,
 
     ADD,
+    UPDATE,
 
 
 

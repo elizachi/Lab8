@@ -105,6 +105,11 @@ public class UpdateCommandForm {
     private static HumanBeing human;
     private static ResourceController resourceController;
 
+    private static Integer id;
+    private static void currentId(int id) {
+        UpdateCommandForm.id = id;
+    }
+
     public static HumanBeing getHuman() {
         return human;
     }
@@ -121,12 +126,12 @@ public class UpdateCommandForm {
 
         createButton.setOnAction(event -> {
             try {
-                human = checkValue.checkFields(CommandType.ADD, check(checkValue), user);
+                UpdateCommandForm.human = checkValue.checkFields(CommandType.UPDATE, check(checkValue), user);
                 createButton.getScene().getWindow().hide();
 
-                ClientAppLauncher.log.info("Команда add успешно выполнена");
+                ClientAppLauncher.log.info("Команда update успешно выполнена");
             } catch (CommandException | CheckHumanException e) {
-                ClientAppLauncher.log.info("Во время выполнения команды add произошла ошибка");
+                ClientAppLauncher.log.info("Во время выполнения команды update произошла ошибка");
             }
         });
 
@@ -157,10 +162,12 @@ public class UpdateCommandForm {
 
     }
 
-    public static void openUpdateForm(ResourceController resourceController) {
+    public static void openUpdateForm(ResourceController resourceController, Integer id) {
 
         user = TableFormController.getCurrentUser();
         UpdateCommandForm.resourceController = resourceController;
+
+        currentId(id);
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("update-command-form.fxml"));
         try {
@@ -252,7 +259,7 @@ public class UpdateCommandForm {
             throw new CheckHumanException(e.getErrorType());
         }
 
-        return new HumanBeing(
+        HumanBeing updHuman = new HumanBeing(
                 nameField.getText(),
                 soundtrackNameField.getText(),
                 Long.parseLong(minutesOfWaitingField.getText()),
@@ -265,6 +272,8 @@ public class UpdateCommandForm {
                 new Car(carNameField.getText(), carIsCoolField.isSelected()),
                 user
         );
+        updHuman.setId(UpdateCommandForm.id);
+        return updHuman;
     }
 
     private Mood convertToMood() {

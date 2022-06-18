@@ -415,7 +415,15 @@ public class TableFormController {
                     twoCommands.show(row, event.getScreenX(), event.getScreenY());
 
                     update.setOnAction(updateEvent -> {
-                        UpdateCommandForm.openUpdateForm(resourceController);
+                        UpdateCommandForm.openUpdateForm(resourceController, rowData.getId());
+
+                        HumanBeing updatedHuman = UpdateCommandForm.getHuman();
+                        if(updatedHuman != null) {
+                            row.getItem().getCoordinates().setX(updatedHuman.getCoordinates().getX());
+                            row.getItem().getCoordinates().setY(updatedHuman.getCoordinates().getY());
+                        }
+
+                        // TODO здесь сделать рефреш таблицы
                     });
                 }
             });
