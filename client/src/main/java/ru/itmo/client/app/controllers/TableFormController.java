@@ -415,6 +415,8 @@ public class TableFormController {
                     twoCommands.show(row, event.getScreenX(), event.getScreenY());
 
                     update.setOnAction(updateEvent -> {
+                        ClientAppLauncher.log.info("Запрос на выполнение команды update");
+
                         UpdateCommandForm.openUpdateForm(resourceController, rowData.getId());
 
                         HumanBeing updatedHuman = UpdateCommandForm.getHuman();
@@ -424,6 +426,14 @@ public class TableFormController {
                         }
 
                         // TODO здесь сделать рефреш таблицы
+                    });
+
+                    delete.setOnAction(deleteEvent -> {
+                        ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
+
+                        DeleteController.openDeleteForm(resourceController, rowData.getId());
+
+                        // TODO и здесь тоже рефреш
                     });
                 }
             });

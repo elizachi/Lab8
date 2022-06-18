@@ -57,7 +57,7 @@ public class UpdateCommandForm {
     @FXML
     private Button clearButton;
     @FXML
-    private Button createButton;
+    private Button updateButton;
     @FXML
     private RadioButton falseHasToothpickButton;
     @FXML
@@ -124,10 +124,10 @@ public class UpdateCommandForm {
         CommandValidator checkValue = new CommandValidator();
         setLanguage();
 
-        createButton.setOnAction(event -> {
+        updateButton.setOnAction(event -> {
             try {
                 UpdateCommandForm.human = checkValue.checkFields(CommandType.UPDATE, check(checkValue), user);
-                createButton.getScene().getWindow().hide();
+                updateButton.getScene().getWindow().hide();
 
                 ClientAppLauncher.log.info("Команда update успешно выполнена");
             } catch (CommandException | CheckHumanException e) {
@@ -167,7 +167,7 @@ public class UpdateCommandForm {
         user = TableFormController.getCurrentUser();
         UpdateCommandForm.resourceController = resourceController;
 
-        currentId(id);
+        UpdateCommandForm.currentId(id);
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("update-command-form.fxml"));
         try {
@@ -309,7 +309,7 @@ public class UpdateCommandForm {
         setProperty(yCooField, "yCooField");
 
         setProperty(clearButton, "ClearButton");
-        setProperty(createButton, "CreateButton");
+        setProperty(updateButton, "CreateButton");
         setProperty(falseHeroButton, "FalseHeroButton");
         setProperty(trueHeroButton, "TrueHeroButton");
         setProperty(falseHasToothpickButton, "FalseHasToothpickButton");

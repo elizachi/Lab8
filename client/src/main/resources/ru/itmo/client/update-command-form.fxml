@@ -126,7 +126,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="createButton" layoutX="216.0" layoutY="628.0" mnemonicParsing="false"
+      <Button fx:id="updateButton" layoutX="216.0" layoutY="628.0" mnemonicParsing="false"
               prefHeight="30.0" prefWidth="79.0" text="Обновить" />
       <Button fx:id="clearButton" layoutX="63.0" layoutY="628.0" mnemonicParsing="false"
               prefHeight="30.0" prefWidth="79.0" text="Очистить" />

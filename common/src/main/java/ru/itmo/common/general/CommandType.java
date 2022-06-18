@@ -8,7 +8,7 @@ public enum CommandType {
 
     ADD,
     UPDATE,
-
+    DELETE,
 
 
 }
