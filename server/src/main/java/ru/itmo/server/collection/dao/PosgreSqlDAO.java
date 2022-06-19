@@ -177,7 +177,7 @@ public class PosgreSqlDAO implements DAO{
     public String getAll() {
         StringBuilder result = new StringBuilder();
         try {
-            String sql = "SELECT id FROM human_being_collection";
+            String sql = "SELECT id FROM human_being_collection ORDER BY id";
             PreparedStatement stmt = ServerLoader.getConnection().prepareStatement(sql);
             stmt.execute();
             ResultSet resultSet = stmt.getResultSet();
