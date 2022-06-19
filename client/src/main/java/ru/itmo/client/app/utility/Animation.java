@@ -69,13 +69,6 @@ public class Animation {
         setCoordinatesOnCanvas(leftBoot, human, canvasPane);
         setCoordinatesOnCanvas(rightBoot, human, canvasPane);
 
-        if (human.isRealHero()) {
-            Shape heroCloak = setHeroCloak();
-            setCoordinatesOnCanvas(heroCloak, human, canvasPane);
-            canvasPane.getChildren().add(heroCloak);
-            shapeMap.put(0, heroCloak);
-        }
-
         shapeMap.put(3, body);
         shapeMap.put(9, leftHair);
         shapeMap.put(10, rightHair);

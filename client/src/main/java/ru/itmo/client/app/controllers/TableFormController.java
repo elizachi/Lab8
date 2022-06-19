@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
 
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -206,7 +207,7 @@ public class TableFormController {
             Runnable update = this::initializeTable;
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
@@ -382,51 +383,91 @@ public class TableFormController {
                 for (Shape shape : shapeMap.keySet()) {
 
                     Map<Integer, Shape> temp;
-                    final Label[] label = new Label[1];
                     temp = animation.setClosedEyes(canvasPane, human);
 
+                    shape.setOnMousePressed(event -> {
+                        shapeOnMouseClicked(event);
 
-                        shape.setOnMousePressed(event -> {
-                            int id = shapeMap.get(shape);
-                            label[0] = animation.setText(canvasPane, human);
-                            label[0].setText(human.toString());
-                            canvasPane.getChildren().add(label[0]);
-                            for (Integer i : temp.keySet()) {
-                                Shape shape1 = temp.get(i);
-                                canvasPane.getChildren().add(shape1);
-                                for (HumanBeing humanBeing : humanBeingTable.getItems()) {
-                                    if (humanBeing.getId() == id) {
-                                        animation.animationStart(shape1);
-                                        humanBeingTable.getSelectionModel().select(human);
-                                    }
+                        int id = shapeMap.get(shape);
+
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            canvasPane.getChildren().add(shape1);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationStart(shape1);
+                                    humanBeingTable.getSelectionModel().select(human);
                                 }
                             }
-                        });
+                        }
+                    });
 
-
-                        shape.setOnMouseReleased(event -> {
-                            int id = shapeMap.get(shape);
-                            for (Integer i : temp.keySet()) {
-                                Shape shape1 = temp.get(i);
-                                for (HumanBeing humanBeing : humanBeingTable.getItems()) {
-                                    if (humanBeing.getId() == id) {
-                                        animation.animationFinish(shape1);
-                                    }
+                    shape.setOnMouseReleased(event -> {
+                        int id = shapeMap.get(shape);
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationFinish(shape1);
                                 }
-                                canvasPane.getChildren().remove(shape1);
                             }
-                            canvasPane.getChildren().remove(label[0]);
-                        });
+                            canvasPane.getChildren().remove(shape1);
+                        }
+                    });
+                }
 
 
                 }
             }
         }
-    }
 
     private void setCoordinatesOnCanvas(Shape figure, HumanBeing human){
         figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
         figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 70));
+    }
+
+    private void shapeOnMouseClicked(MouseEvent event) {
+        Shape shape = (Shape) event.getSource();
+        int id = shapeMap.get(shape);
+        try {
+            for (HumanBeing human: humanBeingTable.getItems()) {
+                if (human.getId() == id) {
+                    humanBeingTable.getSelectionModel().select(human);
+                    if(Objects.equals(human.getUser().getUsername(), user.getUsername())) {
+                        ContextMenu twoCommands = new ContextMenu();
+
+                        MenuItem update = new MenuItem();
+                        update.textProperty().bind(resourceController.getStringBinding("UpdateButton"));
+                        MenuItem delete = new MenuItem();
+                        delete.textProperty().bind(resourceController.getStringBinding("DeleteButton"));
+
+                        twoCommands.getItems().addAll(update, delete);
+
+                        twoCommands.show(shape, event.getScreenX(), event.getScreenY());
+
+                        update.setOnAction(updateEvent -> {
+                            ClientAppLauncher.log.info("Запрос на выполнение команды update");
+
+                            UpdateCommandForm.openUpdateForm(resourceController, human.getId());
+
+
+                        });
+
+                        delete.setOnAction(deleteEvent -> {
+                            ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
+
+                            try {
+                                DeleteController.openDeleteForm(resourceController, human.getId());
+                            } catch (RuntimeException ignored){}
+                            refreshCanvas();
+                        });
+                    }
+                }
+
+            }
+
+
+        } catch (RuntimeException ignored){}
     }
 
     private void filter(ObservableList<HumanBeing> listOfHumans) {
