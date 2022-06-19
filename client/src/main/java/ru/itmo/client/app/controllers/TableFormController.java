@@ -194,6 +194,20 @@ public class TableFormController {
             HelpController.openForm(resourceController);
         });
 
+        xlsxImport.setOnAction(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("import-error-form.fxml"));
+
+            try {
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("ERROR!");
+                stage.showAndWait();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         shapeMap = new HashMap<>();
         textMap = new HashMap<>();
         localeMap = new HashMap<>();
