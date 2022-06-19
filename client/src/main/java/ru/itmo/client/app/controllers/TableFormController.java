@@ -387,12 +387,43 @@ public class TableFormController {
 
                 //чтобы на фигурку можно было кликнуть
                 for (Shape shape : shapeMap.keySet()) {
-                    shape.setOnMouseClicked(this::shapeOnMouseClicked);
+
+                    Map<Integer, Shape> temp;
+                    temp = animation.setClosedEyes(canvasPane, human);
+
+
+                        shape.setOnMousePressed(event -> {
+                            int id = shapeMap.get(shape);
+                            for (Integer i : temp.keySet()) {
+                                Shape shape1 = temp.get(i);
+                                canvasPane.getChildren().add(shape1);
+                                for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                    if (humanBeing.getId() == id) {
+                                        animation.animationStart(shape1);
+                                        humanBeingTable.getSelectionModel().select(human);
+                                    }
+                                }
+                            }
+                        });
+
+
+                        shape.setOnMouseReleased(event -> {
+                            int id = shapeMap.get(shape);
+                            for (Integer i : temp.keySet()) {
+                                Shape shape1 = temp.get(i);
+                                for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                    if (humanBeing.getId() == id) {
+                                        animation.animationFinish(shape1);
+                                    }
+                                }
+                                canvasPane.getChildren().remove(shape1);
+                            }
+                        });
+
+
                 }
 
                 //анимация (в процессе)
-                animation.animationLeft(leftEye, canvasPane, human);
-                animation.animationRight(rightEye, canvasPane, human);
 
                 textHumanInfo.setOnMouseClicked(body::fireEvent);
 
@@ -406,21 +437,6 @@ public class TableFormController {
     private void setCoordinatesOnCanvas(Shape figure, HumanBeing human){
         figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
         figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 70));
-    }
-
-    private void shapeOnMouseClicked(MouseEvent event) {
-        Shape shape = (Shape) event.getSource();
-        int id = shapeMap.get(shape);
-        try {
-            for (HumanBeing human: humanBeingTable.getItems()) {
-                if (human.getId() == id) {
-                    humanBeingTable.getSelectionModel().select(human);
-                }
-                break;
-            }
-
-
-        } catch (RuntimeException ignored){}
     }
 
     private void filter(ObservableList<HumanBeing> listOfHumans) {
