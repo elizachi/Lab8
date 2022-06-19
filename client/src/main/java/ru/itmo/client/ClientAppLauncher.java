@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 public class ClientAppLauncher extends Application {
 
     public static final Logger log = LogManager.getLogger(ClientAppLauncher.class.getName());
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Override
     public void start(Stage stage) throws IOException {

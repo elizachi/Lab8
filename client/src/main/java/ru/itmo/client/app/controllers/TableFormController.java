@@ -35,6 +35,7 @@ import ru.itmo.client.ClientAppLauncher;
 import ru.itmo.client.app.utility.Animation;
 import ru.itmo.client.app.utility.ResourceController;
 import ru.itmo.client.app.utility.LoadData;
+import ru.itmo.client.auth.controllers.AuthController;
 import ru.itmo.client.general.LanguageChanger;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.Car;
@@ -56,8 +57,6 @@ public class TableFormController {
     private TextField filterValue;
     @FXML
     private Button clearButton;
-
-    private final ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -148,27 +147,24 @@ public class TableFormController {
 
     @FXML
     private void initialize() {
-        initializeTable();
-
-        filter();
 
         userNameField.setText(user.getUsername());
         userColour.setFill(Color.valueOf(user.getColour()));
         userColour.setStroke(Color.valueOf(user.getColour()));
+
+        choiceSearch.getItems().addAll("id", "name", "username");
+        choiceSearch.setValue("id");
 
         addElementButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Запрос на выполнение команды add");
 
             try {
                 AddCommandForm.openAddForm(resourceController);
-                listOfHumans.add(AddCommandForm.getHuman());
+
             } catch (RuntimeException ignored) {}
 
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
 
-            humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
-            humanBeingTable.getSelectionModel().clearSelection();
-            refreshCanvas();
         });
 
         clearButton.setOnAction(event -> {
@@ -177,7 +173,6 @@ public class TableFormController {
                 ClearController.openClearForm(resourceController);
             } catch (RuntimeException ignored) {}
 
-            refreshCanvas();
         });
 
         switchColorSettingsButton.setOnAction(event -> {
@@ -187,7 +182,8 @@ public class TableFormController {
 
         switchUserSettingsButton.setOnAction(event -> {
             ClientAppLauncher.log.info("Смена пользователя");
-            //TODO переключение на регистрацию
+            new AuthController().openAuthForm();
+            addElementButton.getScene().getWindow().hide();
         });
 
         helpMenuButton.setOnAction(event -> {
@@ -211,7 +207,7 @@ public class TableFormController {
             Runnable update = this::initializeTable;
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
@@ -229,11 +225,7 @@ public class TableFormController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("table-form.fxml"));
         try {
-            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            int width = gd.getDisplayMode().getWidth();
-            int height = gd.getDisplayMode().getHeight();
-
-            Scene scene = new Scene(fxmlLoader.load(), width, height);
+            Scene scene = new Scene(fxmlLoader.load(), 500, 500);
             Stage stage = new Stage();
             stage.setScene(scene);
 
@@ -247,10 +239,6 @@ public class TableFormController {
      * Initialize table.
      */
     private void initializeTable(){
-
-        listOfHumans.clear();
-
-        loadTable(new LoadData().load());
 
         idColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
@@ -282,11 +270,11 @@ public class TableFormController {
                 cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getUsername())
         );
 
-        humanBeingTable.setItems(listOfHumans);
-
         initializeRows();
 
-        filter();
+        ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList(new LoadData().load());
+
+        filter(listOfHumans);
 
         if (shapeMap != null) {
             refreshCanvas();
@@ -432,49 +420,25 @@ public class TableFormController {
         } catch (RuntimeException ignored){}
     }
 
-    private void filter() {
-
-        choiceSearch = new ChoiceBox<>();
-        // TODO и тут локализацию нада захуярить
-        choiceSearch.getItems().addAll("id", "name", "minutes");
+    private void filter(ObservableList<HumanBeing> listOfHumans) {
 
         FilteredList<HumanBeing> filteredData = new FilteredList<>(listOfHumans, b -> true);
+
+        System.out.println(filterValue.getText());
+
         filterValue.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(humanPropertySearch -> {
 
-                String nowFilter = choiceSearch.getValue();
-                if(nowFilter == null) {
-                    if(newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
+                if(newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
 
-                    String lower = newValue.toLowerCase();
+                String keyword = newValue.toLowerCase();
 
-                    if(String.valueOf(humanPropertySearch.getId()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(humanPropertySearch.getName().indexOf(lower) != -1) {
-                        return true;
-                    } else if(humanPropertySearch.getSoundtrackName().indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getMinutesOfWaiting()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getImpactSpeed()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getCoordinates().getX()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getCoordinates().getY()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getMood()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getCar().getCarName()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(String.valueOf(humanPropertySearch.getCar().getCarCool()).indexOf(lower) != -1) {
-                        return true;
-                    } else if(humanPropertySearch.getUser().getUsername().indexOf(lower) != -1){
-                        return true;
-                    } else {
-                        return false;
-                    }
+                if(Objects.equals(choiceSearch.getValue(), "id")) {
+                    return String.valueOf(humanPropertySearch.getId()).equals(keyword);
+                } else if(Objects.equals(choiceSearch.getValue(), "name")){
+                    return humanPropertySearch.getName().contains(keyword);
                 } else {
                     return true;
                 }
@@ -531,17 +495,11 @@ public class TableFormController {
         collectionLabel.textProperty().bind(resourceController.getStringBinding("CollectionLabel"));
         coordinatesLabel.textProperty().bind(resourceController.getStringBinding("CoordinatesLabel"));
         collectionInfoLabel.textProperty().bind(resourceController.getStringBinding("CollectionInfoLabel"));
-        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(listOfHumans.size())));
+        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(5)));
     }
 
     private void setProperty(TableColumn<?,?> column, String text){
         column.textProperty().bind(resourceController.getStringBinding(text));
-    }
-
-    private void loadTable(Deque<HumanBeing> humans) {
-        if(humans != null) {
-            listOfHumans.addAll(humans);
-        }
     }
 
     private void initializeRows() {

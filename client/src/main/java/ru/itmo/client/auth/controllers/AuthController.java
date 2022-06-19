@@ -21,6 +21,7 @@ import ru.itmo.client.auth.utility.GenerateColours;
 import ru.itmo.client.general.LanguageChanger;
 import ru.itmo.common.general.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
@@ -168,5 +169,23 @@ public class AuthController {
         regTip.textProperty().bind(resourceController.getStringBinding("RegTip"));
         regLoginField.promptTextProperty().bind(resourceController.getStringBinding("RegLoginField"));
         regPasswordField.promptTextProperty().bind(resourceController.getStringBinding("RegPasswordField"));
+    }
+
+    public void openAuthForm()  {
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientAppLauncher.class.getResource("authorization-form.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Auth");
+            scene.getStylesheets().add("main-theme.css");
+            stage.setScene(scene);
+            stage.show();
+            ClientAppLauncher.log.info("Возврат к окну авторизации...");
+        } catch(IOException e) {
+            throw new RuntimeException();
+        }
+
     }
 }
