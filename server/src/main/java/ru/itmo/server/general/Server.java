@@ -71,9 +71,9 @@ public class Server {
                     if(amount == -1) {
                         session.remove(channel);
 
-                        if(session.size() == 0) {
-                            work = false;
-                        }
+//                        if(session.size() == 0) {
+//                            work = false;
+//                        }
 
                         ServerLauncher.log.info("Клиент " +
                                 channel.socket().getRemoteSocketAddress() +" вышел из приложения");

@@ -17,9 +17,11 @@ public class Clear implements Command {
         String all = psqlDAO.getAll();
         String[] numbers = all.trim().split(" ");
 
-        for(String num: numbers) {
-            psqlDAO.delete(Integer.parseInt(num));
-        }
+        try {
+            for(String num: numbers) {
+                psqlDAO.delete(Integer.parseInt(num));
+            }
+        } catch (RuntimeException ignored){}
         return new Response(Response.Status.OK, null, null);
     }
 }

@@ -1,9 +1,13 @@
 package ru.itmo.client.app.utility;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.ScaleTransition;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 import ru.itmo.common.model.HumanBeing;
 
 
@@ -12,19 +16,58 @@ import ru.itmo.common.model.HumanBeing;
  */
 public class Animation {
 
-    public void animation(Rectangle leftEye, Rectangle rightEye, AnchorPane canvasPane, HumanBeing human){
-        leftEye.setVisible(false);
-        rightEye.setVisible(false);
-
+    public void animationLeft(Shape leftEye, AnchorPane canvasPane, HumanBeing human) {
         Rectangle closedLeftEye = new Rectangle(16, 16, 10, 4);
+
+        closedLeftEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()-20));
+        closedLeftEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY()-70));
+
+        AnimationTimer animationStart = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                leftEye.setVisible(false);
+                closedLeftEye.setVisible(true);
+            }
+        };
+
+        AnimationTimer animationFinish = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                closedLeftEye.setVisible(false);
+                leftEye.setVisible(true);
+            }
+        };
+
+        animationStart.start();
+        animationFinish.start();
+
+    }
+
+    public void animationRight(Shape rightEye, AnchorPane canvasPane, HumanBeing human) {
         Rectangle closedRightEye = new Rectangle(45, 16, 10, 4);
 
-        closedLeftEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
-        closedLeftEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
-        closedRightEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()));
-        closedRightEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(human.getCoordinates().getY()));
+        closedRightEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()-20));
+        closedRightEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY()-70));
 
-        //анимация....
+        AnimationTimer animationStart = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                rightEye.setVisible(false);
+                closedRightEye.setVisible(true);
+            }
+        };
+
+        AnimationTimer animationFinish = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                closedRightEye.setVisible(false);
+                rightEye.setVisible(true);
+            }
+        };
+
+        animationStart.start();
+        animationFinish.start();
+
     }
 
     public Rectangle setFrontHair(){

@@ -15,86 +15,84 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-
 <ScrollPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.TableFormController">
-   <content>
-      <AnchorPane fx:id="mainWindow">
-          <children>
-              <TableView fx:id="humanBeingTable" editable="false" layoutX="55.0" layoutY="241.0" prefHeight="704.0" prefWidth="954.0">
-                  <columns>
-                      <TableColumn fx:id="idColumn" editable="false" prefWidth="46.39999008178711" resizable="false" text="id" />
-                      <TableColumn fx:id="creationDateColumn" prefWidth="61.600006103515625" text="date" />
-                      <TableColumn fx:id="nameColumn" editable="false" prefWidth="55.999969482421875" resizable="false" text="name" />
-                      <TableColumn fx:id="soundTrackColumn" editable="false" prefWidth="72.800048828125" resizable="false" text="soundtrack" />
-                      <TableColumn fx:id="minutesColumn" editable="false" prefWidth="84.80009460449219" resizable="false" text="minutes" />
-                      <TableColumn fx:id="impactSpeedColumn" editable="false" prefWidth="72.79998779296875" resizable="false" text="speed" />
-                      <TableColumn fx:id="realHeroColumn" editable="false" prefWidth="57.60003662109375" resizable="false" text="hero" />
-                      <TableColumn fx:id="toothPickColumn" editable="false" resizable="false" text="toothpick" />
-                      <TableColumn fx:id="coordinatesColumn" editable="false" prefWidth="131.20001220703125" resizable="false" text="coordinates">
-                          <columns>
-                              <TableColumn editable="false" prefWidth="71.0" resizable="false" text="X" fx:id="xColumn" />
-                              <TableColumn fx:id="yColumn" editable="false" prefWidth="65.0" resizable="false" text="Y" />
-                          </columns>
-                      </TableColumn>
-                      <TableColumn fx:id="moodColumn" editable="false" prefWidth="77.5999755859375" resizable="false" text="mood" />
-                      <TableColumn fx:id="carColumn" editable="false" prefWidth="128.800048828125" resizable="false" text="car">
-                          <columns>
-                              <TableColumn fx:id="carNameColumn" editable="false" prefWidth="72.0" resizable="false" text="name" />
-                              <TableColumn fx:id="carCoolColumn" editable="false" prefWidth="67.199951171875" resizable="false" text="cool" />
-                          </columns>
-                      </TableColumn>
-                      <TableColumn fx:id="userColumn" prefWidth="65.5999755859375" resizable="false" text="user" />
-                  </columns>
-              </TableView>
-              <Text fx:id="collectionLabel" layoutX="55.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HumanBeing Collection" wrappingWidth="319.634765625">
-                  <font>
-                      <Font size="14.0" />
-                  </font>
-              </Text>
-              <Text fx:id="coordinatesLabel" layoutX="1039.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="349.634765625">
-                  <font>
-                      <Font size="14.0" />
-                  </font>
-              </Text>
-              <MenuButton fx:id="menuButton" layoutX="55.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="106.0" text="Меню">
-                  <items>
-                      <MenuItem fx:id="helpMenuButton" mnemonicParsing="false" text="Помощь" />
-                      <MenuItem fx:id="profileMenuButton" mnemonicParsing="false" text="Профиль" />
-                  </items>
-              </MenuButton>
-              <MenuButton fx:id="settingsButton" layoutX="181.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Настройки">
-                  <items>
-                      <MenuItem fx:id="switchUserSettingsButton" mnemonicParsing="false" text="Сменить пользователя" />
-                      <MenuItem fx:id="switchColorSettingsButton" mnemonicParsing="false" text="Сменить цвет?" />
-                  </items>
-              </MenuButton>
-              <Button fx:id="addElementButton" layoutX="873.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Добавить элемент" />
-              <TextFlow layoutX="1033.0" layoutY="874.0" prefHeight="70.0" prefWidth="821.0" style="-fx-background-color: white;">
-                  <children>
-                      <Label fx:id="collectionInfo" prefHeight="70.0" prefWidth="824.0" text="Какая-то информация о коллекции">
-                          <font>
-                              <Font size="14.0" />
-                          </font>
-                      </Label>
-                  </children>
-              </TextFlow>
-              <AnchorPane fx:id="canvasPane" layoutX="1033.0" layoutY="241.0" prefHeight="587.0" prefWidth="821.0" style="-fx-background-color: white,   linear-gradient(from 0.5px 0.0px to 20px  0.0px, repeat, grey 5%, transparent 5%),      linear-gradient(from 0.0px 0.5px to  0.0px 20px, repeat, grey 5%, transparent 5%);" />
-              <Text fx:id="collectionInfoLabel" layoutX="1039.0" layoutY="859.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="219.634765625">
-                  <font>
-                      <Font size="14.0" />
-                  </font>
-              </Text>
-              <Label fx:id="userNameField" layoutX="125.0" layoutY="69.0" prefHeight="54.0" prefWidth="560.0">
-                  <font>
-                      <Font size="36.0" />
-                  </font>
-              </Label>
-              <Circle fx:id="userColour" fill="DODGERBLUE" layoutX="81.0" layoutY="96.0" radius="26.0" stroke="DODGERBLUE" strokeType="INSIDE" />
-              <ChoiceBox fx:id="languageChoice" layoutX="337.0" layoutY="151.0" prefHeight="49.0" prefWidth="61.0" />
-              <Button fx:id="clearButton" layoutX="707.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Очистить" />
-              <TextField fx:id="filterValue" layoutX="870.0" layoutY="70.0" />
-              <ChoiceBox fx:id="choiceSearch" layoutX="707.0" layoutY="70.0" prefHeight="28.0" prefWidth="136.0" />
-          </children>
-      </AnchorPane>
-   </content>
+    <content>
+        <AnchorPane fx:id="mainWindow">
+            <children>
+                <TableView fx:id="humanBeingTable" editable="false" layoutX="55.0" layoutY="241.0" prefHeight="704.0" prefWidth="954.0">
+                    <columns>
+                        <TableColumn fx:id="idColumn" editable="false" prefWidth="46.39999008178711" resizable="false" text="id" />
+                        <TableColumn fx:id="creationDateColumn" prefWidth="61.600006103515625" text="date" />
+                        <TableColumn fx:id="nameColumn" editable="false" prefWidth="55.999969482421875" resizable="false" text="name" />
+                        <TableColumn fx:id="soundTrackColumn" editable="false" prefWidth="72.800048828125" resizable="false" text="soundtrack" />
+                        <TableColumn fx:id="minutesColumn" editable="false" prefWidth="84.80009460449219" resizable="false" text="minutes" />
+                        <TableColumn fx:id="impactSpeedColumn" editable="false" prefWidth="72.79998779296875" resizable="false" text="speed" />
+                        <TableColumn fx:id="realHeroColumn" editable="false" prefWidth="57.60003662109375" resizable="false" text="hero" />
+                        <TableColumn fx:id="toothPickColumn" editable="false" resizable="false" text="toothpick" />
+                        <TableColumn fx:id="coordinatesColumn" editable="false" prefWidth="131.20001220703125" resizable="false" text="coordinates">
+                            <columns>
+                                <TableColumn editable="false" prefWidth="71.0" resizable="false" text="X" fx:id="xColumn" />
+                                <TableColumn fx:id="yColumn" editable="false" prefWidth="65.0" resizable="false" text="Y" />
+                            </columns>
+                        </TableColumn>
+                        <TableColumn fx:id="moodColumn" editable="false" prefWidth="77.5999755859375" resizable="false" text="mood" />
+                        <TableColumn fx:id="carColumn" editable="false" prefWidth="128.800048828125" resizable="false" text="car">
+                            <columns>
+                                <TableColumn fx:id="carNameColumn" editable="false" prefWidth="72.0" resizable="false" text="name" />
+                                <TableColumn fx:id="carCoolColumn" editable="false" prefWidth="67.199951171875" resizable="false" text="cool" />
+                            </columns>
+                        </TableColumn>
+                        <TableColumn fx:id="userColumn" prefWidth="65.5999755859375" resizable="false" text="user" />
+                    </columns>
+                </TableView>
+                <Text fx:id="collectionLabel" layoutX="55.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HumanBeing Collection" wrappingWidth="319.634765625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text fx:id="coordinatesLabel" layoutX="1039.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Human beings on coordinates" wrappingWidth="349.634765625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <MenuButton fx:id="menuButton" layoutX="55.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="106.0" text="Меню">
+                    <items>
+                        <MenuItem fx:id="helpMenuButton" mnemonicParsing="false" text="Помощь" />
+                    </items>
+                </MenuButton>
+                <MenuButton fx:id="settingsButton" layoutX="181.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Настройки">
+                    <items>
+                        <MenuItem fx:id="switchUserSettingsButton" mnemonicParsing="false" text="Сменить пользователя" />
+                        <MenuItem fx:id="switchColorSettingsButton" mnemonicParsing="false" text="Сменить цвет?" />
+                    </items>
+                </MenuButton>
+                <Button fx:id="addElementButton" layoutX="873.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Добавить элемент" />
+                <TextFlow layoutX="1033.0" layoutY="874.0" prefHeight="70.0" prefWidth="821.0" style="-fx-background-color: white;">
+                    <children>
+                        <Label fx:id="collectionInfo" prefHeight="70.0" prefWidth="824.0" text="Какая-то информация о коллекции">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </TextFlow>
+                <AnchorPane fx:id="canvasPane" layoutX="1033.0" layoutY="241.0" prefHeight="587.0" prefWidth="821.0" style="-fx-background-color: white,   linear-gradient(from 0.5px 0.0px to 20px  0.0px, repeat, grey 5%, transparent 5%),      linear-gradient(from 0.0px 0.5px to  0.0px 20px, repeat, grey 5%, transparent 5%);" />
+                <Text fx:id="collectionInfoLabel" layoutX="1039.0" layoutY="859.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Информация о коллекции:" wrappingWidth="219.634765625">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Label fx:id="userNameField" layoutX="125.0" layoutY="69.0" prefHeight="54.0" prefWidth="560.0">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Label>
+                <Circle fx:id="userColour" fill="DODGERBLUE" layoutX="81.0" layoutY="96.0" radius="26.0" stroke="DODGERBLUE" strokeType="INSIDE" />
+                <ChoiceBox fx:id="languageChoice" layoutX="337.0" layoutY="151.0" prefHeight="49.0" prefWidth="61.0" />
+                <Button fx:id="clearButton" layoutX="707.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Очистить" />
+                <TextField fx:id="filterValue" layoutX="870.0" layoutY="70.0" />
+                <ChoiceBox fx:id="choiceSearch" layoutX="707.0" layoutY="70.0" prefHeight="28.0" prefWidth="136.0" />
+            </children>
+        </AnchorPane>
+    </content>
 </ScrollPane>
