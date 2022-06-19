@@ -194,6 +194,10 @@ public class TableFormController {
             HelpController.openForm(resourceController);
         });
 
+        xlsxImport.setOnAction(event -> {
+            ImportErrorForm.openForm(resourceController);
+        });
+
         shapeMap = new HashMap<>();
         textMap = new HashMap<>();
         localeMap = new HashMap<>();
