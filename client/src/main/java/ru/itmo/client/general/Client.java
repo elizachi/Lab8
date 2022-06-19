@@ -1,6 +1,7 @@
 package ru.itmo.client.general;
 
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.auth.controllers.WaitController;
 import ru.itmo.client.server.ServerAPI;
 import ru.itmo.client.server.ServerAPImpl;
 import ru.itmo.common.requests.Request;
@@ -28,6 +29,7 @@ public class Client {
         while (!serverAPI.connectToServer()) {
             if (serverAPI.getAttempts() > connectionAttempts) {
                 ClientAppLauncher.log.fatal("Превышено количество попыток подключиться");
+                new WaitController().openWaitForm();
                 return;
             }
             try {

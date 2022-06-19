@@ -16,6 +16,6 @@
          </font>
       </Label>
       <Button fx:id="reconnectButton" layoutX="123.0" layoutY="152.0" mnemonicParsing="false"
-              prefHeight="49.0" prefWidth="125.0" text="Try to reconnect..." />
+              prefHeight="49.0" prefWidth="125.0" text="Close and try to reconnect..." />
    </children>
 </AnchorPane>

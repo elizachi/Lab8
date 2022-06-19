@@ -160,14 +160,11 @@ public class TableFormController {
 
             try {
                 AddCommandForm.openAddForm(resourceController);
-                listOfHumans.add(AddCommandForm.getHuman());
+
             } catch (RuntimeException ignored) {}
 
             ClientAppLauncher.log.info("Форма добавления элемента была закрыта");
 
-            humanBeingTable.setItems(FXCollections.observableArrayList(listOfHumans));
-            humanBeingTable.getSelectionModel().clearSelection();
-            refreshCanvas();
         });
 
         clearButton.setOnAction(event -> {
@@ -176,7 +173,6 @@ public class TableFormController {
                 ClearController.openClearForm(resourceController);
             } catch (RuntimeException ignored) {}
 
-            refreshCanvas();
         });
 
         switchColorSettingsButton.setOnAction(event -> {
@@ -210,7 +206,7 @@ public class TableFormController {
             Runnable update = this::initializeTable;
             while (true) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
@@ -230,7 +226,7 @@ public class TableFormController {
         try {
             Scene scene = new Scene(fxmlLoader.load(), 500, 500);
             Stage stage = new Stage();
-            stage.setMaximized(true);
+
             stage.setScene(scene);
 
             stage.show();
@@ -276,9 +272,7 @@ public class TableFormController {
 
         initializeRows();
 
-        try {
-            ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList(new LoadData().load());
-        } catch (RuntimeException ignored){}
+        ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList(new LoadData().load());
 
         filter(listOfHumans);
 
