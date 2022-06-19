@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
 
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -387,12 +388,42 @@ public class TableFormController {
 
                 //чтобы на фигурку можно было кликнуть
                 for (Shape shape : shapeMap.keySet()) {
-                    shape.setOnMouseClicked(this::shapeOnMouseClicked);
+
+                    Map<Integer, Shape> temp;
+                    temp = animation.setClosedEyes(canvasPane, human);
+
+                    shape.setOnMousePressed(event -> {
+                        shapeOnMouseClicked(event);
+
+                        int id = shapeMap.get(shape);
+
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            canvasPane.getChildren().add(shape1);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationStart(shape1);
+                                    humanBeingTable.getSelectionModel().select(human);
+                                }
+                            }
+                        }
+                    });
+
+                    shape.setOnMouseReleased(event -> {
+                        int id = shapeMap.get(shape);
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationFinish(shape1);
+                                }
+                            }
+                            canvasPane.getChildren().remove(shape1);
+                        }
+                    });
                 }
 
                 //анимация (в процессе)
-                animation.animationLeft(leftEye, canvasPane, human);
-                animation.animationRight(rightEye, canvasPane, human);
 
                 textHumanInfo.setOnMouseClicked(body::fireEvent);
 
