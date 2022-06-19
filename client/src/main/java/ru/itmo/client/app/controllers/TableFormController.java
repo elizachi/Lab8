@@ -87,6 +87,8 @@ public class TableFormController {
     @FXML
     private MenuItem helpMenuButton;
     @FXML
+    private MenuItem xlsxImport;
+    @FXML
     private MenuItem switchColorSettingsButton;
     @FXML
     private MenuItem switchUserSettingsButton;
@@ -539,6 +541,7 @@ public class TableFormController {
         clearButton.textProperty().bind(resourceController.getStringBinding("MainClearButton"));
         menuButton.textProperty().bind(resourceController.getStringBinding("MenuButton"));
             helpMenuButton.textProperty().bind(resourceController.getStringBinding("HelpMenuButton"));
+            xlsxImport.textProperty().bind(resourceController.getStringBinding("xlsxImport"));
         settingsButton.textProperty().bind(resourceController.getStringBinding("SettingsButton"));
             switchUserSettingsButton.textProperty().bind(resourceController.getStringBinding("SwitchUserSettingsButton"));
             switchColorSettingsButton.textProperty().bind(resourceController.getStringBinding("SwitchColorSettingsButton"));

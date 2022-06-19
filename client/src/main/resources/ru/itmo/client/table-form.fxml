@@ -58,6 +58,7 @@
                 <MenuButton fx:id="menuButton" layoutX="55.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="106.0" text="Меню">
                     <items>
                         <MenuItem fx:id="helpMenuButton" mnemonicParsing="false" text="Помощь" />
+                  <MenuItem mnemonicParsing="false" text="Импорт из xlsx файла" fx:id="xlsxImport" />
                     </items>
                 </MenuButton>
                 <MenuButton fx:id="settingsButton" layoutX="181.0" layoutY="151.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="136.0" text="Настройки">
