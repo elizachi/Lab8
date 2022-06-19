@@ -309,7 +309,7 @@ public class UpdateCommandForm {
         setProperty(yCooField, "yCooField");
 
         setProperty(clearButton, "ClearButton");
-        setProperty(updateButton, "CreateButton");
+        setProperty(updateButton, "UpdButton");
         setProperty(falseHeroButton, "FalseHeroButton");
         setProperty(trueHeroButton, "TrueHeroButton");
         setProperty(falseHasToothpickButton, "FalseHasToothpickButton");

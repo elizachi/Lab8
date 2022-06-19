@@ -206,7 +206,7 @@ public class TableFormController {
             Runnable update = this::initializeTable;
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
@@ -415,8 +415,37 @@ public class TableFormController {
             for (HumanBeing human: humanBeingTable.getItems()) {
                 if (human.getId() == id) {
                     humanBeingTable.getSelectionModel().select(human);
+                    if(Objects.equals(human.getUser().getUsername(), user.getUsername())) {
+                        ContextMenu twoCommands = new ContextMenu();
+
+                        MenuItem update = new MenuItem();
+                        update.textProperty().bind(resourceController.getStringBinding("UpdateButton"));
+                        MenuItem delete = new MenuItem();
+                        delete.textProperty().bind(resourceController.getStringBinding("DeleteButton"));
+
+                        twoCommands.getItems().addAll(update, delete);
+
+                        twoCommands.show(shape, event.getScreenX(), event.getScreenY());
+
+                        update.setOnAction(updateEvent -> {
+                            ClientAppLauncher.log.info("Запрос на выполнение команды update");
+
+                            UpdateCommandForm.openUpdateForm(resourceController, human.getId());
+
+
+                        });
+
+                        delete.setOnAction(deleteEvent -> {
+                            ClientAppLauncher.log.info("Запрос на выполнение команлы delete");
+
+                            try {
+                                DeleteController.openDeleteForm(resourceController, human.getId());
+                            } catch (RuntimeException ignored){}
+                            refreshCanvas();
+                        });
+                    }
                 }
-                break;
+
             }
 
 
