@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
 
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -335,12 +336,6 @@ public class TableFormController {
                 text.setFill(Color.web(human.getUser().getColour()));
                 textMap.put(human.getId(), text);
 
-                Label textHumanInfo = new Label();
-                textHumanInfo.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 15));
-                textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 170));
-                textHumanInfo.textProperty().bind(resourceController.getStringBinding("HumanInfo"));
-                textHumanInfo.setLabelFor(body);
-
                 //задание координат
                 setCoordinatesOnCanvas(head, human);
                 setCoordinatesOnCanvas(leftHair, human);
@@ -366,7 +361,6 @@ public class TableFormController {
                 canvasPane.getChildren().addAll(head, leftHair, rightHair, frontHair, leftCheek, rightCheek, leftEye, rightEye,
                         neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
                 canvasPane.getChildren().add(text);
-                canvasPane.getChildren().add(textHumanInfo);
 
                 shapeMap.put(body, human.getId());
                 shapeMap.put(leftHair, human.getId());
@@ -387,21 +381,45 @@ public class TableFormController {
 
                 //чтобы на фигурку можно было кликнуть
                 for (Shape shape : shapeMap.keySet()) {
-                    shape.setOnMouseClicked(this::shapeOnMouseClicked);
+
+                    Map<Integer, Shape> temp;
+                    temp = animation.setClosedEyes(canvasPane, human);
+
+                    shape.setOnMousePressed(event -> {
+                        shapeOnMouseClicked(event);
+
+                        int id = shapeMap.get(shape);
+
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            canvasPane.getChildren().add(shape1);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationStart(shape1);
+                                    humanBeingTable.getSelectionModel().select(human);
+                                }
+                            }
+                        }
+                    });
+
+                    shape.setOnMouseReleased(event -> {
+                        int id = shapeMap.get(shape);
+                        for (Integer i : temp.keySet()) {
+                            Shape shape1 = temp.get(i);
+                            for (HumanBeing humanBeing : humanBeingTable.getItems()) {
+                                if (humanBeing.getId() == id) {
+                                    animation.animationFinish(shape1);
+                                }
+                            }
+                            canvasPane.getChildren().remove(shape1);
+                        }
+                    });
                 }
 
-                //анимация (в процессе)
-                animation.animationLeft(leftEye, canvasPane, human);
-                animation.animationRight(rightEye, canvasPane, human);
 
-                textHumanInfo.setOnMouseClicked(body::fireEvent);
-
-                ScaleTransition transition = new ScaleTransition(Duration.seconds(3), textHumanInfo);
-                transition.setFromX(0); transition.setFromY(0);
-                transition.setToX(1); transition.setToY(1);
+                }
             }
         }
-    }
 
     private void setCoordinatesOnCanvas(Shape figure, HumanBeing human){
         figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));

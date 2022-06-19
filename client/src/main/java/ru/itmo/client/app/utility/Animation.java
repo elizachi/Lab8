@@ -1,14 +1,18 @@
 package ru.itmo.client.app.utility;
 
-import javafx.animation.AnimationTimer;
 import javafx.animation.ScaleTransition;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ru.itmo.common.model.HumanBeing;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -16,58 +20,90 @@ import ru.itmo.common.model.HumanBeing;
  */
 public class Animation {
 
-    public void animationLeft(Shape leftEye, AnchorPane canvasPane, HumanBeing human) {
-        Rectangle closedLeftEye = new Rectangle(16, 16, 10, 4);
+    public Label setText(AnchorPane canvasPane, HumanBeing humanBeing) {
+        Label textHumanInfo = new Label();
+        textHumanInfo.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(humanBeing.getCoordinates().getX() - 15));
+        textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-humanBeing.getCoordinates().getY() - 170));
 
-        closedLeftEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()-20));
-        closedLeftEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY()-70));
-
-        AnimationTimer animationStart = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                leftEye.setVisible(false);
-                closedLeftEye.setVisible(true);
-            }
-        };
-
-        AnimationTimer animationFinish = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                closedLeftEye.setVisible(false);
-                leftEye.setVisible(true);
-            }
-        };
-
-        animationStart.start();
-        animationFinish.start();
-
+        return textHumanInfo;
     }
 
-    public void animationRight(Shape rightEye, AnchorPane canvasPane, HumanBeing human) {
-        Rectangle closedRightEye = new Rectangle(45, 16, 10, 4);
+    public Map<Integer, Shape> setClosedEyes(AnchorPane canvasPane, HumanBeing human) {
+        Map<Integer, Shape> shapeMap = new HashMap<>();
 
-        closedRightEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX()-20));
-        closedRightEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY()-70));
+        Shape leftHair = setLeftHair();
+        Shape rightHair = setRightHair();
+        Shape frontHair = setFrontHair();
+        Shape leftCheek = setLeftCheek();
+        Shape rightCheek = setRightCheek();
+        Shape leftEye = new Rectangle(16, 16, 10, 4);
+        leftEye.setFill(Color.rgb(61, 57, 52));
+        Shape rightEye = new Rectangle(45, 16, 10, 4);
+        rightEye.setFill(Color.rgb(61, 57, 52));
+        Shape head = setHead();
+        Shape neck = setNeck();
+        Shape body = setBody(Color.web(human.getUser().getColour()));
+        Shape leftHand = setLeftHand();
+        Shape rightHand = setRightHand();
+        Shape leftLeg = setLeftLeg();
+        Shape rightLeg = setRightLeg();
+        Shape leftBoot = setLeftBoot();
+        Shape rightBoot = setRightBoot();
 
-        AnimationTimer animationStart = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                rightEye.setVisible(false);
-                closedRightEye.setVisible(true);
-            }
-        };
+        setCoordinatesOnCanvas(head, human, canvasPane);
+        setCoordinatesOnCanvas(leftHair, human, canvasPane);
+        setCoordinatesOnCanvas(rightHair, human, canvasPane);
+        setCoordinatesOnCanvas(frontHair, human, canvasPane);
+        setCoordinatesOnCanvas(leftCheek, human, canvasPane);
+        setCoordinatesOnCanvas(rightCheek, human, canvasPane);
+        leftEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
+        leftEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 50));
+        rightEye.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
+        rightEye.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 50));
+        setCoordinatesOnCanvas(neck, human, canvasPane);
+        setCoordinatesOnCanvas(body, human, canvasPane);
+        setCoordinatesOnCanvas(leftHand, human, canvasPane);
+        setCoordinatesOnCanvas(rightHand, human, canvasPane);
+        setCoordinatesOnCanvas(leftLeg, human, canvasPane);
+        setCoordinatesOnCanvas(rightLeg, human, canvasPane);
+        setCoordinatesOnCanvas(leftBoot, human, canvasPane);
+        setCoordinatesOnCanvas(rightBoot, human, canvasPane);
 
-        AnimationTimer animationFinish = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                closedRightEye.setVisible(false);
-                rightEye.setVisible(true);
-            }
-        };
+        shapeMap.put(3, body);
+        shapeMap.put(9, leftHair);
+        shapeMap.put(10, rightHair);
+        shapeMap.put(4, frontHair);
+        shapeMap.put(5, leftCheek);
+        shapeMap.put(6, rightCheek);
+        shapeMap.put(7, leftEye);
+        shapeMap.put(8, rightEye);
+        shapeMap.put(2, head);
+        shapeMap.put(1, neck);
+        shapeMap.put(11, leftHand);
+        shapeMap.put(12, rightHand);
+        shapeMap.put(13, leftLeg);
+        shapeMap.put(16, rightLeg);
+        shapeMap.put(14, leftBoot);
+        shapeMap.put(15, rightBoot);
 
-        animationStart.start();
-        animationFinish.start();
+        return shapeMap;
+    }
 
+    public void animationStart(Shape shape){
+        ScaleTransition transition = new ScaleTransition(Duration.millis(50), shape);
+        transition.setFromX(0);
+        transition.setFromY(0);
+        transition.setToX(1);
+        transition.setToY(1);
+    }
+
+    public void animationFinish(Shape shape) {
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(3), shape);
+            transition.setFromX(1);
+            transition.setFromY(1);
+            transition.setToX(0);
+            transition.setToY(0);
+            transition.play();
     }
 
     public Rectangle setFrontHair(){
@@ -206,5 +242,10 @@ public class Animation {
                 6.0, 127.0);
         heroCloak.setFill(Color.rgb(238, 59, 6));
         return heroCloak;
+    }
+
+    private void setCoordinatesOnCanvas(Shape figure, HumanBeing human, AnchorPane canvasPane){
+        figure.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 20));
+        figure.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 70));
     }
 }
