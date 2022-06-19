@@ -124,7 +124,7 @@ public class CommandValidator {
     public Mood checkMood(String field) throws CheckHumanException {
         try {
             if(field.isEmpty()) return null;
-            return Mood.valueOf(field);
+            return Mood.valueOf(field.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new CheckHumanException(CheckHumanException.ErrorType.TYPE.setTitle(
                     "Введено неверное значение"
