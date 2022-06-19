@@ -335,12 +335,6 @@ public class TableFormController {
                 text.setFill(Color.web(human.getUser().getColour()));
                 textMap.put(human.getId(), text);
 
-                Label textHumanInfo = new Label();
-                textHumanInfo.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(human.getCoordinates().getX() - 15));
-                textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-human.getCoordinates().getY() - 170));
-                textHumanInfo.textProperty().bind(resourceController.getStringBinding("HumanInfo"));
-                textHumanInfo.setLabelFor(body);
-
                 //задание координат
                 setCoordinatesOnCanvas(head, human);
                 setCoordinatesOnCanvas(leftHair, human);
@@ -366,7 +360,6 @@ public class TableFormController {
                 canvasPane.getChildren().addAll(head, leftHair, rightHair, frontHair, leftCheek, rightCheek, leftEye, rightEye,
                         neck, body, leftHand, rightHand, leftLeg, rightLeg, leftBoot, rightBoot);
                 canvasPane.getChildren().add(text);
-                canvasPane.getChildren().add(textHumanInfo);
 
                 shapeMap.put(body, human.getId());
                 shapeMap.put(leftHair, human.getId());
@@ -389,11 +382,15 @@ public class TableFormController {
                 for (Shape shape : shapeMap.keySet()) {
 
                     Map<Integer, Shape> temp;
+                    final Label[] label = new Label[1];
                     temp = animation.setClosedEyes(canvasPane, human);
 
 
                         shape.setOnMousePressed(event -> {
                             int id = shapeMap.get(shape);
+                            label[0] = animation.setText(canvasPane, human);
+                            label[0].setText(human.toString());
+                            canvasPane.getChildren().add(label[0]);
                             for (Integer i : temp.keySet()) {
                                 Shape shape1 = temp.get(i);
                                 canvasPane.getChildren().add(shape1);
@@ -418,18 +415,11 @@ public class TableFormController {
                                 }
                                 canvasPane.getChildren().remove(shape1);
                             }
+                            canvasPane.getChildren().remove(label[0]);
                         });
 
 
                 }
-
-                //анимация (в процессе)
-
-                textHumanInfo.setOnMouseClicked(body::fireEvent);
-
-                ScaleTransition transition = new ScaleTransition(Duration.seconds(3), textHumanInfo);
-                transition.setFromX(0); transition.setFromY(0);
-                transition.setToX(1); transition.setToY(1);
             }
         }
     }

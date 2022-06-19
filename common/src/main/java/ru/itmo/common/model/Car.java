@@ -35,9 +35,9 @@ public class Car {
             carInfo += getCarName() + ", ";
         }
         if (getCarCool()) {
-            carInfo += "крутая тачка";
+            carInfo += "cool car";
         } else {
-            carInfo += "среднячок";
+            carInfo += "meh";
         }
         return carInfo;
     }

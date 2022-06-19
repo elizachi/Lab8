@@ -1,13 +1,13 @@
 package ru.itmo.client.app.utility;
 
-import javafx.animation.AnimationTimer;
 import javafx.animation.ScaleTransition;
-import javafx.animation.Transition;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ru.itmo.common.model.HumanBeing;
 
@@ -19,6 +19,14 @@ import java.util.Map;
  * Класс для отрисовки человечка
  */
 public class Animation {
+
+    public Label setText(AnchorPane canvasPane, HumanBeing humanBeing) {
+        Label textHumanInfo = new Label();
+        textHumanInfo.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(humanBeing.getCoordinates().getX() - 15));
+        textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-humanBeing.getCoordinates().getY() - 170));
+
+        return textHumanInfo;
+    }
 
     public Map<Integer, Shape> setClosedEyes(AnchorPane canvasPane, HumanBeing human) {
         Map<Integer, Shape> shapeMap = new HashMap<>();
@@ -65,23 +73,23 @@ public class Animation {
             Shape heroCloak = setHeroCloak();
             setCoordinatesOnCanvas(heroCloak, human, canvasPane);
             canvasPane.getChildren().add(heroCloak);
-            shapeMap.put(16, heroCloak);
+            shapeMap.put(0, heroCloak);
         }
 
         shapeMap.put(3, body);
-        shapeMap.put(8, leftHair);
-        shapeMap.put(9, rightHair);
-        shapeMap.put(3, frontHair);
-        shapeMap.put(4, leftCheek);
-        shapeMap.put(5, rightCheek);
-        shapeMap.put(6, leftEye);
-        shapeMap.put(7, rightEye);
-        shapeMap.put(1, head);
-        shapeMap.put(0, neck);
-        shapeMap.put(10, leftHand);
-        shapeMap.put(11, rightHand);
-        shapeMap.put(12, leftLeg);
-        shapeMap.put(13, rightLeg);
+        shapeMap.put(9, leftHair);
+        shapeMap.put(10, rightHair);
+        shapeMap.put(4, frontHair);
+        shapeMap.put(5, leftCheek);
+        shapeMap.put(6, rightCheek);
+        shapeMap.put(7, leftEye);
+        shapeMap.put(8, rightEye);
+        shapeMap.put(2, head);
+        shapeMap.put(1, neck);
+        shapeMap.put(11, leftHand);
+        shapeMap.put(12, rightHand);
+        shapeMap.put(13, leftLeg);
+        shapeMap.put(16, rightLeg);
         shapeMap.put(14, leftBoot);
         shapeMap.put(15, rightBoot);
 
@@ -97,7 +105,7 @@ public class Animation {
     }
 
     public void animationFinish(Shape shape) {
-            ScaleTransition transition = new ScaleTransition(Duration.millis(50), shape);
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(3), shape);
             transition.setFromX(1);
             transition.setFromY(1);
             transition.setToX(0);
