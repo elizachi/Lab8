@@ -13,6 +13,9 @@ mainClassName = "ru.itmo.client.ClientAppLauncher"
 dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
     implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+
+    implementation 'org.apache.poi:poi:5.2.2'
+    implementation 'org.apache.poi:poi-ooxml:5.2.2'
     implementation project(':common')
 }
 
@@ -27,10 +30,6 @@ task copyAllJarsToBuild() {
             from 'client/build/libs/client.jar'
             into "build/libs"
         }
-//        copy {
-//            from 'server/build/libs/server.jar'
-//            into "build/libs"
-//        }
     }
 }
 targetCompatibility = JavaVersion.VERSION_11

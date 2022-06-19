@@ -4,6 +4,7 @@ module ru.itmo.client {
     requires org.apache.logging.log4j;
     requires ru.itmo.common;
     requires java.desktop;
+    requires org.apache.poi.ooxml;
 
     opens ru.itmo.client to javafx.fxml;
     exports ru.itmo.client;
@@ -15,6 +16,5 @@ module ru.itmo.client {
     opens ru.itmo.client.app.controllers to javafx.fxml;
     exports ru.itmo.client.auth.controllers;
     opens ru.itmo.client.auth.controllers to javafx.fxml;
-//    exports com.gluonhq.charm.glisten.control;
-//    opens com.gluonhq.charm.glisten.control to javafx.fxml;
+
 }

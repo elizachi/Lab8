@@ -13,4 +13,20 @@ ext.moduleName = 'common'
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    implementation 'org.apache.poi:poi:5.2.2'
+    implementation 'org.apache.poi:poi-ooxml:5.2.2'
+//    implementation 'org.apache.commons.codec:apache:5.2.2'
+//    implementation 'org.apache.xmlbeans:apache:5.2.2'
+//    implementation 'com.zaxxer.sparsebits:apache:5.2.2'
+//    implementation 'org.slf4j:apache:5.2.2'
+//    implementation 'org.apache.poi:apache:5.2.2'
+//    implementation 'com.microsoft.schemas:apache:5.2.2'
+//    implementation 'org.apache.poi.ss.excelant:apache:5.2.2'
+//    implementation 'org.apache.poi.examples:apache:5.2.2'
+//    implementation 'com.graphbuilder:apache:5.2.2'
+//    implementation 'org.apache.commons.math3:apache:5.2.2'
+//    implementation 'org.apache.commons.logging:apache:5.2.2'
+//    implementation 'org.apache.commons.io:apache:5.2.2'
+//    implementation 'org.apache.commons.collections:apache:5.2.2'
 }
