@@ -33,16 +33,23 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ru.itmo.client.ClientAppLauncher;
+import ru.itmo.client.app.exceptions.CheckHumanException;
 import ru.itmo.client.app.utility.Animation;
 import ru.itmo.client.app.utility.ResourceController;
 import ru.itmo.client.app.utility.LoadData;
 import ru.itmo.client.auth.controllers.AuthController;
+import ru.itmo.client.general.Client;
+import ru.itmo.client.general.ClientLoader;
 import ru.itmo.client.general.LanguageChanger;
+import ru.itmo.client.xsl_parser.ParseXSL;
+import ru.itmo.common.general.CommandType;
 import ru.itmo.common.general.User;
 import ru.itmo.common.model.Car;
 import ru.itmo.common.model.Coordinates;
 import ru.itmo.common.model.HumanBeing;
 import ru.itmo.common.model.Mood;
+import ru.itmo.common.requests.Request;
+import ru.itmo.common.responses.Response;
 
 
 public class TableFormController {
@@ -195,7 +202,25 @@ public class TableFormController {
         });
 
         xlsxImport.setOnAction(event -> {
-            ImportErrorForm.openForm(resourceController);
+            Deque<HumanBeing> humanBeings = new ArrayDeque<>();
+            try {
+                humanBeings = ParseXSL.parseFromXSL();
+
+                for(HumanBeing human: humanBeings) {
+                    Response response = new Client(ClientLoader.getServerHost(), ClientLoader.getServerPort())
+                            .send(new Request(CommandType.ADD, human, user));
+
+                    if(response.getStatus() == Response.Status.OK) {
+                        ClientAppLauncher.log.info("Команда add  успешно выполнена");
+                    } else {
+                        ClientAppLauncher.log.info("Произошла ошибка в процессе выполнения команды add");
+                    }
+                }
+            } catch (CheckHumanException e) {
+                ImportErrorForm.openForm(resourceController, "Incorrect field for human");
+            } catch (RuntimeException e) {
+                ImportErrorForm.openForm(resourceController, "File not found");
+            }
         });
 
         shapeMap = new HashMap<>();

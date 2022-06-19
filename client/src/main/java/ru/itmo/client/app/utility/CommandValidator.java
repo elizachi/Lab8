@@ -102,4 +102,34 @@ public class CommandValidator {
         }
     }
 
+    public Boolean checkNonNullBoolean(String field) throws CheckHumanException {
+        checkNonNullFields(field);
+        if(!field.equals("true") && !field.equals("false")) {
+            throw new CheckHumanException(CheckHumanException.ErrorType.TYPE.setTitle(
+                    "Введено неверное значение"
+            ));
+        }
+        return field.equals("true");
+    }
+
+    public Boolean checkBoolean(String field) throws CheckHumanException {
+        if(!field.equals("true") && !field.equals("false")) {
+            throw new CheckHumanException(CheckHumanException.ErrorType.TYPE.setTitle(
+                    "Введено неверное значение"
+            ));
+        }
+        return field.equals("true");
+    }
+
+    public Mood checkMood(String field) throws CheckHumanException {
+        try {
+            if(field.isEmpty()) return null;
+            return Mood.valueOf(field);
+        } catch (IllegalArgumentException e) {
+            throw new CheckHumanException(CheckHumanException.ErrorType.TYPE.setTitle(
+                    "Введено неверное значение"
+            ));
+        }
+    }
+
 }
