@@ -295,13 +295,12 @@ public class TableFormController {
     }
 
     private void refreshCanvas() {
-        shapeMap.keySet().forEach(s -> canvasPane.getChildren().remove(s));
-        shapeMap.clear();
-        textMap.values().forEach(s -> canvasPane.getChildren().remove(s));
-        textMap.clear();
+        canvasPane.getChildren().clear();
 
         for (HumanBeing human : humanBeingTable.getItems()) {
             if (human != null) {
+                Map<Integer, Shape> temp;
+                temp = animation.setClosedEyes(canvasPane, human);
 
                 //создание фигур
                 Shape leftHair = animation.setLeftHair();
@@ -335,6 +334,10 @@ public class TableFormController {
                 text.setFont(Font.font(12));
                 text.setFill(Color.web(human.getUser().getColour()));
                 textMap.put(human.getId(), text);
+                Text textInfo = animation.setText(canvasPane, human);
+                //textInfo.setText(human.toString());
+                textMap.put(human.getId(), textInfo);
+
 
                 //задание координат
                 setCoordinatesOnCanvas(head, human);
@@ -382,11 +385,9 @@ public class TableFormController {
                 //чтобы на фигурку можно было кликнуть
                 for (Shape shape : shapeMap.keySet()) {
 
-                    Map<Integer, Shape> temp;
-                    temp = animation.setClosedEyes(canvasPane, human);
-
                     shape.setOnMousePressed(event -> {
                         shapeOnMouseClicked(event);
+                        canvasPane.getChildren().add(textInfo);
 
                         int id = shapeMap.get(shape);
 
@@ -396,7 +397,6 @@ public class TableFormController {
                             for (HumanBeing humanBeing : humanBeingTable.getItems()) {
                                 if (humanBeing.getId() == id) {
                                     animation.animationStart(shape1);
-                                    humanBeingTable.getSelectionModel().select(human);
                                 }
                             }
                         }
@@ -404,6 +404,8 @@ public class TableFormController {
 
                     shape.setOnMouseReleased(event -> {
                         int id = shapeMap.get(shape);
+                        textInfo.setText("");
+                        canvasPane.getChildren().remove(textInfo);
                         for (Integer i : temp.keySet()) {
                             Shape shape1 = temp.get(i);
                             for (HumanBeing humanBeing : humanBeingTable.getItems()) {

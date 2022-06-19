@@ -20,10 +20,11 @@ import java.util.Map;
  */
 public class Animation {
 
-    public Label setText(AnchorPane canvasPane, HumanBeing humanBeing) {
-        Label textHumanInfo = new Label();
+    public Text setText(AnchorPane canvasPane, HumanBeing humanBeing) {
+        Text textHumanInfo = new Text(humanBeing.toString());
         textHumanInfo.translateXProperty().bind(canvasPane.widthProperty().divide(2).add(humanBeing.getCoordinates().getX() - 15));
-        textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-humanBeing.getCoordinates().getY() - 170));
+        textHumanInfo.translateYProperty().bind(canvasPane.heightProperty().divide(2).add(-humanBeing.getCoordinates().getY() - 250));
+        textHumanInfo.setFill(Color.web(humanBeing.getUser().getColour()).darker());
 
         return textHumanInfo;
     }
