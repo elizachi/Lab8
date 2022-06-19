@@ -58,8 +58,6 @@ public class TableFormController {
     @FXML
     private Button clearButton;
 
-    private final ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList();
-
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -140,6 +138,8 @@ public class TableFormController {
     private final ResourceController resourceController = new ResourceController();
     private final LanguageChanger language = new LanguageChanger(resourceController);
     Animation animation = new Animation();
+
+    private int size = 0;
 
     public static User getCurrentUser() {
         return user;
@@ -272,7 +272,15 @@ public class TableFormController {
 
         initializeRows();
 
-        ObservableList<HumanBeing> listOfHumans = FXCollections.observableArrayList(new LoadData().load());
+        ObservableList<HumanBeing> listOfHumans = null;
+
+        Deque<HumanBeing> load = new LoadData().load();
+        if(load != null) {
+            listOfHumans = FXCollections.observableArrayList(load);
+            size = load.size();
+        } else {
+            listOfHumans = FXCollections.observableArrayList();
+        }
 
         filter(listOfHumans);
 
@@ -280,7 +288,9 @@ public class TableFormController {
             refreshCanvas();
         }
 
-        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(listOfHumans.size())));
+        collectionInfo.textProperty().setValue(resourceController
+                .tryResource("CollectionInfo", String.valueOf(
+                        listOfHumans == null ? 0 : listOfHumans.size())));
     }
 
     private void refreshCanvas() {
@@ -415,9 +425,9 @@ public class TableFormController {
 
     private void filter(ObservableList<HumanBeing> listOfHumans) {
 
-        FilteredList<HumanBeing> filteredData = new FilteredList<>(listOfHumans, b -> true);
+        if(listOfHumans == null) return;
 
-        System.out.println(filterValue.getText());
+        FilteredList<HumanBeing> filteredData = new FilteredList<>(listOfHumans, b -> true);
 
         filterValue.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(humanPropertySearch -> {
@@ -488,7 +498,7 @@ public class TableFormController {
         collectionLabel.textProperty().bind(resourceController.getStringBinding("CollectionLabel"));
         coordinatesLabel.textProperty().bind(resourceController.getStringBinding("CoordinatesLabel"));
         collectionInfoLabel.textProperty().bind(resourceController.getStringBinding("CollectionInfoLabel"));
-        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(listOfHumans.size())));
+        collectionInfo.textProperty().setValue(resourceController.tryResource("CollectionInfo", String.valueOf(size)));
     }
 
     private void setProperty(TableColumn<?,?> column, String text){
