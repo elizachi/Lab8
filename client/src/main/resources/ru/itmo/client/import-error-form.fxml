@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="139.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.app.controllers.ImportErrorForm">
    <children>
       <Label fx:id="errorLabel" layoutX="14.0" layoutY="28.0" prefHeight="17.0" prefWidth="183.0" text="ERROR!">
@@ -12,6 +11,6 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="errorMessage" layoutX="14.0" layoutY="63.0" prefHeight="54.0" prefWidth="449.0" text="Label" />
+      <Label fx:id="errorMessage" layoutX="14.0" layoutY="63.0" prefHeight="61.0" prefWidth="449.0" text="Label" />
    </children>
 </AnchorPane>

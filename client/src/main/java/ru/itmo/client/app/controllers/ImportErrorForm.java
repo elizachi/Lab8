@@ -27,8 +27,8 @@ public class ImportErrorForm {
 
     @FXML
     void initialize() {
-        errorMessage.textProperty().bind(resourceController.getStringBinding("errorMessage"));
-        errorLabel.textProperty().bind(resourceController.getStringBinding("errorLabel"));
+        errorMessage.textProperty().bind(resourceController.getStringBinding("errorLabel"));
+        errorLabel.textProperty().bind(resourceController.getStringBinding("errorMessage"));
     }
 
     public static void openForm(ResourceController resourceContr) {
